@@ -1,0 +1,17 @@
+obj:
+  id: ${widget_id}
+  width: 100%
+  height: 100%
+  styles: style_card
+  widgets:
+    - label:
+        text: "22°C"
+        align: CENTER
+        text_font: ${font_id}
+        text_color: ${color_text}
+    - label:
+        text: "Sunny"
+        align: BOTTOM_MID
+        y: -5
+        text_font: ${font_id_small}
+        text_color: ${color_text_dim}

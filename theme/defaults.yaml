@@ -1,0 +1,22 @@
+# Screen Dimensions
+screen_width: "480"
+screen_height: "480"
+
+# Grid Configuration
+grid_cols: 2 
+grid_rows: 2
+grid_padding: 5
+grid_gap: 5
+
+# Colors
+color_bg: "0x000000"
+color_card_bg: "0x171A1C"
+color_primary: "0x4F46E5"
+color_text: "0xFFFFFF"
+color_text_dim: "0xAAAAAA"
+color_tab_bg: "0x111518"
+color_tab_active: "0x171F26"
+
+# Tabview Configuration
+tab_pos: "top"
+tab_height: "50"

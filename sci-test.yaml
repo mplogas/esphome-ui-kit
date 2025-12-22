@@ -1,0 +1,213 @@
+esphome:
+  name: seeed-sensecap
+  friendly_name: Seeed SenseCAP
+
+
+esp32:
+  variant: esp32s3
+  flash_size: 8MB
+  framework:
+    type: esp-idf
+    sdkconfig_options:
+      CONFIG_ESPTOOLPY_FLASHSIZE_8MB: y
+      CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: y
+      CONFIG_ESP32S3_DATA_CACHE_64KB: y
+      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
+      CONFIG_SPIRAM_RODATA: y
+
+psram:
+  mode: octal
+  speed: 80MHz
+
+logger:
+  hardware_uart: UART0
+  level: DEBUG
+
+output:
+  - platform: ledc
+    pin:
+      number: GPIO45
+      ignore_strapping_warning: true
+    id: ledc_gpio45
+    frequency: 100Hz
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO38
+      inverted: true
+    name: "User Button"
+
+i2c:
+  - id: bus_a
+    sda: GPIO39
+    scl: GPIO40
+    scan: false
+
+spi:
+  - id: lcd_spi
+    clk_pin: GPIO41
+    mosi_pin: GPIO48
+    miso_pin: GPIO47
+
+pca9554:
+  - id: pca9554a_device
+    address: 0x20
+    pin_count: 16
+
+display:
+  - platform: mipi_rgb
+    model: SEEED-INDICATOR-D1
+    id: sensecap_display
+
+light:
+  - platform: monochromatic
+    name: "Backlight"
+    id: backlight
+    output: ledc_gpio45
+    restore_mode: ALWAYS_ON
+
+touchscreen:
+  platform: ft5x06
+  id: sensecap_touchscreen
+  transform:
+    mirror_x: true
+    mirror_y: true
+  on_release:
+    - if:
+        condition: lvgl.is_paused
+        then:
+          - lvgl.resume:
+          - lvgl.widget.redraw:
+          - light.turn_on: backlight
+
+image:
+  - file: https://esphome.io/favicon-512x512.png
+    id: boot_logo
+    resize: 200x200
+    type: RGB565
+    transparency: alpha_channel
+
+# lvgl:
+#   on_idle:
+#     timeout: !lambda "return 10000;"
+#     then:
+#       - light.turn_off: backlight
+#       - lvgl.pause:
+
+            # tab_style:
+            #   bg_color: 0x171F26
+            #   border_color: 0x171F26
+            #   border_width: 0
+            #   items:
+            #     text_color: 0x0000FF
+            #     bg_color: 0x171F26
+
+lvgl:
+  log_level: DEBUG
+  pages:
+    - id: main_page
+      bg_color: 0x000000
+      pad_all: 5
+      widgets:
+        - tabview:
+            id: lv_tabview_0
+            x: 0
+            y: 0
+            width: 470
+            height: 470
+            bg_color: 0x111518
+            tab_style:
+              bg_color: 0x171F26
+              border_color: 0x171F26
+              border_width: 0
+              items:
+                text_color: 0x0000FF
+                bg_color: 0x171F26
+            tabs:
+              - name: Overview
+                widgets:
+                  - obj:
+                      id: lv_obj_10
+                      x: 0
+                      y: 15
+                      width: 290
+                      height: 200
+                      bg_color: 0x171A1C
+                      border_color: 0x171A1C
+                      border_width: 0
+                      radius: 10
+                  - obj:
+                      id: lv_obj_11
+                      x: 300
+                      y: 15
+                      width: 140
+                      height: 200
+                      bg_color: 0x171A1C
+                      border_color: 0x171A1C
+                      border_width: 0
+                      radius: 10
+                  - obj:
+                      id: lv_obj_13
+                      x: 0
+                      y: 225
+                      width: 140
+                      height: 165
+                      bg_color: 0x171A1C
+                      border_color: 0x171A1C
+                      border_width: 0
+                      radius: 10
+                  - obj:
+                      id: lv_obj_14
+                      x: 150
+                      y: 225
+                      width: 140
+                      height: 165
+                      bg_color: 0x171A1C
+                      border_color: 0x171A1C
+                      border_width: 0
+                      radius: 10
+                  - obj:
+                      id: lv_obj_15
+                      x: 300
+                      y: 225
+                      width: 140
+                      height: 165
+                      bg_color: 0x171A1C
+                      border_color: 0x171A1C
+                      border_width: 0
+                      radius: 10
+
+              - name: Scenes
+                widgets:
+                  - button:
+                      id: lv_button_7
+                      x: 0
+                      y: 0
+                      width: 120
+                      height: 40
+                      bg_color: 0x4F46E5
+                      widgets:
+                        - label:
+                            text: "Schreibtisch"
+                            text_color: 0xFFFFFF
+                  - button:
+                      id: lv_button_8
+                      x: 130
+                      y: 0
+                      width: 100
+                      height: 40
+                      bg_color: 0x4F46E5
+                      widgets:
+                        - label:
+                            text: "Werkbank"
+                            text_color: 0xFFFFFF
+              - name: Light
+                widgets:
+                  - led:
+                      id: lv_led_9
+                      x: 0
+                      y: 0
+                      width: 40
+                      height: 40
+                      color: 0xFF0000

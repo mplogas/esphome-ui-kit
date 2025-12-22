@@ -1,0 +1,16 @@
+# This is a reusable clock widget snippet
+# Expected substitutions: 
+# - widget_id: unique id for the clock
+# - font_size: font id for the time
+
+obj:
+  id: ${widget_id}
+  width: 100%
+  height: 100%
+  styles: style_card
+  widgets:
+    - label:
+        text: "12:34" # This would normally be a lambda in a real setup
+        align: CENTER
+        text_font: ${font_id}
+        text_color: ${color_text}
