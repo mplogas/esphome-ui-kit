@@ -1,0 +1,32 @@
+# Base LVGL layout with a root tabview
+# Expected substitutions:
+# - tab_pos: position of the tabs (top, bottom, left, right)
+# - screen_width: width of the screen
+# - screen_height: height of the screen
+# - color_bg: background color of the pages
+
+lvgl:
+  log_level: DEBUG
+  
+  # Pull in styles and fonts
+  style_definitions: !include ../theme/style.yaml
+
+  pages:
+    - id: main_page
+      bg_color: ${color_bg}
+      widgets:
+        - tabview:
+            id: main_tabs
+            position: ${tab_pos}
+            width: ${screen_width}
+            height: ${screen_height}
+            tab_style:
+              bg_color: ${color_tab_bg}
+              border_width: 0
+              items:
+                bg_color: ${color_tab_bg}
+                text_color: ${color_text_dim}
+                state_checked:
+                  bg_color: ${color_tab_active}
+                  text_color: ${color_primary}
+            tabs: ${tabs_list}

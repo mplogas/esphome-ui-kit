@@ -1,0 +1,15 @@
+# Tabview configuration defaults
+id: main_tabs
+position: ${tab_pos}
+width: ${screen_width}
+height: ${screen_height}
+tab_style:
+  border_width: 0
+  bg_color: ${color_tab_bg}
+  items:
+    text_color: ${color_text_dim}
+    checked:
+      bg_color: ${color_tab_active}
+      text_color: ${color_primary}
+    pressed:
+      text_color: ${color_secondary}

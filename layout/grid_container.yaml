@@ -1,0 +1,15 @@
+# A grid container for a tab
+# Expected substitutions:
+# - grid_columns_spec: list of column widths
+# - grid_rows_spec: list of row heights
+# - grid_gap: gap between items (default in defaults.yaml)
+
+width: ${grid_width}
+height: ${grid_height}
+align: ${grid_align}
+layout:
+  type: grid
+  grid_columns: ${grid_columns_spec}
+  grid_rows: ${grid_rows_spec}
+  pad_column: ${grid_gap}
+  pad_row: ${grid_gap}
