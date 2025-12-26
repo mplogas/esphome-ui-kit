@@ -1,6 +1,6 @@
-# ESPHome LVGL Abstraction for SenseCAP Indicator
+# ESPHome LVGL Abstraction
 
-This project provides a modular configuration framework for building LVGL-based user interfaces on the Seeed SenseCAP Indicator using ESPHome. It abstracts hardware complexity and provides a reusable component system for rapid UI development.
+This project provides a modular configuration framework for building LVGL-based user interfaces. It abstracts hardware complexity and provides a reusable component system for rapid UI development. The demo hardware is a Seeedstudio SenseCAP Indicator (D1x), but it should work with any display.
 
 ## Directory Structure
 
@@ -13,7 +13,7 @@ This project provides a modular configuration framework for building LVGL-based 
 ## Core Concepts
 
 ### Hardware Abstraction
-The `hardware/sensecap-indicator.yaml` file contains the complete setup for the ESP32-S3, PSRAM, MIPI RGB display, and FT5x06 touchscreen.
+The `hardware/sensecap-indicator.yaml` file contains the complete setup for the ESP32-S3, PSRAM, MIPI RGB display, and FT5x06 touchscreen. Place your hardware template here and reference it from you ESPHome files.
 
 ### Grid-based Layout
 Each tab uses a `grid_container.yaml` which implements LVGL's grid layout. Column and row specifications are passed via substitutions, allowing for responsive or fixed-size layouts.
@@ -36,9 +36,9 @@ The `theme/defaults.yaml` file centralizes all UI parameters, including:
 
 ## Features
 
-- **Touch-to-Wake**: Automatically resumes LVGL and enables the backlight on touch release after an idle period.
 - **Idle Management**: Configurable timeout that pauses LVGL and disables the backlight to reduce power consumption.
 - **Clickable Cards**: Any widget container can be made clickable, with visual feedback defined in the theme styles.
+- **Reusable Widgets** : Widgets are defined once and reused across multiple dashboards or devices
 
 ## Usage
 
