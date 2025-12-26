@@ -13,6 +13,12 @@ obj:
   grid_cell_row_pos: ${grid_row_pos}
   grid_cell_x_align: ${grid_x_align}
   grid_cell_y_align: ${grid_y_align}
+  clickable: ${widget_clickable}
+  on_click:
+    then:
+      - lambda: |-
+          ESP_LOGD("clock_widget", "Clock widget clicked");
+          ${widget_on_click}
   widgets:
     - label:
         text: "12:34" 

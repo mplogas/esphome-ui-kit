@@ -10,6 +10,10 @@ widgets:
               font_id: ${font_id_large}
               grid_col_pos: 0
               grid_row_pos: 0
+              widget_clickable: "true"
+              widget_on_click: |-
+                ESP_LOGD("clock_widget", "Clock widget clicked - toggling backlight");
+                id(backlight).toggle();
         - <<: !include
             file: ../widgets/weather.yaml
             vars:

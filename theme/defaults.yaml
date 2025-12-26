@@ -16,6 +16,8 @@ grid_col_pos: 0
 grid_row_pos: 0
 grid_x_align: STRETCH
 grid_y_align: STRETCH
+widget_clickable: "false"
+widget_on_click: "return;"
 
 # Colors
 color_bg: "0x000000"

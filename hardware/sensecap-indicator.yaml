@@ -74,3 +74,4 @@ binary_sensor:
       number: GPIO38
       inverted: true
     name: "User Button"
+    id: user_button

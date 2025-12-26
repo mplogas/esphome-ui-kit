@@ -1,11 +1,3 @@
-# Weather widget
-# Expected substitutions:
-# - widget_id: unique id
-# - font_id: main font
-# - font_id_small: small font
-# - color_text: main text color
-# - color_text_dim: dimmed text color
-
 obj:
   id: ${widget_id}
   width: 100%
@@ -15,6 +7,11 @@ obj:
   grid_cell_row_pos: ${grid_row_pos}
   grid_cell_x_align: ${grid_x_align}
   grid_cell_y_align: ${grid_y_align}
+  clickable: ${widget_clickable}
+  on_click:
+    then:
+      - lambda: |-
+          ${widget_on_click}
   widgets:
     - label:
         text: "22°C"
