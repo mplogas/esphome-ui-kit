@@ -25,10 +25,15 @@ logger:
   hardware_uart: UART0
   level: DEBUG
 
-# 5. UI Implementation
 lvgl:
   log_level: DEBUG
   style_definitions: !include theme/style.yaml
+  
+  on_idle:
+    timeout: !lambda "return ${idle_timeout} * 1000;"
+    then:
+      - light.turn_off: backlight
+      - lvgl.pause:
 
   pages:
     - id: main_page

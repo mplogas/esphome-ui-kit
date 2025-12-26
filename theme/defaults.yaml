@@ -38,4 +38,7 @@ tab_height: "50"
 grid_columns_spec: ["48%", "48%"]
 grid_rows_spec: ["48%", "48%"]
 
+# UI Behavior
+idle_timeout: 10 # seconds
+
 
