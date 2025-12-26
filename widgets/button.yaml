@@ -15,6 +15,10 @@ button:
   grid_cell_x_align: ${grid_x_align}
   grid_cell_y_align: ${grid_y_align}
   bg_color: ${color_primary}
+  on_click:
+    then:
+      - lambda: |-
+          ${widget_on_click}
   widgets:
     - label:
         text: ${button_text}
