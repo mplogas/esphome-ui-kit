@@ -3,6 +3,7 @@ id: main_tabs
 position: ${tab_pos}
 width: ${screen_width}
 height: ${screen_height}
+bg_color: ${color_bg}
 tab_style:
   border_width: 0
   bg_color: ${color_tab_bg}

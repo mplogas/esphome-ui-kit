@@ -5,9 +5,6 @@ esphome:
 substitutions:
   # 1. Load theme defaults
   <<: !include theme/defaults.yaml
-  
-  # 2. Load hardware-specific substitutions
-  <<: !include hardware/sensecap-indicator-substitutions.yaml
 
   # 3. Override any defaults if needed
   font_id: "libreFranklin25Light"
@@ -41,46 +38,4 @@ lvgl:
             # Use the tabview abstraction
             <<: !include layout/tabview_config.yaml
             
-            tabs:
-              - name: Home
-                widgets:
-                  - obj:
-                      # Use the grid container abstraction
-                      <<: !include 
-                        file: layout/grid_container.yaml
-                        vars:
-                          grid_columns_spec: ${grid_columns_main}
-                          grid_rows_spec: ${grid_rows_main}
-                      
-                      widgets:
-                        # Widget 1: Clock
-                        - <<: !include 
-                            file: widgets/clock.yaml
-                            vars:
-                              widget_id: main_clock
-                              font_id: ${font_id_large}
-                              grid_col_pos: 0
-                              grid_row_pos: 0
-                        
-                        # Widget 2: Weather
-                        - <<: !include 
-                            file: widgets/weather.yaml
-                            vars:
-                              widget_id: main_weather
-                              font_id: ${font_id}
-                              font_id_small: ${font_id_small}
-                              grid_col_pos: 1
-                              grid_row_pos: 0
-              
-              - name: Controls
-                widgets:
-                  - obj:
-                      <<: !include layout/grid_container.yaml
-                      widgets:
-                        - <<: !include 
-                            file: widgets/button.yaml
-                            vars:
-                              widget_id: btn_light
-                              button_text: "Toggle Light"
-                              grid_col_pos: 0
-                              grid_row_pos: 0
+            tabs: !include tabs/main_tabs.yaml

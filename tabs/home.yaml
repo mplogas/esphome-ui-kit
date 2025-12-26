@@ -1,0 +1,20 @@
+name: Home
+widgets:
+  - obj:
+      <<: !include ../layout/grid_container.yaml
+      widgets:
+        - <<: !include
+            file: ../widgets/clock.yaml
+            vars:
+              widget_id: main_clock
+              font_id: ${font_id_large}
+              grid_col_pos: 0
+              grid_row_pos: 0
+        - <<: !include
+            file: ../widgets/weather.yaml
+            vars:
+              widget_id: main_weather
+              font_id: ${font_id}
+              font_id_small: ${font_id_small}
+              grid_col_pos: 1
+              grid_row_pos: 0

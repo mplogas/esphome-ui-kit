@@ -1,8 +1,12 @@
+# Screen size
+screen_width: 480
+screen_height: 480
+
 # Grid Configuration
 grid_cols: 2 
 grid_rows: 2
-grid_padding: 5
-grid_gap: 5
+grid_padding: 0
+grid_gap: 10
 grid_width: "100%"
 grid_height: "100%"
 grid_align: CENTER
@@ -15,13 +19,14 @@ grid_y_align: STRETCH
 
 # Colors
 color_bg: "0x000000"
-color_card_bg: "0x565656"
+color_card_bg: "0x202020"
 color_primary: "0xEF8513"
 color_secondary: "0xEFEFEF"
 color_text: "0xFFFFFF"
 color_text_dim: "0xAAAAAA"
 color_tab_bg: "0x00"
-color_tab_active: "0x565656"
+color_tab_active: "0x101010"
+color_grid_bg: "0x00"
 
 # Tabview Configuration
 tab_pos: "top"
