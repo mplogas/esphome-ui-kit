@@ -1,0 +1,21 @@
+# templates/virtual_light.yaml
+platform: homeassistant
+entity_id: ${hass_entity_id}
+id: ${id}_state
+internal: true
+on_value:
+  - if:
+      condition:
+        lambda: 'return !id(user_is_interacting);'
+      then:
+        - lambda: |-
+            auto color = (x == "on") ? lv_color_hex(0xEF8513) : lv_color_hex(0xAAAAAA);
+            auto bg_color = (x == "on") ? lv_color_hex(0x303030) : lv_color_hex(0x202020);
+            
+            // Use LVGL C API to set styles
+            if (id(${widget_id}_icon) != nullptr) {
+              lv_obj_set_style_text_color(id(${widget_id}_icon), color, LV_PART_MAIN);
+            }
+            if (id(${widget_id}) != nullptr) {
+              lv_obj_set_style_bg_color(id(${widget_id}), bg_color, LV_PART_MAIN);
+            }

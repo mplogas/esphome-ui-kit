@@ -7,11 +7,10 @@ obj:
   grid_cell_row_pos: ${grid_row_pos}
   grid_cell_x_align: ${grid_x_align}
   grid_cell_y_align: ${grid_y_align}
-  clickable: "true"
+  clickable: true
   on_click:
     then:
-      - lambda: |-
-          ${widget_on_click}
+      ${widget_on_click}
   widgets:
     - label:
         id: ${widget_id}_icon

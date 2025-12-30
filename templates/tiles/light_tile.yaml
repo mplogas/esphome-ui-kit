@@ -1,0 +1,14 @@
+<<: !include
+  file: base_tile.yaml
+  vars:
+    widget_id: ${id}
+    label_text: ${name}
+    icon_char: ${icon}
+    grid_col_pos: ${col}
+    grid_row_pos: ${row}
+    widget_on_click:
+      - logger.log: "Toggling ${name}"
+      - homeassistant.action:
+          action: light.toggle
+          data:
+            entity_id: ${entity_id}

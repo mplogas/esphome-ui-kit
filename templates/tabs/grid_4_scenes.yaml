@@ -1,0 +1,41 @@
+name: ${name}
+widgets:
+  - obj:
+      <<: !include ../../layout/grid_container.yaml
+      widgets:
+        - <<: !include
+            file: ../tiles/scene_tile.yaml
+            vars:
+              id: ${tab_id}_1
+              name: ${s1_name}
+              icon: ${s1_icon}
+              col: 0
+              row: 0
+              entity_id: ${s1_entity}
+        - <<: !include
+            file: ../tiles/scene_tile.yaml
+            vars:
+              id: ${tab_id}_2
+              name: ${s2_name}
+              icon: ${s2_icon}
+              col: 1
+              row: 0
+              entity_id: ${s2_entity}
+        - <<: !include
+            file: ../tiles/scene_tile.yaml
+            vars:
+              id: ${tab_id}_3
+              name: ${s3_name}
+              icon: ${s3_icon}
+              col: 0
+              row: 1
+              entity_id: ${s3_entity}
+        - <<: !include
+            file: ../tiles/scene_tile.yaml
+            vars:
+              id: ${tab_id}_4
+              name: ${s4_name}
+              icon: ${s4_icon}
+              col: 1
+              row: 1
+              entity_id: ${s4_entity}

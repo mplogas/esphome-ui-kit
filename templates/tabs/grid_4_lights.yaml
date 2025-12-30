@@ -1,0 +1,41 @@
+name: ${name}
+widgets:
+  - obj:
+      <<: !include ../../layout/grid_container.yaml
+      widgets:
+        - <<: !include
+            file: ../tiles/light_tile.yaml
+            vars:
+              id: ${tab_id}_1
+              name: ${l1_name}
+              icon: ${l1_icon}
+              col: 0
+              row: 0
+              entity_id: ${l1_entity}
+        - <<: !include
+            file: ../tiles/light_tile.yaml
+            vars:
+              id: ${tab_id}_2
+              name: ${l2_name}
+              icon: ${l2_icon}
+              col: 1
+              row: 0
+              entity_id: ${l2_entity}
+        - <<: !include
+            file: ../tiles/light_tile.yaml
+            vars:
+              id: ${tab_id}_3
+              name: ${l3_name}
+              icon: ${l3_icon}
+              col: 0
+              row: 1
+              entity_id: ${l3_entity}
+        - <<: !include
+            file: ../tiles/light_tile.yaml
+            vars:
+              id: ${tab_id}_4
+              name: ${l4_name}
+              icon: ${l4_icon}
+              col: 1
+              row: 1
+              entity_id: ${l4_entity}
