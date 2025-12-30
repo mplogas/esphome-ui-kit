@@ -1,0 +1,3 @@
+- !include home.yaml
+- !include lights.yaml
+- !include scenes.yaml

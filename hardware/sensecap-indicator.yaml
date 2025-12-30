@@ -75,3 +75,5 @@ binary_sensor:
       inverted: true
     name: "User Button"
     id: user_button
+
+bluetooth_proxy:

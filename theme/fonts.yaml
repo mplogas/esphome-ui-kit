@@ -253,8 +253,8 @@
     "\U000F0928",  # mdi:wifi-strength-4
     "\U000F111C", # mdi:window-shutter
     "\U000F111E", # mdi:window-shutter-open
-    "\U0000F142",  # mdil-chevron-right
-    "\U0000F141", # mdil-chevron-left
+    # "\U0000F142",  # mdil-chevron-right
+    # "\U0000F141", # mdil-chevron-left
   ]
 
 - file:

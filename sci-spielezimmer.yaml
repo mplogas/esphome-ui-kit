@@ -1,0 +1,128 @@
+esphome:
+  name: sci-spielezimmer
+  friendly_name: Keller Spielezimmer SCI
+
+<<: !include hardware/sensecap-indicator.yaml
+
+substitutions:
+  # 1. Load theme defaults
+  <<: !include theme/defaults.yaml
+  <<: !include hardware/sensecap-indicator.yaml
+
+font: !include theme/fonts.yaml
+
+logger:
+  level: DEBUG
+
+api:
+  encryption:
+    key: !secret api_key
+  
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  min_auth_mode: WPA2
+  use_address: !secret wifi_ip_address
+
+time:
+  - platform: homeassistant
+    id: home_time
+    timezone: "Europe/Berlin"
+
+script:
+  - id: activate_scene
+    parameters:
+      scene_id: string
+    then:
+      - homeassistant.service:
+          service: scene.turn_on
+          data:
+            entity_id: !lambda 'return scene_id;'
+
+interval:
+  - interval: 1s
+    then:
+      - lvgl.label.update:
+          id: clock_label
+          text: !lambda 'return id(ha_time).now().strftime("%H:%M");'
+
+# Home Assistant Entities
+
+sensor:
+  - platform: homeassistant
+    entity_id: weather.pirateweather
+    id: forecast_home_pressure
+    attribute: "pressure"
+    internal: true
+  - platform: homeassistant
+    entity_id: weather.pirateweather
+    id: forecast_home_temperature
+    attribute: "temperature"
+    internal: true
+  - platform: homeassistant
+    entity_id: weather.pirateweather
+    id: forecast_home_humidity
+    attribute: "humidity"
+    internal: true
+
+binary_sensor:
+  - platform: homeassistant
+    entity_id: binary_sensor.rr_rainin60min
+    id: forecast_home_rain_60min
+    internal: true
+
+text:
+  - platform: template
+    name: "Notifcation Text"
+    id: text_notification
+    initial_value: ""
+    mode: text
+    optimistic: true
+    max_length: 80
+    # on_value:
+    #   - script.execute: refresh_epaper
+
+light:
+  - platform: homeassistant
+    entity_id: light.keller_spielezimmer_decke
+    id: light_spielezimmer_decke
+    on_state:
+      then:
+        - lambda: |-
+            auto color = x ? lv_color_hex(0xEF8513) : lv_color_hex(0xAAAAAA);
+            auto bg_color = x ? lv_color_hex(0x303030) : lv_color_hex(0x202020);
+            id(light_1_tile_icon).set_text_color(color);
+            id(light_1_tile).set_bg_color(bg_color);
+  - platform: homeassistant
+    entity_id: light.keller_spielezimmer_decke_led
+    id: light_spielezimmer_decke_led
+    on_state:
+      then:
+        - lambda: |-
+            auto color = x ? lv_color_hex(0xEF8513) : lv_color_hex(0xAAAAAA);
+            auto bg_color = x ? lv_color_hex(0x303030) : lv_color_hex(0x202020);
+            id(light_2_tile_icon).set_text_color(color);
+            id(light_2_tile).set_bg_color(bg_color);
+
+# UI Definition
+lvgl:
+  log_level: DEBUG
+  style_definitions: !include theme/style.yaml
+  
+  on_idle:
+    timeout: !lambda "return ${idle_timeout} * 1000;"
+    then:
+      - light.turn_off: backlight
+      - lvgl.pause:
+
+  pages:
+    - id: main_page
+      bg_color: ${color_bg}
+      widgets:
+        - tabview:
+            <<: !include layout/tabview_config.yaml
+            tabs: !include tabs/living_room_tabs.yaml

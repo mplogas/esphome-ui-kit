@@ -7,22 +7,23 @@ obj:
   grid_cell_row_pos: ${grid_row_pos}
   grid_cell_x_align: ${grid_x_align}
   grid_cell_y_align: ${grid_y_align}
-  clickable: ${widget_clickable}
+  clickable: "true"
   on_click:
     then:
       - lambda: |-
           ${widget_on_click}
   widgets:
     - label:
-        id: weather_temp_label
-        text: "--°C"
+        id: ${widget_id}_icon
+        text: ${icon_char}
+        text_font: icons35
         align: CENTER
-        text_font: ${font_id}
-        text_color: ${color_text}
+        y: -10
+        text_color: ${color_text_dim}
     - label:
-        id: weather_desc_label
-        text: "Loading..."
+        id: ${widget_id}_label
+        text: ${label_text}
+        text_font: ${font_id_small}
         align: BOTTOM_MID
         y: -5
-        text_font: ${font_id_small}
         text_color: ${color_text_dim}

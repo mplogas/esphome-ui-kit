@@ -21,7 +21,8 @@ obj:
           ${widget_on_click}
   widgets:
     - label:
-        text: "12:34" 
+        id: clock_label
+        text: "00:00" 
         align: CENTER
         text_font: ${font_id}
         text_color: ${color_text}

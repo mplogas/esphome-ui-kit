@@ -11,6 +11,10 @@ grid_width: "100%"
 grid_height: "100%"
 grid_align: CENTER
 
+# Grid Specs (Default 2x2)
+grid_columns_spec: ["48%", "48%"]
+grid_rows_spec: ["48%", "48%"]
+
 # Grid Cell Defaults
 grid_col_pos: 0
 grid_row_pos: 0
@@ -34,11 +38,12 @@ color_grid_bg: "0x00"
 tab_pos: "top"
 tab_height: "50"
 
-# Grid Specs (Default 2x2)
-grid_columns_spec: ["48%", "48%"]
-grid_rows_spec: ["48%", "48%"]
-
 # UI Behavior
 idle_timeout: 10 # seconds
+
+# Fonts
+font_id: "libreFranklin25Light"
+font_id_small: "libreFranklin16"
+font_id_large: "libreFranklin32"
 
 
