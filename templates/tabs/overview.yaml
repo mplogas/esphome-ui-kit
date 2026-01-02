@@ -1,10 +1,10 @@
 name: ${name}
 widgets:
   - obj:
-      <<: !include ../../layout/grid_container.yaml
+      <<: !include ../core/grid_container.yaml
       widgets:
         - <<: !include
-            file: ../../widgets/clock.yaml
+            file: ../widgets/clock.yaml
             vars:
               widget_id: ${tab_id}_clock
               font_id: ${font_id_large}
@@ -15,7 +15,7 @@ widgets:
                 ESP_LOGD("clock_widget", "Clock widget clicked - toggling backlight");
                 id(backlight).toggle();
         - <<: !include
-            file: ../../widgets/weather.yaml
+            file: ../widgets/weather.yaml
             vars:
               widget_id: ${tab_id}_weather
               font_id: ${font_id}

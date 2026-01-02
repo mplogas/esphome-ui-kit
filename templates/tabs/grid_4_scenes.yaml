@@ -1,7 +1,7 @@
 name: ${name}
 widgets:
   - obj:
-      <<: !include ../../layout/grid_container.yaml
+      <<: !include ../core/grid_container.yaml
       widgets:
         - <<: !include
             file: ../tiles/scene_tile.yaml

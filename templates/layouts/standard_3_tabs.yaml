@@ -10,7 +10,7 @@
 # - scene_[1-4]_name, scene_[1-4]_icon, scene_[1-4]_entity
 
 tabview:
-  <<: !include ../../layout/tabview_config.yaml
+  <<: !include ../core/tabview_config.yaml
   tabs:
     - !include
         file: ../tabs/overview.yaml
