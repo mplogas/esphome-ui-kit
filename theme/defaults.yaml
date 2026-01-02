@@ -47,4 +47,12 @@ font_id: "libreFranklin25Light"
 font_id_small: "libreFranklin16"
 font_id_large: "libreFranklin32"
 
-
+# Light favorites default colors
+fav_1_default_rgb: "[255, 244, 229]" # Warm
+fav_1_default_bg: "0xFFF4E5"
+fav_2_default_rgb: "[255, 255, 255]" # Cool
+fav_2_default_bg: "0xFFFFFF"
+fav_3_default_rgb: "[255, 165, 0]"   # Orange
+fav_3_default_bg: "0xFFA500"
+fav_4_default_rgb: "[173, 216, 230]" # Light Blue
+fav_4_default_bg: "0xADD8E6"

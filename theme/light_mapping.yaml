@@ -1,0 +1,39 @@
+  # Light 1 Favorites
+  light_1_fav_1_rgb: ${fav_1_default_rgb}
+  light_1_fav_1_bg: ${fav_1_default_bg}
+  light_1_fav_2_rgb: ${fav_2_default_rgb}
+  light_1_fav_2_bg: ${fav_2_default_bg}
+  light_1_fav_3_rgb: ${fav_3_default_rgb}
+  light_1_fav_3_bg: ${fav_3_default_bg}
+  light_1_fav_4_rgb: ${fav_4_default_rgb}
+  light_1_fav_4_bg: ${fav_4_default_bg}
+
+  # Light 2 Favorites
+  light_2_fav_1_rgb: ${fav_1_default_rgb}
+  light_2_fav_1_bg: ${fav_1_default_bg}
+  light_2_fav_2_rgb: ${fav_2_default_rgb}
+  light_2_fav_2_bg: ${fav_2_default_bg}
+  light_2_fav_3_rgb: ${fav_3_default_rgb}
+  light_2_fav_3_bg: ${fav_3_default_bg}
+  light_2_fav_4_rgb: ${fav_4_default_rgb}
+  light_2_fav_4_bg: ${fav_4_default_bg}
+
+  # Light 3 Favorites
+  light_3_fav_1_rgb: ${fav_1_default_rgb}
+  light_3_fav_1_bg: ${fav_1_default_bg}
+  light_3_fav_2_rgb: ${fav_2_default_rgb}
+  light_3_fav_2_bg: ${fav_2_default_bg}
+  light_3_fav_3_rgb: ${fav_3_default_rgb}
+  light_3_fav_3_bg: ${fav_3_default_bg}
+  light_3_fav_4_rgb: ${fav_4_default_rgb}
+  light_3_fav_4_bg: ${fav_4_default_bg}
+
+  # Light 4 Favorites
+  light_4_fav_1_rgb: ${fav_1_default_rgb}
+  light_4_fav_1_bg: ${fav_1_default_bg}
+  light_4_fav_2_rgb: ${fav_2_default_rgb}
+  light_4_fav_2_bg: ${fav_2_default_bg}
+  light_4_fav_3_rgb: ${fav_3_default_rgb}
+  light_4_fav_3_bg: ${fav_3_default_bg}
+  light_4_fav_4_rgb: ${fav_4_default_rgb}
+  light_4_fav_4_bg: ${fav_4_default_bg}

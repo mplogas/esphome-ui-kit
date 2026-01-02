@@ -11,7 +11,7 @@ substitutions:
 
   # 2. Dashboard Configuration
   home_tab_name: "Home"
-  
+
   lights_tab_name: "Lights"
   light_1_name: "Decke"
   light_1_icon: "\U000F0335" # mdi:lightbulb
@@ -26,56 +26,6 @@ substitutions:
   light_4_icon: "\U000F0335" # mdi:lightbulb
   light_4_entity: light.werkbank_desklamppro_mi_desk_lamp_pro
 
-  # Light Favorites Defaults
-  fav_1_default_rgb: "[255, 244, 229]" # Warm
-  fav_1_default_bg: "0xFFF4E5"
-  fav_2_default_rgb: "[255, 255, 255]" # Cool
-  fav_2_default_bg: "0xFFFFFF"
-  fav_3_default_rgb: "[255, 165, 0]"   # Orange
-  fav_3_default_bg: "0xFFA500"
-  fav_4_default_rgb: "[173, 216, 230]" # Light Blue
-  fav_4_default_bg: "0xADD8E6"
-
-  # Light 1 Favorites
-  light_1_fav_1_rgb: ${fav_1_default_rgb}
-  light_1_fav_1_bg: ${fav_1_default_bg}
-  light_1_fav_2_rgb: ${fav_2_default_rgb}
-  light_1_fav_2_bg: ${fav_2_default_bg}
-  light_1_fav_3_rgb: ${fav_3_default_rgb}
-  light_1_fav_3_bg: ${fav_3_default_bg}
-  light_1_fav_4_rgb: ${fav_4_default_rgb}
-  light_1_fav_4_bg: ${fav_4_default_bg}
-
-  # Light 2 Favorites
-  light_2_fav_1_rgb: ${fav_1_default_rgb}
-  light_2_fav_1_bg: ${fav_1_default_bg}
-  light_2_fav_2_rgb: ${fav_2_default_rgb}
-  light_2_fav_2_bg: ${fav_2_default_bg}
-  light_2_fav_3_rgb: ${fav_3_default_rgb}
-  light_2_fav_3_bg: ${fav_3_default_bg}
-  light_2_fav_4_rgb: ${fav_4_default_rgb}
-  light_2_fav_4_bg: ${fav_4_default_bg}
-
-  # Light 3 Favorites
-  light_3_fav_1_rgb: ${fav_1_default_rgb}
-  light_3_fav_1_bg: ${fav_1_default_bg}
-  light_3_fav_2_rgb: ${fav_2_default_rgb}
-  light_3_fav_2_bg: ${fav_2_default_bg}
-  light_3_fav_3_rgb: ${fav_3_default_rgb}
-  light_3_fav_3_bg: ${fav_3_default_bg}
-  light_3_fav_4_rgb: ${fav_4_default_rgb}
-  light_3_fav_4_bg: ${fav_4_default_bg}
-
-  # Light 4 Favorites
-  light_4_fav_1_rgb: ${fav_1_default_rgb}
-  light_4_fav_1_bg: ${fav_1_default_bg}
-  light_4_fav_2_rgb: ${fav_2_default_rgb}
-  light_4_fav_2_bg: ${fav_2_default_bg}
-  light_4_fav_3_rgb: ${fav_3_default_rgb}
-  light_4_fav_3_bg: ${fav_3_default_bg}
-  light_4_fav_4_rgb: ${fav_4_default_rgb}
-  light_4_fav_4_bg: ${fav_4_default_bg}
-
   scenes_tab_name: "Scenes"
   scene_1_name: "Standard"
   scene_1_icon: "\U000F0502" # mdi:television
@@ -89,6 +39,9 @@ substitutions:
   scene_4_name: "Sleep"
   scene_4_icon: "\U000F0904" # mdi:power-sleep
   scene_4_entity: scene.goodnight
+
+  # 3. map light favorite colors per light (can be overridden per deployment)
+  <<: !include theme/light_mapping.yaml
 
 font: !include theme/fonts.yaml
 
