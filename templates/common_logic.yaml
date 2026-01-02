@@ -1,0 +1,82 @@
+globals:
+  - id: user_is_interacting
+    type: bool
+    initial_value: 'false'
+  - id: current_light_entity
+    type: std::string
+    initial_value: '""'
+
+script:
+  - id: activate_scene
+    parameters:
+      scene_id: string
+    then:
+      - homeassistant.service:
+          service: scene.turn_on
+          data:
+            entity_id: !lambda 'return scene_id;'
+
+  - id: update_overlay_colors
+    then:
+      - lambda: |-
+          std::string current = id(current_light_entity);
+          int32_t c1 = ${fav_1_default_bg};
+          int32_t c2 = ${fav_2_default_bg};
+          int32_t c3 = ${fav_3_default_bg};
+          int32_t c4 = ${fav_4_default_bg};
+
+          if (current == "${light_1_entity}") {
+             c1 = ${light_1_fav_1_bg}; c2 = ${light_1_fav_2_bg}; c3 = ${light_1_fav_3_bg}; c4 = ${light_1_fav_4_bg};
+          } else if (current == "${light_2_entity}") {
+             c1 = ${light_2_fav_1_bg}; c2 = ${light_2_fav_2_bg}; c3 = ${light_2_fav_3_bg}; c4 = ${light_2_fav_4_bg};
+          } else if (current == "${light_3_entity}") {
+             c1 = ${light_3_fav_1_bg}; c2 = ${light_3_fav_2_bg}; c3 = ${light_3_fav_3_bg}; c4 = ${light_3_fav_4_bg};
+          } else if (current == "${light_4_entity}") {
+             c1 = ${light_4_fav_1_bg}; c2 = ${light_4_fav_2_bg}; c3 = ${light_4_fav_3_bg}; c4 = ${light_4_fav_4_bg};
+          }
+
+          lv_obj_set_style_bg_color(id(btn_fav_1), lv_color_hex(c1), 0);
+          lv_obj_set_style_bg_color(id(btn_fav_2), lv_color_hex(c2), 0);
+          lv_obj_set_style_bg_color(id(btn_fav_3), lv_color_hex(c3), 0);
+          lv_obj_set_style_bg_color(id(btn_fav_4), lv_color_hex(c4), 0);
+
+interval:
+  - interval: 1s
+    then:
+      - lvgl.label.update:
+          id: clock_label
+          text: !lambda 'return id(home_time).now().strftime("%H:%M");'
+
+# Home Assistant Entities
+
+sensor:
+  - platform: homeassistant
+    entity_id: weather.pirateweather
+    id: forecast_home_pressure
+    attribute: "pressure"
+    internal: true
+  - platform: homeassistant
+    entity_id: weather.pirateweather
+    id: forecast_home_temperature
+    attribute: "temperature"
+    internal: true
+  - platform: homeassistant
+    entity_id: weather.pirateweather
+    id: forecast_home_humidity
+    attribute: "humidity"
+    internal: true
+
+binary_sensor:
+  - platform: homeassistant
+    entity_id: binary_sensor.rr_rainin60min
+    id: forecast_home_rain_60min
+    internal: true
+
+text:
+  - platform: template
+    name: "Notifcation Text"
+    id: text_notification
+    initial_value: ""
+    mode: text
+    optimistic: true
+    max_length: 80

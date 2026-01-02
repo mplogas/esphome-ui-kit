@@ -8,9 +8,12 @@ obj:
   grid_cell_x_align: ${grid_x_align}
   grid_cell_y_align: ${grid_y_align}
   clickable: true
-  on_click:
+  on_short_click:
     then:
       ${widget_on_click}
+  on_long_press:
+    then:
+      ${widget_on_long_press}
   widgets:
     - label:
         id: ${widget_id}_icon

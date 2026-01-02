@@ -1,0 +1,21 @@
+# templates/sensors/light_brightness.yaml
+# Reads the brightness attribute from a Home Assistant light
+# Expected vars:
+# - hass_entity_id: The HA light entity ID
+# - id: The internal ID for this sensor
+
+platform: homeassistant
+entity_id: ${hass_entity_id}
+id: ${id}_brightness
+attribute: brightness
+internal: true
+on_value:
+  - lambda: |-
+      if (id(current_light_entity) == "${hass_entity_id}") {
+        // Update the slider if the overlay is showing this light
+        // Check if slider exists (it's in the overlay)
+        if (id(slider_brightness) != nullptr) {
+           // x is float (0-255)
+           lv_slider_set_value(id(slider_brightness), (int32_t)x, LV_ANIM_OFF);
+        }
+      }

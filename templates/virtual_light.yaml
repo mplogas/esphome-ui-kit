@@ -9,8 +9,32 @@ on_value:
         lambda: 'return !id(user_is_interacting);'
       then:
         - lambda: |-
-            auto color = (x == "on") ? lv_color_hex(0xEF8513) : lv_color_hex(0xAAAAAA);
-            auto bg_color = (x == "on") ? lv_color_hex(0x303030) : lv_color_hex(0x202020);
+            lv_color_t color;
+            lv_color_t bg_color;
+
+            if (x == "on") {
+              // Default "On" colors
+              color = lv_color_hex(0xEF8513); // Default Orange
+              bg_color = lv_color_hex(0x303030);
+
+              // Try to parse RGB from the companion sensor
+              std::string rgb_str = id(${id}_rgb).state;
+              int r, g, b;
+              // HA sends tuple like "(255, 100, 50)" or list "[255, 100, 50]"
+              // We scan for 3 integers ignoring other chars
+              if (sscanf(rgb_str.c_str(), "(%d,%d,%d)", &r, &g, &b) == 3 || 
+                  sscanf(rgb_str.c_str(), "[%d,%d,%d]", &r, &g, &b) == 3 ||
+                  sscanf(rgb_str.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
+                  
+                  color = lv_color_make(r, g, b);
+                  // Make background a very dark version of the color
+                  bg_color = lv_color_make(r/5, g/5, b/5);
+              }
+            } else {
+              // Off State
+              color = lv_color_hex(0xAAAAAA);
+              bg_color = lv_color_hex(0x202020);
+            }
             
             // Use LVGL C API to set styles
             if (id(${widget_id}_icon) != nullptr) {
