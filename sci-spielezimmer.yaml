@@ -9,6 +9,37 @@ substitutions:
   <<: !include theme/defaults.yaml
   <<: !include hardware/sensecap-indicator.yaml
 
+  # 2. Dashboard Configuration
+  home_tab_name: "Home"
+  
+  lights_tab_name: "Lights"
+  light_1_name: "Decke"
+  light_1_icon: "\U000F0335" # mdi:lightbulb
+  light_1_entity: light.keller_spielezimmer_decke
+  light_2_name: "Decke LEDs"
+  light_2_icon: "\U000F0335" # mdi:lightbulb
+  light_2_entity: light.keller_spielezimmer_decke_led
+  light_3_name: "Schreibtisch"
+  light_3_icon: "\U000F0335" # mdi:lightbulb
+  light_3_entity: light.keller_spielezimmer_schreibtisch
+  light_4_name: "Werkbank"
+  light_4_icon: "\U000F0335" # mdi:lightbulb
+  light_4_entity: light.werkbank_desklamppro_mi_desk_lamp_pro
+
+  scenes_tab_name: "Scenes"
+  scene_1_name: "Standard"
+  scene_1_icon: "\U000F0502" # mdi:television
+  scene_1_entity: scene.spielezimmer_standard
+  scene_2_name: "Schreibtisch"
+  scene_2_icon: "\U000F05F2" # mdi:food-fork-drink
+  scene_2_entity: scene.spielezimmer_schreibtisch
+  scene_3_name: "Werkbank"
+  scene_3_icon: "\U000F0099" # mdi:bed-outline
+  scene_3_entity: scene.spielezimmer_werkbank
+  scene_4_name: "Sleep"
+  scene_4_icon: "\U000F0904" # mdi:power-sleep
+  scene_4_entity: scene.goodnight
+
 font: !include theme/fonts.yaml
 
 logger:
@@ -133,45 +164,4 @@ lvgl:
     - id: main_page
       bg_color: ${color_bg}
       widgets:
-        - tabview:
-            <<: !include layout/tabview_config.yaml
-            tabs:
-              - !include
-                  file: templates/tabs/overview.yaml
-                  vars:
-                    tab_id: home
-                    name: "Home"
-              - !include
-                  file: templates/tabs/grid_4_lights.yaml
-                  vars:
-                    tab_id: lights
-                    name: "Lights"
-                    l1_name: "Decke"
-                    l1_icon: "\U000F0335" # mdi:lightbulb
-                    l1_entity: light.keller_spielezimmer_decke
-                    l2_name: "Decke LEDs"
-                    l2_icon: "\U000F0335" # mdi:lightbulb
-                    l2_entity: light.keller_spielezimmer_decke_led
-                    l3_name: "Schreibtisch"
-                    l3_icon: "\U000F0335" # mdi:lightbulb
-                    l3_entity: light.keller_spielezimmer_schreibtisch
-                    l4_name: "Werkbank"
-                    l4_icon: "\U000F0335" # mdi:lightbulb
-                    l4_entity: light.werkbank_desklamppro_mi_desk_lamp_pro
-              - !include
-                  file: templates/tabs/grid_4_scenes.yaml
-                  vars:
-                    tab_id: scenes
-                    name: "Scenes"
-                    s1_name: "Standard"
-                    s1_icon: "\U000F0502" # mdi:television
-                    s1_entity: scene.spielezimmer_standard
-                    s2_name: "Schreibtisch"
-                    s2_icon: "\U000F05F2" # mdi:food-fork-drink
-                    s2_entity: scene.spielezimmer_schreibtisch
-                    s3_name: "Werkbank"
-                    s3_icon: "\U000F0099" # mdi:bed-outline
-                    s3_entity: scene.spielezimmer_werkbank
-                    s4_name: "Sleep"
-                    s4_icon: "\U000F0904" # mdi:power-sleep
-                    s4_entity: scene.goodnight
+        - !include templates/layouts/standard_3_tabs.yaml
