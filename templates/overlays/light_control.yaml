@@ -15,25 +15,21 @@ obj:
         height: 400
         align: CENTER
         bg_color: 0x202020
-        radius: 15
+        radius: 10
         border_width: 2
         border_color: 0x444444
         pad_all: 10
         layout:
           type: flex
           flex_flow: COLUMN
-          flex_align_main: CENTER
-          flex_align_cross: CENTER
+          flex_align_main: START
+          flex_align_cross: START
+          pad_row: 10
         widgets:
-          - label:
-              text: "Light Control"
-              text_font: ${font_id}
-              text_color: 0xFFFFFF
-          
-          # Color Presets
+          # Header Row
           - obj:
-              width: 250
-              height: 60
+              width: 100%
+              height: 65
               layout:
                 type: flex
                 flex_flow: ROW
@@ -42,110 +38,176 @@ obj:
               bg_opa: TRANSP
               border_width: 0
               widgets:
-                # Fav 1
+                - label:
+                    text: "Light Control"
+                    text_font: ${font_id}
+                    text_color: 0xFFFFFF
                 - button:
-                    id: btn_fav_1
-                    width: 50
-                    height: 50
-                    bg_color: ${fav_1_default_bg}
-                    radius: 25
+                    width: 35
+                    height: 35
+                    bg_opa: TRANSP
+                    #bg_color: 0x444444
+                    shadow_width: 0
+                    radius: 10
+                    border_width: 0
                     on_click:
-                      - homeassistant.action:
-                          action: light.turn_on
-                          data:
-                            entity_id: !lambda 'return id(current_light_entity);'
-                          data_template:
-                            rgb_color: !lambda |-
-                              std::string current = id(current_light_entity);
-                              if (current == "${light_1_entity}") return "${light_1_fav_1_rgb}";
-                              if (current == "${light_2_entity}") return "${light_2_fav_1_rgb}";
-                              if (current == "${light_3_entity}") return "${light_3_fav_1_rgb}";
-                              if (current == "${light_4_entity}") return "${light_4_fav_1_rgb}";
-                              return "${fav_1_default_rgb}";
-                # Fav 2
-                - button:
-                    id: btn_fav_2
-                    width: 50
-                    height: 50
-                    bg_color: ${fav_2_default_bg}
-                    radius: 25
-                    on_click:
-                      - homeassistant.action:
-                          action: light.turn_on
-                          data:
-                            entity_id: !lambda 'return id(current_light_entity);'
-                          data_template:
-                            rgb_color: !lambda |-
-                              std::string current = id(current_light_entity);
-                              if (current == "${light_1_entity}") return "${light_1_fav_2_rgb}";
-                              if (current == "${light_2_entity}") return "${light_2_fav_2_rgb}";
-                              if (current == "${light_3_entity}") return "${light_3_fav_2_rgb}";
-                              if (current == "${light_4_entity}") return "${light_4_fav_2_rgb}";
-                              return "${fav_2_default_rgb}";
-                # Fav 3
-                - button:
-                    id: btn_fav_3
-                    width: 50
-                    height: 50
-                    bg_color: ${fav_3_default_bg}
-                    radius: 25
-                    on_click:
-                      - homeassistant.action:
-                          action: light.turn_on
-                          data:
-                            entity_id: !lambda 'return id(current_light_entity);'
-                          data_template:
-                            rgb_color: !lambda |-
-                              std::string current = id(current_light_entity);
-                              if (current == "${light_1_entity}") return "${light_1_fav_3_rgb}";
-                              if (current == "${light_2_entity}") return "${light_2_fav_3_rgb}";
-                              if (current == "${light_3_entity}") return "${light_3_fav_3_rgb}";
-                              if (current == "${light_4_entity}") return "${light_4_fav_3_rgb}";
-                              return "${fav_3_default_rgb}";
-                # Fav 4
-                - button:
-                    id: btn_fav_4
-                    width: 50
-                    height: 50
-                    bg_color: ${fav_4_default_bg}
-                    radius: 25
-                    on_click:
-                      - homeassistant.action:
-                          action: light.turn_on
-                          data:
-                            entity_id: !lambda 'return id(current_light_entity);'
-                          data_template:
-                            rgb_color: !lambda |-
-                              std::string current = id(current_light_entity);
-                              if (current == "${light_1_entity}") return "${light_1_fav_4_rgb}";
-                              if (current == "${light_2_entity}") return "${light_2_fav_4_rgb}";
-                              if (current == "${light_3_entity}") return "${light_3_fav_4_rgb}";
-                              if (current == "${light_4_entity}") return "${light_4_fav_4_rgb}";
-                              return "${fav_4_default_rgb}";
-
-          # Brightness Slider
-          - slider:
-              id: slider_brightness
-              width: 250
-              height: 30
-              min_value: 0
-              max_value: 255
-              on_value:
-                - homeassistant.action:
-                    action: light.turn_on
-                    data:
-                      entity_id: !lambda 'return id(current_light_entity);'
-                      brightness: !lambda 'return to_string((int)x);'
-
-          # Close Button
-          - button:
-              width: 120
-              height: 50
-              bg_color: 0x444444
-              on_click:
-                - lvgl.widget.hide: light_control_overlay
+                      - lvgl.widget.hide: light_control_overlay
+                    widgets:
+                      - label:
+                          text: "X"
+                          text_font: ${font_id_large}
+                          align: CENTER
+                          text_color: 0xFFFFFF
+          
+          # Colors Section
+          - obj:
+              width: 100%
+              height: 140
+              bg_opa: TRANSP
+              border_width: 0
+              layout:
+                type: flex
+                flex_flow: COLUMN
+                flex_align_main: START
+                flex_align_cross: START
+                pad_row: 5
               widgets:
                 - label:
-                    text: "Close"
-                    align: CENTER
+                    text: "Colors"
                     text_font: ${font_id}
+                    text_color: 0xAAAAAA
+                - obj:
+                    width: 100%
+                    height: 78
+                    bg_opa: TRANSP
+                    border_width: 0
+                    layout:
+                      type: flex
+                      flex_flow: ROW
+                      flex_align_main: SPACE_BETWEEN
+                      flex_align_cross: CENTER
+                      pad_row: 0
+                    widgets:
+                      # Fav 1
+                      - button:
+                          id: btn_fav_1
+                          width: 50
+                          height: 50
+                          bg_color: ${fav_1_default_bg}
+                          radius: 25
+                          on_click:
+                            - homeassistant.action:
+                                action: light.turn_on
+                                data:
+                                  entity_id: !lambda 'return id(current_light_entity);'
+                                data_template:
+                                  rgb_color: !lambda |-
+                                    std::string current = id(current_light_entity);
+                                    if (current == "${light_1_entity}") return "${light_1_fav_1_rgb}";
+                                    if (current == "${light_2_entity}") return "${light_2_fav_1_rgb}";
+                                    if (current == "${light_3_entity}") return "${light_3_fav_1_rgb}";
+                                    if (current == "${light_4_entity}") return "${light_4_fav_1_rgb}";
+                                    return "${fav_1_default_rgb}";
+                      # Fav 2
+                      - button:
+                          id: btn_fav_2
+                          width: 50
+                          height: 50
+                          bg_color: ${fav_2_default_bg}
+                          radius: 25
+                          on_click:
+                            - homeassistant.action:
+                                action: light.turn_on
+                                data:
+                                  entity_id: !lambda 'return id(current_light_entity);'
+                                data_template:
+                                  rgb_color: !lambda |-
+                                    std::string current = id(current_light_entity);
+                                    if (current == "${light_1_entity}") return "${light_1_fav_2_rgb}";
+                                    if (current == "${light_2_entity}") return "${light_2_fav_2_rgb}";
+                                    if (current == "${light_3_entity}") return "${light_3_fav_2_rgb}";
+                                    if (current == "${light_4_entity}") return "${light_4_fav_2_rgb}";
+                                    return "${fav_2_default_rgb}";
+                      # Fav 3
+                      - button:
+                          id: btn_fav_3
+                          width: 50
+                          height: 50
+                          bg_color: ${fav_3_default_bg}
+                          radius: 25
+                          on_click:
+                            - homeassistant.action:
+                                action: light.turn_on
+                                data:
+                                  entity_id: !lambda 'return id(current_light_entity);'
+                                data_template:
+                                  rgb_color: !lambda |-
+                                    std::string current = id(current_light_entity);
+                                    if (current == "${light_1_entity}") return "${light_1_fav_3_rgb}";
+                                    if (current == "${light_2_entity}") return "${light_2_fav_3_rgb}";
+                                    if (current == "${light_3_entity}") return "${light_3_fav_3_rgb}";
+                                    if (current == "${light_4_entity}") return "${light_4_fav_3_rgb}";
+                                    return "${fav_3_default_rgb}";
+                      # Fav 4
+                      - button:
+                          id: btn_fav_4
+                          width: 50
+                          height: 50
+                          bg_color: ${fav_4_default_bg}
+                          radius: 25
+                          on_click:
+                            - homeassistant.action:
+                                action: light.turn_on
+                                data:
+                                  entity_id: !lambda 'return id(current_light_entity);'
+                                data_template:
+                                  rgb_color: !lambda |-
+                                    std::string current = id(current_light_entity);
+                                    if (current == "${light_1_entity}") return "${light_1_fav_4_rgb}";
+                                    if (current == "${light_2_entity}") return "${light_2_fav_4_rgb}";
+                                    if (current == "${light_3_entity}") return "${light_3_fav_4_rgb}";
+                                    if (current == "${light_4_entity}") return "${light_4_fav_4_rgb}";
+                                    return "${fav_4_default_rgb}";
+
+          # Brightness Section
+          - obj:
+              width: 100%
+              height: 140
+              bg_opa: TRANSP
+              border_width: 0
+              layout:
+                type: flex
+                flex_flow: COLUMN
+                flex_align_main: START
+                flex_align_cross: START
+                pad_row: 5
+              widgets:
+                - label:
+                    text: "Brightness"
+                    text_font: ${font_id}
+                    text_color: 0xAAAAAA
+                - obj:
+                    width: 100%
+                    height: 78
+                    bg_opa: TRANSP
+                    border_width: 0
+                    layout:
+                      type: flex
+                      flex_flow: ROW
+                      flex_align_main: SPACE_BETWEEN
+                      flex_align_cross: CENTER
+                      pad_row: 0
+                    widgets:
+                      - slider:
+                          id: slider_brightness
+                          width: 95%
+                          height: 20
+                          min_value: 0
+                          max_value: 255
+                          on_value:
+                            - homeassistant.action:
+                                action: light.turn_on
+                                data:
+                                  entity_id: !lambda 'return id(current_light_entity);'
+                                  brightness: !lambda 'return to_string((int)x);'
+                          text_font: ${font_id}

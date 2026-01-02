@@ -40,7 +40,7 @@ tab_pos: "top"
 tab_height: "50"
 
 # UI Behavior
-idle_timeout: 10 # seconds
+idle_timeout: 120 # seconds
 
 # Fonts
 font_id: "libreFranklin25Light"

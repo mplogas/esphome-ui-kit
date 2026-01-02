@@ -151,7 +151,7 @@ text_sensor:
 
 # UI Definition
 lvgl:
-  log_level: DEBUG
+  #log_level: DEBUG
   style_definitions: !include theme/style.yaml
   
   on_idle:
