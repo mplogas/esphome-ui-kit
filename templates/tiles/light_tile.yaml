@@ -8,6 +8,14 @@
     grid_row_pos: ${row}
     widget_on_click:
       - logger.log: "Toggling ${name}"
+      - lambda: |-
+          auto tile_obj = id(${widget_id});
+          lv_obj_set_style_border_color(tile_obj, lv_color_hex(${color_primary}), 0);
+          lv_obj_set_style_border_width(tile_obj, 3, 0);
+      - delay: 200ms
+      - lambda: |-
+          auto tile_obj = id(${widget_id});
+          lv_obj_set_style_border_width(tile_obj, 0, 0);
       - homeassistant.action:
           action: light.toggle
           data:
