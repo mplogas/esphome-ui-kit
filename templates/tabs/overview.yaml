@@ -22,3 +22,12 @@ widgets:
               font_id_small: ${font_id_small}
               grid_col_pos: 1
               grid_row_pos: 0
+        - <<: !include
+            file: ../widgets/graph.yaml
+            vars:
+              widget_id: ${tab_id}_power_graph
+              graph_title: "Power Usage"
+              graph_unit: "W"
+              graph_color: "0xEF8513"
+              grid_col_pos: 0
+              grid_row_pos: 1

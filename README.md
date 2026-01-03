@@ -2,9 +2,14 @@
 
 A modular framework for building LVGL-based user interfaces in ESPHome. It abstracts hardware complexity and provides a reusable component system. Designed for the Seeedstudio SenseCAP Indicator (D1x) but adaptable to any display.
 
+## Disclaimer
+
+The README is auto-updated by an LLM. Please verify all information in code or with `main-dashboard.yaml` example file before use.
+
 ## Directory Structure
 
 - `hardware/`: Device-specific configurations.
+- `src/`: Custom C++ headers for advanced LVGL features (e.g., Charts).
 - `templates/`: Reusable logic and UI components.
     - `core/`: UI structural components, globals, and HA entities.
     - `devices/`: Virtual device definitions.
@@ -63,6 +68,7 @@ Widgets and Tiles are YAML snippets accepting:
 - **Clickable Cards**: Any widget container can be made clickable with theme-defined visual feedback.
 - **Reusable Widgets**: Components defined once and reused across dashboards.
 - **Weather Integration**: Support for weather and rain sensors via `templates/core/ha_entities.yaml`.
+- **Advanced Data Visualization**: Custom LVGL Chart widget for displaying sensor history with auto-scaling and value overlays.
 
 ## Usage
 

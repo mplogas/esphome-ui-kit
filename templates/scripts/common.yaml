@@ -39,12 +39,58 @@ script:
             if (state == "fog") return "\U000F0591"; // fog
             return "\U000F015F"; // default cloud
 
+  - id: update_graph_ui
+    then:
+      - lambda: |-
+          // Always collect data, but only update UI if backlight is on
+          if (id(backlight).remote_values.is_on()) {
+            float min_v = 1000000, max_v = -1000000;
+            if (id(chart_values).empty()) {
+              min_v = 0; max_v = 100;
+            } else {
+              for (float v : id(chart_values)) {
+                if (v < min_v) min_v = v;
+                if (v > max_v) max_v = v;
+              }
+              // Add some padding
+              float range = max_v - min_v;
+              if (range < 1) range = 1;
+              min_v -= range * 0.1;
+              max_v += range * 0.1;
+            }
+            update_lvgl_chart(id(chart_values), min_v, max_v);
+          }
+      - if:
+          condition:
+            lambda: 'return id(backlight).remote_values.is_on();'
+          then:
+            - lvgl.label.update:
+                id: home_power_graph_value_label
+                text: !lambda |-
+                  if (id(chart_values).empty()) return std::string("-- W");
+                  char buf[32];
+                  sprintf(buf, "%.1f W", id(chart_values).back());
+                  return std::string(buf);
+
+  - id: init_power_graph
+    then:
+      - lambda: |-
+          // We use the ID from overview.yaml: home_power_graph_chart_container
+          auto container = id(home_power_graph_chart_container);
+          if (container != nullptr) {
+            lv_obj_update_layout(container);
+            int w = lv_obj_get_width(container)-10; // padding
+            int h = lv_obj_get_height(container)-10;
+            init_lvgl_chart(container, w, h, 0, 0, 0xEF8513);
+            id(update_graph_ui).execute();
+          }
 
   # UI Bridge Scripts (Hardware to UI)
   - id: ui_home
     then:
       - lvgl.resume:
       - light.turn_on: backlight
+      - script.execute: update_graph_ui
       - lambda: |-
           if (id(main_tabs) != nullptr) {
             lv_tabview_set_act(id(main_tabs), 0, LV_ANIM_ON);
@@ -54,6 +100,7 @@ script:
     then:
       - lvgl.resume:
       - light.turn_on: backlight
+      - script.execute: update_graph_ui
       - lambda: |-
           if (id(main_tabs) != nullptr) {
             uint16_t count = lv_obj_get_child_cnt(lv_tabview_get_content(id(main_tabs)));

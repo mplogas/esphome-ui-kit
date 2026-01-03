@@ -41,6 +41,7 @@ tab_height: "50"
 
 # UI Behavior
 idle_timeout: 120 # seconds
+chart_max_points: 60
 
 # Fonts
 font_id: "libreFranklin25Light"

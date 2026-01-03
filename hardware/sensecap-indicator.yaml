@@ -4,6 +4,11 @@
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
+  platformio_options:
+    build_flags:
+      - -D LV_USE_CHART=1
+  includes:
+    - src/lvgl_chart.h
 
 esp32:
   variant: esp32s3
@@ -71,6 +76,7 @@ touchscreen:
           - lvgl.resume:
           - lvgl.widget.redraw:
           - light.turn_on: backlight
+          - script.execute: update_graph_ui
 
 binary_sensor:
   - platform: gpio

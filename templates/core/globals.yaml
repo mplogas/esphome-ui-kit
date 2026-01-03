@@ -5,3 +5,5 @@ globals:
   - id: current_light_entity
     type: std::string
     initial_value: '""'
+  - id: chart_values
+    type: std::vector<float>

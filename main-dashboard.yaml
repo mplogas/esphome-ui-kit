@@ -17,6 +17,7 @@ substitutions:
   home_tab_name: "Home"
   weather_entity: weather.forecast_home
   rain_sensor_entity: binary_sensor.rain_sensor
+  power_sensor_entity: sensor.example_power
 
   lights_tab_name: "Lights"
   light_1_name: "Light 1"
@@ -48,6 +49,13 @@ substitutions:
 
   # 3. map light favorite colors per light (can be overridden per deployment)
   <<: !include theme/light_mapping.yaml
+  power_sensor_entity: sensor.example_power
+
+esphome:
+  on_boot:
+    priority: -100
+    then:
+      - script.execute: init_power_graph
 
 font: !include theme/fonts.yaml
 

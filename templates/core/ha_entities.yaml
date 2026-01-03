@@ -31,6 +31,18 @@ sensor:
     on_value:
       - script.execute: update_weather_ui
 
+  - platform: homeassistant
+    entity_id: ${power_sensor_entity}
+    id: power_sensor
+    internal: true
+    on_value:
+      - lambda: |-
+          id(chart_values).push_back(x);
+          if (id(chart_values).size() > ${chart_max_points}) {
+            id(chart_values).erase(id(chart_values).begin());
+          }
+      - script.execute: update_graph_ui
+
 text_sensor:
   - platform: homeassistant
     entity_id: ${weather_entity}
