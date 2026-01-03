@@ -1,6 +1,10 @@
 # Hardware abstraction for Seeed SenseCAP Indicator
 # Includes ESP32, PSRAM, I2C, SPI, Display, Touchscreen, and Backlight
 
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+
 esp32:
   variant: esp32s3
   flash_size: 8MB

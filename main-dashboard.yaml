@@ -1,12 +1,12 @@
-esphome:
-  name: sci-template
-  friendly_name: SenseCAP Indicator Template
-
 packages:
   hardware: !include hardware/sensecap-indicator.yaml
-  common_logic: !include templates/common_logic.yaml
+  common_logic: !include templates/logic/common.yaml
+  lights_logic: !include templates/logic/lights_4_logic.yaml
 
 substitutions:
+  name: sci-template
+  friendly_name: SenseCAP Indicator Template
+  
   # 1. Load theme defaults
   <<: !include theme/defaults.yaml
 

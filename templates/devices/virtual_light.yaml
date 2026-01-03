@@ -1,4 +1,4 @@
-# templates/virtual_light.yaml
+# templates/devices/virtual_light.yaml
 platform: homeassistant
 entity_id: ${hass_entity_id}
 id: ${id}_state

@@ -1,4 +1,4 @@
-# ESPHome LVGL Abstraction
+# ESPHome UI Kit - A LVGL Abstraction
 
 A modular framework for building LVGL-based user interfaces in ESPHome. It abstracts hardware complexity and provides a reusable component system. Designed for the Seeedstudio SenseCAP Indicator (D1x) but adaptable to any display.
 
@@ -7,7 +7,9 @@ A modular framework for building LVGL-based user interfaces in ESPHome. It abstr
 - `hardware/`: Device-specific configurations.
 - `templates/`: Reusable logic and UI components.
     - `core/`: UI structural components.
+    - `devices/`: Virtual device definitions.
     - `layouts/`: Page layout templates.
+    - `logic/`: Shared logic and packages.
     - `overlays/`: Contextual UI layers.
     - `sensors/`: Template sensors for UI feedback.
     - `tabs/`: Screen definitions.
@@ -32,7 +34,7 @@ Hardware-specific setup (ESP32-S3, PSRAM, display, touchscreen) is isolated in `
 ### Logic & Packages
 Uses ESPHome `packages` to separate concerns:
 - `hardware`: Drivers and display initialization.
-- `common_logic`: Shared sensors, scripts, and global state.
+- `logic/common`: Shared sensors, scripts, and global state.
 
 ### Grid-based Layout
 Tabs use `grid_container.yaml` to implement LVGL's grid layout. Dimensions and positions are passed via substitutions.
@@ -58,7 +60,7 @@ Widgets and Tiles are YAML snippets accepting:
 - **Idle Management**: Configurable timeout to pause LVGL and disable backlight.
 - **Clickable Cards**: Any widget container can be made clickable with theme-defined visual feedback.
 - **Reusable Widgets**: Components defined once and reused across dashboards.
-- **Weather Integration**: Support for weather and rain sensors via `common_logic.yaml`.
+- **Weather Integration**: Support for weather and rain sensors via `templates/logic/common.yaml`.
 
 ## Usage
 
