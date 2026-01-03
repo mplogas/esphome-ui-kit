@@ -14,15 +14,50 @@ obj:
           ${widget_on_click}
   widgets:
     - label:
+        id: weather_rain_icon
+        text: "\U000F0597"
+        align: TOP_RIGHT
+        x: -5
+        y: 5
+        text_font: icons20
+        text_color: 0x80D8FF
+        hidden: true
+    - label:
+        id: weather_icon_label
+        text: "\U000F015F"
+        align: CENTER
+        y: -35
+        text_font: icons35
+        text_color: ${color_primary}
+        border_width: 0
+    - label:
         id: weather_temp_label
         text: "--°C"
         align: CENTER
+        y: 5
         text_font: ${font_id}
         text_color: ${color_text}
-    - label:
-        id: weather_desc_label
-        text: "Loading..."
+        border_width: 0
+    - obj:
+        width: 100%
+        height: 50
         align: BOTTOM_MID
-        y: -5
-        text_font: ${font_id_small}
-        text_color: ${color_text_dim}
+        bg_opa: 0
+        border_width: 0
+        layout:
+          type: flex
+          flex_flow: ROW
+          flex_align_main: SPACE_AROUND
+        widgets:
+          - label:
+              id: weather_hum_label
+              text: "--%"
+              text_font: ${font_id_small}
+              text_color: ${color_text_dim}
+              border_width: 0
+          - label:
+              id: weather_pres_label
+              text: "--hPa"
+              text_font: ${font_id_small}
+              text_color: ${color_text_dim}
+              border_width: 0

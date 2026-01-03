@@ -6,10 +6,10 @@ A modular framework for building LVGL-based user interfaces in ESPHome. It abstr
 
 - `hardware/`: Device-specific configurations.
 - `templates/`: Reusable logic and UI components.
-    - `core/`: UI structural components.
+    - `core/`: UI structural components, globals, and HA entities.
     - `devices/`: Virtual device definitions.
     - `layouts/`: Page layout templates.
-    - `logic/`: Shared logic and packages.
+    - `scripts/`: Shared scripts and packages.
     - `overlays/`: Contextual UI layers.
     - `sensors/`: Template sensors for UI feedback.
     - `tabs/`: Screen definitions.
@@ -34,7 +34,9 @@ Hardware-specific setup (ESP32-S3, PSRAM, display, touchscreen) is isolated in `
 ### Logic & Packages
 Uses ESPHome `packages` to separate concerns:
 - `hardware`: Drivers and display initialization.
-- `logic/common`: Shared sensors, scripts, and global state.
+- `core/globals`: Global variables.
+- `core/ha_entities`: Home Assistant entity definitions.
+- `scripts/common`: Shared UI bridge scripts and logic.
 
 ### Grid-based Layout
 Tabs use `grid_container.yaml` to implement LVGL's grid layout. Dimensions and positions are passed via substitutions.
@@ -60,7 +62,7 @@ Widgets and Tiles are YAML snippets accepting:
 - **Idle Management**: Configurable timeout to pause LVGL and disable backlight.
 - **Clickable Cards**: Any widget container can be made clickable with theme-defined visual feedback.
 - **Reusable Widgets**: Components defined once and reused across dashboards.
-- **Weather Integration**: Support for weather and rain sensors via `templates/logic/common.yaml`.
+- **Weather Integration**: Support for weather and rain sensors via `templates/core/ha_entities.yaml`.
 
 ## Usage
 

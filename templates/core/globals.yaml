@@ -1,0 +1,7 @@
+globals:
+  - id: user_is_interacting
+    type: bool
+    initial_value: 'false'
+  - id: current_light_entity
+    type: std::string
+    initial_value: '""'

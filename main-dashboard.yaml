@@ -1,7 +1,10 @@
 packages:
   hardware: !include hardware/sensecap-indicator.yaml
-  common_logic: !include templates/logic/common.yaml
-  lights_logic: !include templates/logic/lights_4_logic.yaml
+  globals: !include templates/core/globals.yaml
+  ha_entities: !include templates/core/ha_entities.yaml
+  ha_entities_lights: !include templates/core/ha_entities_lights_4.yaml
+  common_scripts: !include templates/scripts/common.yaml
+  lights_scripts: !include templates/scripts/lights_4.yaml
 
 substitutions:
   name: sci-template

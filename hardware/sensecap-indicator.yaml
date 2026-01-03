@@ -77,7 +77,15 @@ binary_sensor:
     pin:
       number: GPIO38
       inverted: true
-    name: "User Button"
+    name: "Hardware Button"
+    on_press:
+      - script.execute: ui_home
+    on_click:
+      - min_length: 2000ms
+        max_length: 5000ms
+        then:
+          - logger.log: "Resetting device..."
+          - lambda: "esp_restart();"
     id: user_button
 
 bluetooth_proxy:

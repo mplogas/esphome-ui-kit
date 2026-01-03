@@ -1,0 +1,49 @@
+# Home Assistant Entities
+
+binary_sensor:
+  - platform: homeassistant
+    entity_id: ${rain_sensor_entity}
+    id: forecast_home_rain_60min
+    internal: true
+    on_state:
+      - script.execute: update_weather_ui
+
+sensor:
+  - platform: homeassistant
+    entity_id: ${weather_entity}
+    id: forecast_home_pressure
+    attribute: "pressure"
+    internal: true
+    on_value:
+      - script.execute: update_weather_ui
+  - platform: homeassistant
+    entity_id: ${weather_entity}
+    id: forecast_home_temperature
+    attribute: "temperature"
+    internal: true
+    on_value:
+      - script.execute: update_weather_ui
+  - platform: homeassistant
+    entity_id: ${weather_entity}
+    id: forecast_home_humidity
+    attribute: "humidity"
+    internal: true
+    on_value:
+      - script.execute: update_weather_ui
+
+text_sensor:
+  - platform: homeassistant
+    entity_id: ${weather_entity}
+    id: forecast_home_state
+    internal: true
+    on_value:
+      - script.execute: update_weather_ui
+
+text:
+  - platform: template
+    name: "Notifcation Text"
+    id: text_notification
+    initial_value: ""
+    mode: text
+    optimistic: true
+    max_length: 80
