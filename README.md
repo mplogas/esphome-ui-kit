@@ -49,7 +49,7 @@ The `theme/defaults.yaml` file centralizes all UI parameters, including:
 
 ## Usage
 
-1. Copy `sci-template.yaml` to a new file (e.g., `my-device.yaml`).
+1. Copy `main-dashboard.yaml` to a new file (e.g., `my-device.yaml`).
 2. Update the `substitutions` block with your Home Assistant entity IDs (lights, scenes, weather).
 3. Compile and flash:
 
