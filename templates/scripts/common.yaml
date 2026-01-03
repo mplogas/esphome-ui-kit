@@ -78,3 +78,6 @@ interval:
       - lvgl.label.update:
           id: clock_label
           text: !lambda 'return id(home_time).now().strftime("%H:%M");'
+      - lvgl.label.update:
+          id: clock_date_label
+          text: !lambda 'return id(home_time).now().strftime("%a, %b %d");'

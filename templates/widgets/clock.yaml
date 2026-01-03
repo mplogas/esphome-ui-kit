@@ -24,5 +24,13 @@ obj:
         id: clock_label
         text: "00:00" 
         align: CENTER
+        y: -10
         text_font: ${font_id}
         text_color: ${color_text}
+    - label:
+        id: clock_date_label
+        text: "---, --- 00"
+        align: CENTER
+        y: 20
+        text_font: ${font_id_small}
+        text_color: ${color_text_dim}
