@@ -1,0 +1,90 @@
+esphome:
+  name: sci-template
+  friendly_name: SenseCAP Indicator Template
+
+packages:
+  hardware: !include hardware/sensecap-indicator.yaml
+  common_logic: !include templates/common_logic.yaml
+
+substitutions:
+  # 1. Load theme defaults
+  <<: !include theme/defaults.yaml
+
+  # 2. Dashboard Configuration
+  home_tab_name: "Home"
+  weather_entity: weather.forecast_home
+  rain_sensor_entity: binary_sensor.rain_sensor
+
+  lights_tab_name: "Lights"
+  light_1_name: "Light 1"
+  light_1_icon: "\U000F0335" # mdi:lightbulb
+  light_1_entity: light.example_light_1
+  light_2_name: "Light 2"
+  light_2_icon: "\U000F0335" # mdi:lightbulb
+  light_2_entity: light.example_light_2
+  light_3_name: "Light 3"
+  light_3_icon: "\U000F0335" # mdi:lightbulb
+  light_3_entity: light.example_light_3
+  light_4_name: "Light 4"
+  light_4_icon: "\U000F0335" # mdi:lightbulb
+  light_4_entity: light.example_light_4
+
+  scenes_tab_name: "Scenes"
+  scene_1_name: "Scene 1"
+  scene_1_icon: "\U000F0502" # mdi:television
+  scene_1_entity: scene.example_scene_1
+  scene_2_name: "Scene 2"
+  scene_2_icon: "\U000F05F2" # mdi:food-fork-drink
+  scene_2_entity: scene.example_scene_2
+  scene_3_name: "Scene 3"
+  scene_3_icon: "\U000F0099" # mdi:bed-outline
+  scene_3_entity: scene.example_scene_3
+  scene_4_name: "Scene 4"
+  scene_4_icon: "\U000F0904" # mdi:power-sleep
+  scene_4_entity: scene.example_scene_4
+
+  # 3. map light favorite colors per light (can be overridden per deployment)
+  <<: !include theme/light_mapping.yaml
+
+font: !include theme/fonts.yaml
+
+logger:
+  hardware_uart: UART0
+  level: DEBUG
+
+api:
+  encryption:
+    key: !secret api_key
+  
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  min_auth_mode: WPA2
+  use_address: !secret wifi_ip_address
+
+time:
+  - platform: homeassistant
+    id: home_time
+    timezone: "Europe/Berlin"
+
+# UI Definition
+lvgl:
+  #log_level: DEBUG
+  style_definitions: !include theme/style.yaml
+  
+  on_idle:
+    timeout: !lambda "return ${idle_timeout} * 1000;"
+    then:
+      - light.turn_off: backlight
+      - lvgl.pause:
+
+  pages:
+    - id: main_page
+      bg_color: ${color_bg}
+      widgets:
+        - !include templates/layouts/standard_3_tabs.yaml
+        - !include templates/overlays/light_control.yaml
