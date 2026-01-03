@@ -2,15 +2,18 @@ esphome:
   name: sci-spielezimmer
   friendly_name: Keller Spielezimmer SCI
 
-<<: !include hardware/sensecap-indicator.yaml
+packages:
+  hardware: !include hardware/sensecap-indicator.yaml
+  common_logic: !include templates/common_logic.yaml
 
 substitutions:
   # 1. Load theme defaults
   <<: !include theme/defaults.yaml
-  <<: !include hardware/sensecap-indicator.yaml
 
   # 2. Dashboard Configuration
   home_tab_name: "Home"
+  weather_entity: weather.pirateweather
+  rain_sensor_entity: binary_sensor.rr_rainin60min
 
   lights_tab_name: "Lights"
   light_1_name: "Decke"
@@ -40,6 +43,7 @@ substitutions:
   scene_4_icon: "\U000F0904" # mdi:power-sleep
   scene_4_entity: scene.goodnight
 
+
   # 3. map light favorite colors per light (can be overridden per deployment)
   <<: !include theme/light_mapping.yaml
 
@@ -67,86 +71,6 @@ time:
   - platform: homeassistant
     id: home_time
     timezone: "Europe/Berlin"
-
-<<: !include templates/common_logic.yaml
-
-# Home Assistant Entities
-
-sensor:
-  # Light Brightness Sensors
-  - !include
-      file: templates/sensors/light_brightness.yaml
-      vars:
-        hass_entity_id: ${light_1_entity}
-        id: lights_1
-  - !include
-      file: templates/sensors/light_brightness.yaml
-      vars:
-        hass_entity_id: ${light_2_entity}
-        id: lights_2
-  - !include
-      file: templates/sensors/light_brightness.yaml
-      vars:
-        hass_entity_id: ${light_3_entity}
-        id: lights_3
-  - !include
-      file: templates/sensors/light_brightness.yaml
-      vars:
-        hass_entity_id: ${light_4_entity}
-        id: lights_4
-
-text_sensor:
-  - !include
-      file: templates/virtual_light.yaml
-      vars:
-        hass_entity_id: ${light_1_entity}
-        id: lights_1
-        widget_id: lights_1
-  - !include
-      file: templates/virtual_light.yaml
-      vars:
-        hass_entity_id: ${light_2_entity}
-        id: lights_2
-        widget_id: lights_2
-  - !include
-      file: templates/virtual_light.yaml
-      vars:
-        hass_entity_id: ${light_3_entity}
-        id: lights_3
-        widget_id: lights_3
-  - !include
-      file: templates/virtual_light.yaml
-      vars:
-        hass_entity_id: ${light_4_entity}
-        id: lights_4
-        widget_id: lights_4
-
-  # Light Color Sensors
-  - !include
-      file: templates/sensors/light_color.yaml
-      vars:
-        hass_entity_id: ${light_1_entity}
-        id: lights_1
-        widget_id: lights_1
-  - !include
-      file: templates/sensors/light_color.yaml
-      vars:
-        hass_entity_id: ${light_2_entity}
-        id: lights_2
-        widget_id: lights_2
-  - !include
-      file: templates/sensors/light_color.yaml
-      vars:
-        hass_entity_id: ${light_3_entity}
-        id: lights_3
-        widget_id: lights_3
-  - !include
-      file: templates/sensors/light_color.yaml
-      vars:
-        hass_entity_id: ${light_4_entity}
-        id: lights_4
-        widget_id: lights_4
-
 
 
 # UI Definition

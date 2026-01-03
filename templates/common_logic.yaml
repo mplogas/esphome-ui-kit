@@ -40,6 +40,20 @@ script:
           lv_obj_set_style_bg_color(id(btn_fav_3), lv_color_hex(c3), 0);
           lv_obj_set_style_bg_color(id(btn_fav_4), lv_color_hex(c4), 0);
 
+  - id: update_weather_desc
+    then:
+      - lvgl.label.update:
+          id: weather_desc_label
+          text: !lambda |-
+            if (id(forecast_home_rain_60min).state) {
+              return "Rain expected";
+            } else {
+              if (std::isnan(id(forecast_home_humidity).state)) {
+                 return "Loading...";
+              }
+              return "Humidity: " + to_string((int)id(forecast_home_humidity).state) + "%";
+            }
+
 interval:
   - interval: 1s
     then:
@@ -49,28 +63,110 @@ interval:
 
 # Home Assistant Entities
 
+binary_sensor:
+  - platform: homeassistant
+    entity_id: ${rain_sensor_entity}
+    id: forecast_home_rain_60min
+    internal: true
+    on_state:
+      - script.execute: update_weather_desc
+
 sensor:
   - platform: homeassistant
-    entity_id: weather.pirateweather
+    entity_id: ${weather_entity}
     id: forecast_home_pressure
     attribute: "pressure"
     internal: true
   - platform: homeassistant
-    entity_id: weather.pirateweather
+    entity_id: ${weather_entity}
     id: forecast_home_temperature
     attribute: "temperature"
     internal: true
+    on_value:
+      - lvgl.label.update:
+          id: weather_temp_label
+          text: !lambda 'return to_string((int)x) + "°C";'
   - platform: homeassistant
-    entity_id: weather.pirateweather
+    entity_id: ${weather_entity}
     id: forecast_home_humidity
     attribute: "humidity"
     internal: true
+    on_value:
+      - script.execute: update_weather_desc
 
-binary_sensor:
-  - platform: homeassistant
-    entity_id: binary_sensor.rr_rainin60min
-    id: forecast_home_rain_60min
-    internal: true
+  # Light Brightness Sensors
+  - !include
+      file: sensors/light_brightness.yaml
+      vars:
+        hass_entity_id: ${light_1_entity}
+        id: lights_1
+  - !include
+      file: sensors/light_brightness.yaml
+      vars:
+        hass_entity_id: ${light_2_entity}
+        id: lights_2
+  - !include
+      file: sensors/light_brightness.yaml
+      vars:
+        hass_entity_id: ${light_3_entity}
+        id: lights_3
+  - !include
+      file: sensors/light_brightness.yaml
+      vars:
+        hass_entity_id: ${light_4_entity}
+        id: lights_4
+
+text_sensor:
+  - !include
+      file: virtual_light.yaml
+      vars:
+        hass_entity_id: ${light_1_entity}
+        id: lights_1
+        widget_id: lights_1
+  - !include
+      file: virtual_light.yaml
+      vars:
+        hass_entity_id: ${light_2_entity}
+        id: lights_2
+        widget_id: lights_2
+  - !include
+      file: virtual_light.yaml
+      vars:
+        hass_entity_id: ${light_3_entity}
+        id: lights_3
+        widget_id: lights_3
+  - !include
+      file: virtual_light.yaml
+      vars:
+        hass_entity_id: ${light_4_entity}
+        id: lights_4
+        widget_id: lights_4
+
+  # Light Color Sensors
+  - !include
+      file: sensors/light_color.yaml
+      vars:
+        hass_entity_id: ${light_1_entity}
+        id: lights_1
+        widget_id: lights_1
+  - !include
+      file: sensors/light_color.yaml
+      vars:
+        hass_entity_id: ${light_2_entity}
+        id: lights_2
+        widget_id: lights_2
+  - !include
+      file: sensors/light_color.yaml
+      vars:
+        hass_entity_id: ${light_3_entity}
+        id: lights_3
+        widget_id: lights_3
+  - !include
+      file: sensors/light_color.yaml
+      vars:
+        hass_entity_id: ${light_4_entity}
+        id: lights_4
+        widget_id: lights_4
 
 text:
   - platform: template
