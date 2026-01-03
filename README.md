@@ -1,51 +1,64 @@
 # ESPHome LVGL Abstraction
 
-This project provides a modular configuration framework for building LVGL-based user interfaces. It abstracts hardware complexity and provides a reusable component system for rapid UI development. The demo hardware is a Seeedstudio SenseCAP Indicator (D1x), but it should work with any display.
+A modular framework for building LVGL-based user interfaces in ESPHome. It abstracts hardware complexity and provides a reusable component system. Designed for the Seeedstudio SenseCAP Indicator (D1x) but adaptable to any display.
 
 ## Directory Structure
 
-- `hardware/`: Device-specific configurations and screen dimensions.
-- `layout/`: UI structural components (Tabview, Grid containers).
-- `tabs/`: Individual screen definitions.
-- `templates/`: Reusable logic, sensors, and UI overlays.
-- `theme/`: Global variables for colors, fonts, and layout defaults.
-- `widgets/`: Reusable UI elements (Clock, Weather, Buttons).
+- `hardware/`: Device-specific configurations.
+- `templates/`: Reusable logic and UI components.
+    - `core/`: UI structural components.
+    - `layouts/`: Page layout templates.
+    - `overlays/`: Contextual UI layers.
+    - `sensors/`: Template sensors for UI feedback.
+    - `tabs/`: Screen definitions.
+    - `tiles/`: Interactive UI cards.
+    - `widgets/`: Standalone UI elements.
+- `theme/`: UI styling and variables.
+
+## Configuration Files
+
+- `main-dashboard.yaml`: Main entry point and dashboard configuration.
+- `secrets.yaml`: WiFi and API credentials.
+- `theme/defaults.yaml`: Global UI variables (colors, dimensions, spacing).
+- `theme/style.yaml`: LVGL style definitions.
+- `theme/fonts.yaml`: Font mappings.
+- `theme/light_mapping.yaml`: Light-specific color presets.
 
 ## Core Concepts
 
 ### Hardware Abstraction
-The `hardware/sensecap-indicator.yaml` file contains the complete setup for the ESP32-S3, PSRAM, MIPI RGB display, and FT5x06 touchscreen. Place your hardware template here and reference it from you ESPHome files.
+Hardware-specific setup (ESP32-S3, PSRAM, display, touchscreen) is isolated in `hardware/`. Reference these templates in your main configuration.
 
 ### Logic & Packages
-The configuration uses ESPHome `packages` to separate concerns:
-- `hardware`: Device drivers and display setup.
-- `common_logic`: Centralized sensors, scripts, and globals (e.g., weather logic, light control state).
+Uses ESPHome `packages` to separate concerns:
+- `hardware`: Drivers and display initialization.
+- `common_logic`: Shared sensors, scripts, and global state.
 
 ### Grid-based Layout
-Each tab uses a `grid_container.yaml` which implements LVGL's grid layout. Column and row specifications are passed via substitutions, allowing for responsive or fixed-size layouts.
+Tabs use `grid_container.yaml` to implement LVGL's grid layout. Dimensions and positions are passed via substitutions.
 
 ### Reusable Widgets
-Widgets are defined as YAML snippets that accept variables for:
-- `widget_id`: Unique identifier for the component.
-- `grid_col_pos` / `grid_row_pos`: Position within the parent grid.
-- `grid_x_align` / `grid_y_align`: Alignment within the grid cell.
-- `widget_clickable`: Boolean to enable touch events.
-- `widget_on_click`: C++ lambda snippet for touch actions.
+Widgets and Tiles are YAML snippets accepting:
+- `widget_id` / `id`: Unique component identifier.
+- `grid_col_pos` / `grid_row_pos` (or `col` / `row`): Grid position.
+- `grid_x_align` / `grid_y_align`: Cell alignment (defaults to `STRETCH`).
+- `widget_clickable`: Enable/disable touch events.
+- `widget_on_click`: C++ lambda for touch actions.
 
 ### Theme System
-The `theme/defaults.yaml` file centralizes all UI parameters, including:
-- Screen dimensions (`screen_width`, `screen_height`).
-- Color palette (hex strings).
+`theme/defaults.yaml` centralizes UI parameters:
+- Screen dimensions.
+- Color palette.
 - Grid spacing and padding.
-- Default font IDs.
-- Idle timeout duration (in seconds).
+- Font IDs.
+- Idle timeout.
 
 ## Features
 
-- **Idle Management**: Configurable timeout that pauses LVGL and disables the backlight to reduce power consumption.
-- **Clickable Cards**: Any widget container can be made clickable, with visual feedback defined in the theme styles.
-- **Reusable Widgets** : Widgets are defined once and reused across multiple dashboards or devices.
-- **Weather Integration**: Built-in support for weather and rain sensors via `common_logic.yaml`.
+- **Idle Management**: Configurable timeout to pause LVGL and disable backlight.
+- **Clickable Cards**: Any widget container can be made clickable with theme-defined visual feedback.
+- **Reusable Widgets**: Components defined once and reused across dashboards.
+- **Weather Integration**: Support for weather and rain sensors via `common_logic.yaml`.
 
 ## Usage
 
