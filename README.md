@@ -79,3 +79,47 @@ Widgets and Tiles are YAML snippets accepting:
 ```bash
 esphome run my-device.yaml
 ```
+
+## Adding New Graphs
+
+The framework supports multiple independent graph widgets. To add a new one:
+
+1.  **Define a Data Buffer**: In [templates/core/globals.yaml](templates/core/globals.yaml), add a new `std::vector<float>` to store the sensor history.
+    ```yaml
+    - id: my_sensor_values
+      type: std::vector<float>
+    ```
+2.  **Add the Widget**: In your tab definition (e.g., [templates/tabs/overview.yaml](templates/tabs/overview.yaml)), include the graph widget with a unique `widget_id`.
+    ```yaml
+    - <<: !include
+        file: ../widgets/graph.yaml
+        vars:
+          widget_id: my_new_graph
+          graph_title: "My Sensor"
+          graph_unit: "unit"
+          graph_color: "0xHEXCODE"
+          grid_col_pos: 0
+          grid_row_pos: 1
+    ```
+3.  **Initialize on Boot**: In [main-dashboard.yaml](main-dashboard.yaml), add the initialization script to the `on_boot` trigger.
+    ```yaml
+    - script.execute:
+        id: init_graph
+        container_obj: !lambda "return id(my_new_graph_chart_container);"
+        color: 0xHEXCODE
+    ```
+4.  **Connect the Sensor**: In [templates/core/ha_entities.yaml](templates/core/ha_entities.yaml), update your sensor to push data to the buffer and trigger the UI update.
+    ```yaml
+    on_value:
+      - lambda: |-
+          id(my_sensor_values).push_back(x);
+          if (id(my_sensor_values).size() > ${chart_max_points}) {
+            id(my_sensor_values).erase(id(my_sensor_values).begin());
+          }
+      - script.execute:
+          id: update_graph
+          chart_obj: !lambda "return id(my_new_graph_chart_container);"
+          label_obj: !lambda "return id(my_new_graph_value_label);"
+          values: !lambda "return &id(my_sensor_values);"
+          unit: "unit"
+    ```

@@ -23,6 +23,17 @@ sensor:
     internal: true
     on_value:
       - script.execute: update_weather_ui
+      - lambda: |-
+          id(temp_chart_values).push_back(x);
+          if (id(temp_chart_values).size() > ${chart_max_points}) {
+            id(temp_chart_values).erase(id(temp_chart_values).begin());
+          }
+      - script.execute:
+          id: update_graph
+          chart_obj: !lambda "return id(home_temp_graph_chart_container);"
+          label_obj: !lambda "return id(home_temp_graph_value_label);"
+          values: !lambda "return &id(temp_chart_values);"
+          unit: "°C"
   - platform: homeassistant
     entity_id: ${weather_entity}
     id: forecast_home_humidity
@@ -41,7 +52,12 @@ sensor:
           if (id(chart_values).size() > ${chart_max_points}) {
             id(chart_values).erase(id(chart_values).begin());
           }
-      - script.execute: update_graph_ui
+      - script.execute:
+          id: update_graph
+          chart_obj: !lambda "return id(home_power_graph_chart_container);"
+          label_obj: !lambda "return id(home_power_graph_value_label);"
+          values: !lambda "return &id(chart_values);"
+          unit: "W"
 
 text_sensor:
   - platform: homeassistant

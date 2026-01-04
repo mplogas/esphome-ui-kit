@@ -7,3 +7,5 @@ globals:
     initial_value: '""'
   - id: chart_values
     type: std::vector<float>
+  - id: temp_chart_values
+    type: std::vector<float>

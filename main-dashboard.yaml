@@ -55,7 +55,14 @@ esphome:
   on_boot:
     priority: -100
     then:
-      - script.execute: init_power_graph
+      - script.execute:
+          id: init_graph
+          container_obj: !lambda "return id(home_power_graph_chart_container);"
+          color: 0xEF8513
+      - script.execute:
+          id: init_graph
+          container_obj: !lambda "return id(home_temp_graph_chart_container);"
+          color: 0x3498db
 
 font: !include theme/fonts.yaml
 

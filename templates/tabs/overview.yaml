@@ -31,3 +31,12 @@ widgets:
               graph_color: "0xEF8513"
               grid_col_pos: 0
               grid_row_pos: 1
+        - <<: !include
+            file: ../widgets/graph.yaml
+            vars:
+              widget_id: ${tab_id}_temp_graph
+              graph_title: "Temperature"
+              graph_unit: "°C"
+              graph_color: "0x3498db"
+              grid_col_pos: 1
+              grid_row_pos: 1

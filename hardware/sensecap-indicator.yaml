@@ -76,7 +76,6 @@ touchscreen:
           - lvgl.resume:
           - lvgl.widget.redraw:
           - light.turn_on: backlight
-          - script.execute: update_graph_ui
 
 binary_sensor:
   - platform: gpio
