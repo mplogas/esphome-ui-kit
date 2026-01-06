@@ -118,11 +118,11 @@ The **ideal** "layout-agnostic" principle from [INSTRUCTIONS.md](INSTRUCTIONS.md
 
 > **Philosophy**: See [INSTRUCTIONS.md - Architecture](INSTRUCTIONS.md#architecture-the-3-view-approach) for the vision. This section covers practical implementation.
 
-### View 1: User Configuration (`testing.yaml`, `mapping-defaults.yaml`)
+### View 1: User Configuration (`testing.yaml`, `templates/core/mapping-defaults.yaml`)
 *   **Role**: Assigns widgets to slots using substitutions.
 *   **Rule**: Never add logic here. Only definitions.
 *   **Pattern**: Uses `tab_[N]_slot_[X]_[Y]_widget` to point to a file in `templates/`.
-*   **Files**: `testing.yaml`, `mapping-defaults.yaml`
+*   **Files**: `testing.yaml`, `templates/core/mapping-defaults.yaml`
 
 ### View 2: Design & Widgets (`templates/tiles/`, `templates/widgets/`, `theme/`)
 *   **Role**: Visual representation.
@@ -187,7 +187,7 @@ If deleting a widget breaks the build, it means you have a **"Hard Link"** in yo
 3.  **Create Refresh Script**: Add script to `templates/core/widget_logic.yaml` to update UI from globals.
 4.  **Create/Modify Widget**: Update `templates/tiles/` or `widgets/`. Use the global variables for values.
 5.  **Update Stubs (Optional)**: Add any mandatory IDs to `templates/core/id_stubs.yaml` if needed.
-6.  **Configure in YAML**: Map the widget in `testing.yaml` (or `mapping-defaults.yaml` for defaults).
+6.  **Configure in YAML**: Map the widget in `testing.yaml` (or `templates/core/mapping-defaults.yaml` for defaults).
 7.  **Compile & Validate**: Run `esphome compile testing.yaml`.
 8.  **Test**: Upload to device and verify functionality.
 

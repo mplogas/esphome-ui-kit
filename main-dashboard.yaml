@@ -10,7 +10,7 @@ packages:
 
 substitutions:
   # 1. Load mapping defaults (View 1 Fallbacks)
-  <<: !include mapping-defaults.yaml
+  <<: !include templates/core/mapping-defaults.yaml
   
   # 2. Load theme defaults
   <<: !include theme/defaults.yaml
@@ -55,8 +55,8 @@ substitutions:
   media_player_entity: media_player.example_player
   motion_sensor_entity: binary_sensor.example_motion
 
-  # 3. map light favorite colors per light (can be overridden per deployment)
-  <<: !include theme/light_mapping.yaml
+  # 3. map light favorite colors per light (defaults to templates/core/mapping-defaults.yaml)
+
 
 esphome:
   on_boot:
@@ -69,7 +69,7 @@ esphome:
           color: 0xEF8513
       - lvgl.resume: {}
 
-font: !include theme/fonts.yaml
+font: !include templates/core/fonts.yaml
 
 logger:
   hardware_uart: UART0

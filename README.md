@@ -24,18 +24,17 @@ The README is auto-updated by an LLM. Please verify all information in code or w
 ## Configuration Files
 
 - `main-dashboard.yaml`: Main entry point and dashboard configuration.
-- `mapping-defaults.yaml`: View 1 (Mapping) fallbacks and state defaults.
+- `templates/core/mapping-defaults.yaml`: View 1 (Mapping) fallbacks and state defaults.
 - `secrets.yaml`: WiFi and API credentials.
 - `theme/defaults.yaml`: Global UI variables (colors, dimensions, spacing).
 - `theme/style.yaml`: LVGL style definitions.
-- `theme/fonts.yaml`: Font mappings.
-- `theme/light_mapping.yaml`: Light-specific color presets.
+- `templates/core/fonts.yaml`: Font mappings.
 
 ## Core Concepts
 
 ### The 3-View Architecture
 The framework enforces a strict separation of concerns:
-- **View 1: User Configuration**: Handled in `main-dashboard.yaml` (or `testing.yaml`) and `mapping-defaults.yaml`. Maps HA entities to UI slots.
+- **View 1: User Configuration**: Handled in `main-dashboard.yaml` (or `testing.yaml`) and `templates/core/mapping-defaults.yaml`. Maps HA entities to UI slots.
 - **View 2: Design & Templates**: Located in `templates/tiles/`, `widgets/`, and `theme/`. These are visual components that read from the Data Pool.
 - **View 3: Core Logic (Data Bridge)**: Located in `templates/core/data_bridge.yaml` and `widget_logic.yaml`. This layer connects HA to the Data Pool (Globals) and triggers UI refreshes.
 

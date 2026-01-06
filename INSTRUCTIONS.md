@@ -7,7 +7,7 @@ A lightweight, 3-layer abstraction over ESPHome's LVGL feature. The goal is to q
 
 ### View 1: Low-Code / Low-Effort User Configuration)
 *   **Target**: End-users or quick deployments.
-*   **Files**: `testing.yaml`, `main-dashboard.yaml`, `mapping-defaults.yaml`.
+*   **Files**: `testing.yaml`, `main-dashboard.yaml`, `templates/core/mapping-defaults.yaml`.
 *   **Responsibility**: Define which widgets go into which slots and map real Home Assistant entities to internal data slots.
 *   **Mechanism**: Uses substitutions to assign widget files to grid slots (e.g., `tab_1_slot_1_1_widget: "templates/tiles/light_tile.yaml"`).
 
@@ -46,7 +46,7 @@ A lightweight, 3-layer abstraction over ESPHome's LVGL feature. The goal is to q
     *   2 Sensor Groups (3 sensors each)
     *   1 Weather + Rain Indicator
     *   1 Clock
-*   **Mapping**: A `mapping-defaults.yaml` provides fallback values for all entities to ensure the project always compiles.
+*   **Mapping**: A `templates/core/mapping-defaults.yaml` provides fallback values for all entities to ensure the project always compiles.
 
 ### 4. Hardware Abstraction
 *   Hardware-specific configurations (pins, display drivers) are isolated in `hardware/` templates (e.g., `sensecap-indicator.yaml`).
