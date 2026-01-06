@@ -115,7 +115,7 @@ The framework supports multiple independent graph widgets. To add a new one:
         container_obj: !lambda "return id(my_new_graph_chart_container);"
         color: 0xHEXCODE
     ```
-4.  **Connect the Sensor**: In [templates/core/ha_entities.yaml](templates/core/ha_entities.yaml), update your sensor to push data to the buffer and trigger the UI update.
+4.  **Connect the Sensor**: In [templates/core/data_bridge.yaml](templates/core/data_bridge.yaml), update your sensor to push data to the buffer and trigger the UI update.
     ```yaml
     on_value:
       - lambda: |-
