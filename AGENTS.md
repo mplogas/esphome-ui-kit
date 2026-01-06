@@ -1,10 +1,10 @@
 # Agent Instructions: ESPHome UI Kit
 
-> **📖 First Time Here?** Read [instructions.md](instructions.md) for the architecture philosophy and design vision. This file focuses on practical ESPHome constraints, compilation workflows, and troubleshooting.
+> **📖 First Time Here?** Read [INSTRUCTIONS.md](INSTRUCTIONS.md) for the architecture philosophy and design vision. This file focuses on practical ESPHome constraints, compilation workflows, and troubleshooting.
 
 ## Quick Reference
-- **Architecture Vision**: See [instructions.md - The 3-View Approach](instructions.md#architecture-the-3-view-approach)
-- **Project Goals**: See [instructions.md - Goal](instructions.md#goal)
+- **Architecture Vision**: See [INSTRUCTIONS.md - The 3-View Approach](INSTRUCTIONS.md#architecture-the-3-view-approach)
+- **Project Goals**: See [INSTRUCTIONS.md - Goal](INSTRUCTIONS.md#goal)
 - **This File**: ESPHome constraints, compilation, debugging, security
 
 ---
@@ -108,7 +108,7 @@ script:
 
 ### Why This Matters for the 3-View Architecture:
 
-The **ideal** "layout-agnostic" principle from [instructions.md](instructions.md#view-3-core-implementation-layer) is not always achievable. View 3 scripts sometimes reference View 2 IDs directly (see `templates/core/widget_logic.yaml` header comments).
+The **ideal** "layout-agnostic" principle from [INSTRUCTIONS.md](INSTRUCTIONS.md#view-3-core-implementation-layer) is not always achievable. View 3 scripts sometimes reference View 2 IDs directly (see `templates/core/widget_logic.yaml` header comments).
 
 **This is an acceptable compromise**, not a design flaw.
 
@@ -116,7 +116,7 @@ The **ideal** "layout-agnostic" principle from [instructions.md](instructions.md
 
 ## 1. The 3-View Architecture (Strict Separation)
 
-> **Philosophy**: See [instructions.md - Architecture](instructions.md#architecture-the-3-view-approach) for the vision. This section covers practical implementation.
+> **Philosophy**: See [INSTRUCTIONS.md - Architecture](INSTRUCTIONS.md#architecture-the-3-view-approach) for the vision. This section covers practical implementation.
 
 ### View 1: User Configuration (`testing.yaml`, `mapping-defaults.yaml`)
 *   **Role**: Assigns widgets to slots using substitutions.
