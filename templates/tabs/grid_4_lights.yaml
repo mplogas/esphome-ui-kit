@@ -1,41 +1,53 @@
+# Grid 4 Lights Tab
 name: ${name}
 widgets:
   - obj:
-      <<: !include ../core/grid_container.yaml
+      id: ${tab_id}_container
+      width: 100%
+      height: 100%
+      layout:
+        type: grid
+        grid_columns: ${grid_columns_spec}
+        grid_rows: ${grid_rows_spec}
+        pad_column: ${grid_gap}
+        pad_row: ${grid_gap}
+      bg_opa: 0
+      border_opa: 0
+      pad_all: ${grid_padding}
       widgets:
-        - <<: !include
+        - !include
             file: ../tiles/light_tile.yaml
             vars:
-              id: ${tab_id}_1
-              name: ${l1_name}
-              icon: ${l1_icon}
               col: 0
               row: 0
-              entity_id: ${l1_entity}
-        - <<: !include
+              id: "light_1"
+              name: "${l1_name}"
+              icon: "${l1_icon}"
+              entity_id: "${l1_entity}"
+        - !include
             file: ../tiles/light_tile.yaml
             vars:
-              id: ${tab_id}_2
-              name: ${l2_name}
-              icon: ${l2_icon}
               col: 1
               row: 0
-              entity_id: ${l2_entity}
-        - <<: !include
+              id: "light_2"
+              name: "${l2_name}"
+              icon: "${l2_icon}"
+              entity_id: "${l2_entity}"
+        - !include
             file: ../tiles/light_tile.yaml
             vars:
-              id: ${tab_id}_3
-              name: ${l3_name}
-              icon: ${l3_icon}
               col: 0
               row: 1
-              entity_id: ${l3_entity}
-        - <<: !include
+              id: "light_3"
+              name: "${l3_name}"
+              icon: "${l3_icon}"
+              entity_id: "${l3_entity}"
+        - !include
             file: ../tiles/light_tile.yaml
             vars:
-              id: ${tab_id}_4
-              name: ${l4_name}
-              icon: ${l4_icon}
               col: 1
               row: 1
-              entity_id: ${l4_entity}
+              id: "light_4"
+              name: "${l4_name}"
+              icon: "${l4_icon}"
+              entity_id: "${l4_entity}"

@@ -1,0 +1,37 @@
+# ID Stubs - View 3
+# Minimal stubs for scripted IDs that aren't also slot names.
+
+lvgl:
+  pages:
+    - id: id_stub_page
+      hidden: true
+      widgets:
+        # These are used by update_graph script
+        - obj: { id: home_temp_graph_chart_container }
+        - label: { id: home_temp_graph_value_label }
+        - obj: { id: home_power_graph_chart_container }
+        - label: { id: home_power_graph_value_label }
+        
+        # Clock
+        - label: { id: clock_label }
+        - label: { id: clock_date_label }
+        
+        # Weather
+        - label: { id: weather_temp_label }
+        - label: { id: weather_hum_label }
+        - label: { id: weather_state_label }
+        - label: { id: weather_icon_label }
+        - obj: { id: weather_rain_icon }
+
+        # Media Player
+        - label: { id: media_player_title }
+        - bar: { id: media_player_seekbar }
+        - label: { id: media_player_play_icon }
+
+        # Sensor Group labels
+        - label: { id: sg1_s1_label }
+        - label: { id: sg1_s2_label }
+        - label: { id: sg1_s3_label }
+        - label: { id: sg2_s1_label }
+        - label: { id: sg2_s2_label }
+        - label: { id: sg2_s3_label }

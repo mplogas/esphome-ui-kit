@@ -1,20 +1,14 @@
 obj:
-  id: ${widget_id}
+  id: ${id}
   width: 100%
   height: 100%
   styles: style_card
-  grid_cell_column_pos: ${grid_col_pos}
-  grid_cell_row_pos: ${grid_row_pos}
-  grid_cell_x_align: ${grid_x_align}
-  grid_cell_y_align: ${grid_y_align}
-  clickable: ${widget_clickable}
-  on_click:
-    then:
-      - lambda: |-
-          ${widget_on_click}
+  grid_cell_column_pos: ${col}
+  grid_cell_row_pos: ${row}
+  clickable: true
   widgets:
     - label:
-        id: weather_rain_icon
+        id: ${id}_rain_icon
         text: "\U000F0597"
         align: TOP_RIGHT
         x: -5
@@ -23,21 +17,19 @@ obj:
         text_color: 0x80D8FF
         hidden: true
     - label:
-        id: weather_icon_label
+        id: ${id}_icon_label
         text: "\U000F015F"
         align: CENTER
         y: -35
         text_font: icons35
         text_color: ${color_primary}
-        border_width: 0
     - label:
-        id: weather_temp_label
+        id: ${id}_temp_label
         text: "--°C"
         align: CENTER
         y: 5
         text_font: ${font_id}
         text_color: ${color_text}
-        border_width: 0
     - obj:
         width: 100%
         height: 50
@@ -50,14 +42,12 @@ obj:
           flex_align_main: SPACE_AROUND
         widgets:
           - label:
-              id: weather_hum_label
+              id: ${id}_hum_label
               text: "--%"
               text_font: ${font_id_small}
               text_color: ${color_text_dim}
-              border_width: 0
           - label:
-              id: weather_pres_label
-              text: "--hPa"
+              id: ${id}_state_label
+              text: "---"
               text_font: ${font_id_small}
               text_color: ${color_text_dim}
-              border_width: 0

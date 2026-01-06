@@ -1,0 +1,82 @@
+obj:
+  id: ${widget_id}
+  width: 100%
+  height: 100%
+  styles: style_card
+  grid_cell_column_pos: ${grid_col_pos}
+  grid_cell_row_pos: ${grid_row_pos}
+  grid_cell_x_align: ${grid_x_align}
+  grid_cell_y_align: ${grid_y_align}
+  layout:
+    type: flex
+    flex_flow: column
+    flex_align_main: space_around
+    flex_align_cross: center
+  pad_all: 5
+  widgets:
+    - label:
+        id: ${widget_id}_title
+        text: "No Media"
+        text_font: ${font_id_small}
+        width: 90%
+        text_align: center
+        long_mode: scroll_circular
+        text_color: ${color_text}
+    - bar:
+        id: ${widget_id}_seekbar
+        width: 80%
+        height: 6
+        min_value: 0
+        max_value: 100
+        value: 0
+        bg_color: ${color_bg_dim}
+        indicator:
+          bg_color: ${color_accent}
+    - obj:
+        id: ${widget_id}_controls
+        width: 100%
+        height: 50
+        bg_opa: 0
+        border_width: 0
+        layout:
+          type: flex
+          flex_flow: ROW
+          flex_align_main: CENTER
+          flex_align_cross: CENTER
+          pad_column: 20
+        widgets:
+          - button:
+              width: 50
+              height: 50
+              bg_opa: 0
+              border_width: 0
+              on_click:
+                then:
+                  - homeassistant.service:
+                      service: media_player.media_play_pause
+                      data:
+                        entity_id: ${entity_id}
+              widgets:
+                - label:
+                    id: ${widget_id}_play_icon
+                    text: "\U000F040A"
+                    text_font: icons35
+                    align: CENTER
+                    text_color: ${color_text}
+          - button:
+              width: 50
+              height: 50
+              bg_opa: 0
+              border_width: 0
+              on_click:
+                then:
+                  - homeassistant.service:
+                      service: media_player.media_next_track
+                      data:
+                        entity_id: ${entity_id}
+              widgets:
+                - label:
+                    text: "\U000F04AD"
+                    text_font: icons35
+                    align: CENTER
+                    text_color: ${color_text}

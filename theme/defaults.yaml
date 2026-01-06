@@ -26,8 +26,10 @@ widget_on_long_press: []
 
 # Colors
 color_bg: "0x000000"
+color_bg_dim: "0x333333"
 color_card_bg: "0x202020"
 color_primary: "0xEF8513"
+color_accent: "0xEF8513"
 color_secondary: "0xEFEFEF"
 color_text: "0xFFFFFF"
 color_text_dim: "0xAAAAAA"
@@ -46,6 +48,8 @@ chart_max_points: 60
 # Fonts
 font_id: "libreFranklin25Light"
 font_id_small: "libreFranklin16"
+font_id_medium: "libreFranklin25Light"
+font_id_icons: "icons35"
 font_id_large: "libreFranklin32"
 
 # Light favorites default colors

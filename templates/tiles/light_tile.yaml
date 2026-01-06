@@ -1,50 +1,23 @@
-<<: !include
-  file: base_tile.yaml
-  vars:
-    widget_id: ${id}
-    label_text: ${name}
-    icon_char: ${icon}
-    grid_col_pos: ${col}
-    grid_row_pos: ${row}
-    widget_on_click:
-      - logger.log: "Toggling ${name}"
-      - lambda: |-
-          auto tile_obj = id(${widget_id});
-          lv_obj_set_style_border_color(tile_obj, lv_color_hex(${color_primary}), 0);
-          lv_obj_set_style_border_width(tile_obj, 3, 0);
-      - delay: 200ms
-      - lambda: |-
-          auto tile_obj = id(${widget_id});
-          lv_obj_set_style_border_width(tile_obj, 0, 0);
-      - homeassistant.action:
-          action: light.toggle
-          data:
-            entity_id: ${entity_id}
-    widget_on_long_press:
-      - lambda: |-
-          id(current_light_entity) = "${entity_id}";
-          
-          // 1. Sync Brightness
-          // Check if the brightness sensor has a value
-          if (!std::isnan(id(${id}_brightness).state)) {
-             lv_slider_set_value(id(slider_brightness), (int32_t)id(${id}_brightness).state, LV_ANIM_OFF);
-          } else {
-             lv_slider_set_value(id(slider_brightness), 255, LV_ANIM_OFF); // Default to max if unknown
-          }
+obj:
+  <<: !include
+    file: base_tile.yaml
+    vars:
+      widget_id: ${id}
+      label_text: ${name}
+      icon_char: ${icon}
+      grid_col_pos: ${col}
+      grid_row_pos: ${row}
+      widget_on_click:
+        - homeassistant.action:
+            action: light.toggle
+            data:
+              entity_id: ${entity_id}
+      widget_on_long_press:
+        - lambda: |-
+            id(current_light_entity) = "${entity_id}";
+            
+            // Sync Brightness Slider from Global
+            lv_slider_set_value(id(slider_brightness), (int32_t)id(${id}_brightness_val), LV_ANIM_OFF);
 
-          // 2. Sync Color (Hue) - Removed in favor of presets
-          /*
-          std::string rgb_str = id(${id}_rgb).state;
-          int r, g, b;
-          if (sscanf(rgb_str.c_str(), "(%d,%d,%d)", &r, &g, &b) == 3 || 
-              sscanf(rgb_str.c_str(), "[%d,%d,%d]", &r, &g, &b) == 3 ||
-              sscanf(rgb_str.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
-              
-              lv_color_t color = lv_color_make(r, g, b);
-              lv_color_hsv_t hsv = lv_color_to_hsv(color);
-              // lv_slider_set_value(id(slider_hue), hsv.h, LV_ANIM_OFF);
-          }
-          */
-
-          id(update_overlay_colors).execute();
-          lv_obj_clear_flag(id(light_control_overlay), LV_OBJ_FLAG_HIDDEN);
+            id(update_overlay_colors).execute();
+            lv_obj_clear_flag(id(light_control_overlay), LV_OBJ_FLAG_HIDDEN);

@@ -1,0 +1,34 @@
+name: ${name}
+widgets:
+  - obj:
+      <<: !include ../core/grid_container.yaml
+      widgets:
+        - <<: !include
+            file: ../widgets/media_player.yaml
+            vars:
+              widget_id: media_player
+              entity_id: "${media_player_entity}"
+              grid_col_pos: 0
+              grid_row_pos: 0
+        - <<: !include
+            file: ../tiles/sensor_group_tile.yaml
+            vars:
+              group_id: sg1
+              col: 1
+              row: 0
+              s1_name: "Temp"
+              s1_id: sg1_s1
+              s2_name: "Hum"
+              s2_id: sg1_s2
+              s3_name: "CO2"
+              s3_id: sg1_s3
+        - <<: !include
+            file: ../tiles/sensor_group_tile.yaml
+            vars:
+              group_id: sg2
+              col: 0
+              row: 1
+              s1_name: "Temp 2"
+              s2_name: "Hum 2"
+              s3_name: "CO2 2"
+

@@ -7,6 +7,8 @@ esphome:
   platformio_options:
     build_flags:
       - -D LV_USE_CHART=1
+      - -D LV_USE_BTNMATRIX=1
+      - -D LV_USE_BAR=1
   includes:
     - src/lvgl_chart.h
 

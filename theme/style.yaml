@@ -4,3 +4,12 @@
   border_width: 0
   pad_all: 5
 
+- id: style_card_on
+  bg_color: ${color_card_bg}
+  radius: 10
+  border_width: 1
+  border_color: ${color_accent}
+  shadow_width: 15
+  shadow_color: ${color_accent}
+  shadow_opa: 50%
+  pad_all: 5

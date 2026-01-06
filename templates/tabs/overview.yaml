@@ -17,11 +17,11 @@ widgets:
         - <<: !include
             file: ../widgets/weather.yaml
             vars:
-              widget_id: ${tab_id}_weather
+              id: weather
               font_id: ${font_id}
               font_id_small: ${font_id_small}
-              grid_col_pos: 1
-              grid_row_pos: 0
+              col: 1
+              row: 0
         - <<: !include
             file: ../widgets/graph.yaml
             vars:
