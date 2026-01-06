@@ -63,6 +63,10 @@ esphome:
     priority: -100
     then:
       - lvgl.page.show: main_page
+      - script.execute:
+          id: init_graph
+          container_obj: !lambda "return id(home_power_graph_chart_container);"
+          color: 0xEF8513
       - lvgl.resume: {}
 
 font: !include theme/fonts.yaml
