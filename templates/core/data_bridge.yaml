@@ -201,7 +201,13 @@ text_sensor:
           if (sscanf(x.c_str(), "[%d,%d,%d]", &r, &g, &b) == 3 || 
               sscanf(x.c_str(), "(%d,%d,%d)", &r, &g, &b) == 3 ||
               sscanf(x.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
+            // Clamp RGB values to valid range (0-255) to prevent undefined behavior
+            r = r < 0 ? 0 : (r > 255 ? 255 : r);
+            g = g < 0 ? 0 : (g > 255 ? 255 : g);
+            b = b < 0 ? 0 : (b > 255 ? 255 : b);
             id(light_1_color_val) = (uint32_t(r) << 16) | (uint32_t(g) << 8) | uint32_t(b);
+          } else {
+            ESP_LOGW("data_bridge", "Failed to parse RGB for light_1: %s", x.c_str());
           }
       - script.execute: light_1_refresh
 
@@ -215,7 +221,13 @@ text_sensor:
           if (sscanf(x.c_str(), "[%d,%d,%d]", &r, &g, &b) == 3 || 
               sscanf(x.c_str(), "(%d,%d,%d)", &r, &g, &b) == 3 ||
               sscanf(x.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
+            // Clamp RGB values to valid range (0-255) to prevent undefined behavior
+            r = r < 0 ? 0 : (r > 255 ? 255 : r);
+            g = g < 0 ? 0 : (g > 255 ? 255 : g);
+            b = b < 0 ? 0 : (b > 255 ? 255 : b);
             id(light_2_color_val) = (uint32_t(r) << 16) | (uint32_t(g) << 8) | uint32_t(b);
+          } else {
+            ESP_LOGW("data_bridge", "Failed to parse RGB for light_2: %s", x.c_str());
           }
       - script.execute: light_2_refresh
 
@@ -229,7 +241,13 @@ text_sensor:
           if (sscanf(x.c_str(), "[%d,%d,%d]", &r, &g, &b) == 3 || 
               sscanf(x.c_str(), "(%d,%d,%d)", &r, &g, &b) == 3 ||
               sscanf(x.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
+            // Clamp RGB values to valid range (0-255) to prevent undefined behavior
+            r = r < 0 ? 0 : (r > 255 ? 255 : r);
+            g = g < 0 ? 0 : (g > 255 ? 255 : g);
+            b = b < 0 ? 0 : (b > 255 ? 255 : b);
             id(light_3_color_val) = (uint32_t(r) << 16) | (uint32_t(g) << 8) | uint32_t(b);
+          } else {
+            ESP_LOGW("data_bridge", "Failed to parse RGB for light_3: %s", x.c_str());
           }
       - script.execute: light_3_refresh
 
@@ -243,6 +261,12 @@ text_sensor:
           if (sscanf(x.c_str(), "[%d,%d,%d]", &r, &g, &b) == 3 || 
               sscanf(x.c_str(), "(%d,%d,%d)", &r, &g, &b) == 3 ||
               sscanf(x.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
+            // Clamp RGB values to valid range (0-255) to prevent undefined behavior
+            r = r < 0 ? 0 : (r > 255 ? 255 : r);
+            g = g < 0 ? 0 : (g > 255 ? 255 : g);
+            b = b < 0 ? 0 : (b > 255 ? 255 : b);
             id(light_4_color_val) = (uint32_t(r) << 16) | (uint32_t(g) << 8) | uint32_t(b);
+          } else {
+            ESP_LOGW("data_bridge", "Failed to parse RGB for light_4: %s", x.c_str());
           }
       - script.execute: light_4_refresh

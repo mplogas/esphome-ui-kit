@@ -28,12 +28,18 @@ void init_lvgl_chart(lv_obj_t * parent, int w, int h, int x, int y, uint32_t col
 
 void update_lvgl_chart(lv_obj_t * chart, const std::vector<float>* values, float min_val, float max_val) {
     if (chart == nullptr || values == nullptr || values->empty()) return;
-    lv_chart_series_t * ser = (lv_chart_series_t *)chart->user_data;
-    if (ser == nullptr) return;
+    
+    // Validate user_data before casting to prevent dereferencing invalid pointers
+    if (chart->user_data == nullptr) {
+        ESP_LOGW("lvgl_chart", "Chart user_data is null, cannot update");
+        return;
+    }
+    lv_chart_series_t * ser = static_cast<lv_chart_series_t*>(chart->user_data);
 
     // 1. Apply simple smoothing (Exponential Moving Average) for display
     // We don't modify the original vector, just what we send to the chart
     std::vector<int32_t> smoothed_points;
+    smoothed_points.reserve(values->size()); // Prevent repeated reallocations
     float ema = values->front();
     float alpha = 0.02f; // Lower alpha for a more "curvy" look (more smoothing)
 
