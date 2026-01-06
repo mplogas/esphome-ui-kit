@@ -1,0 +1,54 @@
+# Graph Widget
+# Displays a line chart of a sensor's history since boot
+#
+# Required Substitutions:
+# - graph_title (e.g. "Power Usage")
+# - graph_color (e.g. "0xEF8513")
+
+obj:
+  id: ${widget_id}
+  width: ${grid_width}
+  height: ${grid_height}
+  styles: style_card
+  #scrollbar_mode: "OFF"
+  grid_cell_column_pos: ${grid_col_pos}
+  grid_cell_row_pos: ${grid_row_pos}
+  grid_cell_x_align: ${grid_x_align}
+  grid_cell_y_align: ${grid_y_align}
+  clickable: ${widget_clickable}
+  on_click:
+    then:
+      - script.execute:
+          id: click_feedback
+          obj_id: !lambda "return id(${widget_id});"
+      - if:
+          condition:
+            lambda: "return true;"
+          then:
+            ${widget_on_click}
+
+  widgets:
+    - obj:
+        id: ${widget_id}_chart_container
+        width: 90%
+        height: 75%
+        bg_opa: 0
+        border_width: 0
+        scrollbar_mode: "OFF"
+        align: TOP_MID
+    
+    - label:
+        id: ${widget_id}_value_label
+        text: "-- ${graph_unit}"
+        text_font: ${font_id_large}
+        text_color: ${color_text}
+        bg_opa: 0
+        align: CENTER
+        y: -10
+        
+    - label:
+        text: "${graph_title}"
+        text_font: ${font_id_small}
+        text_color: ${color_text_dim}
+        align: BOTTOM_MID
+        y: -8

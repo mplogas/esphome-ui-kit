@@ -1,6 +1,17 @@
 # Hardware abstraction for Seeed SenseCAP Indicator
 # Includes ESP32, PSRAM, I2C, SPI, Display, Touchscreen, and Backlight
 
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  platformio_options:
+    build_flags:
+      - -D LV_USE_CHART=1
+      - -D LV_USE_BTNMATRIX=1
+      - -D LV_USE_BAR=1
+  includes:
+    - src/lvgl_chart.h
+
 esp32:
   variant: esp32s3
   flash_size: 8MB
@@ -73,7 +84,15 @@ binary_sensor:
     pin:
       number: GPIO38
       inverted: true
-    name: "User Button"
+    name: "Hardware Button"
+    on_press:
+      - script.execute: ui_home
+    on_click:
+      - min_length: 2000ms
+        max_length: 5000ms
+        then:
+          - logger.log: "Resetting device..."
+          - lambda: "esp_restart();"
     id: user_button
 
 bluetooth_proxy:

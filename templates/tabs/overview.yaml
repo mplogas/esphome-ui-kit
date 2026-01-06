@@ -1,24 +1,44 @@
 name: ${name}
 widgets:
   - obj:
+      id: ${tab_id}_container
       <<: !include ../core/grid_container.yaml
       widgets:
         - <<: !include
             file: ../widgets/clock.yaml
             vars:
-              widget_id: ${tab_id}_clock
+              widget_id: ui_clock
               font_id: ${font_id_large}
               grid_col_pos: 0
               grid_row_pos: 0
               widget_clickable: "true"
-              widget_on_click: |-
-                ESP_LOGD("clock_widget", "Clock widget clicked - toggling backlight");
-                id(backlight).toggle();
+              widget_on_click:
+                - lambda: |-
+                    ESP_LOGD("clock_widget", "Clock widget clicked - toggling backlight");
+                    id(backlight).toggle();
         - <<: !include
             file: ../widgets/weather.yaml
             vars:
-              widget_id: ${tab_id}_weather
+              widget_id: ui_weather
               font_id: ${font_id}
               font_id_small: ${font_id_small}
               grid_col_pos: 1
               grid_row_pos: 0
+        - <<: !include
+            file: ../widgets/graph.yaml
+            vars:
+              widget_id: home_power_graph
+              graph_title: "Power Usage"
+              graph_unit: "W"
+              graph_color: "0xEF8513"
+              grid_col_pos: 0
+              grid_row_pos: 1
+        - <<: !include
+            file: ../widgets/graph.yaml
+            vars:
+              widget_id: home_temp_graph
+              graph_title: "Temperature"
+              graph_unit: "°C"
+              graph_color: "0x3498db"
+              grid_col_pos: 1
+              grid_row_pos: 1

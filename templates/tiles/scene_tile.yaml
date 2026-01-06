@@ -1,23 +1,16 @@
-<<: !include
-  file: base_tile.yaml
-  vars:
-    widget_id: ${id}
-    label_text: ${name}
-    icon_char: ${icon}
-    grid_col_pos: ${col}
-    grid_row_pos: ${row}
-    widget_on_click:
-      - logger.log: "Activating scene ${name}"
-      # Visual feedback: Glow effect
-      - lambda: |-
-          auto tile_obj = id(${widget_id});
-          lv_obj_set_style_border_color(tile_obj, lv_color_hex(${color_primary}), 0);
-          lv_obj_set_style_border_width(tile_obj, 3, 0);
-      - delay: 200ms
-      - lambda: |-
-          auto tile_obj = id(${widget_id});
-          lv_obj_set_style_border_width(tile_obj, 0, 0);
-      - homeassistant.action:
-          action: scene.turn_on
-          data:
-            entity_id: ${entity_id}
+obj:
+  <<: !include
+    file: base_tile.yaml
+    vars:
+      widget_id: ${id}
+      label_text: ${name}
+      icon_char: ${icon}
+      grid_col_pos: ${col}
+      grid_row_pos: ${row}
+      widget_on_click:
+        - homeassistant.action:
+            action: scene.turn_on
+            data:
+              entity_id: ${entity_id}
+      widget_on_long_press:
+        - logger.log: "Scene long press"

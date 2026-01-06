@@ -16,13 +16,26 @@ obj:
   clickable: ${widget_clickable}
   on_click:
     then:
-      - lambda: |-
-          ESP_LOGD("clock_widget", "Clock widget clicked");
-          ${widget_on_click}
+      - script.execute:
+          id: click_feedback
+          obj_id: !lambda "return id(${widget_id});"
+      - if:
+          condition:
+            lambda: "return true;"
+          then:
+            ${widget_on_click}
   widgets:
     - label:
         id: clock_label
         text: "00:00" 
         align: CENTER
+        y: -10
         text_font: ${font_id}
         text_color: ${color_text}
+    - label:
+        id: clock_date_label
+        text: "---, --- 00"
+        align: CENTER
+        y: 20
+        text_font: ${font_id_small}
+        text_color: ${color_text_dim}

@@ -1,31 +1,39 @@
-obj:
-  id: ${widget_id}
-  width: 100%
-  height: 100%
-  styles: style_card
-  grid_cell_column_pos: ${grid_col_pos}
-  grid_cell_row_pos: ${grid_row_pos}
-  grid_cell_x_align: ${grid_x_align}
-  grid_cell_y_align: ${grid_y_align}
-  clickable: true
-  on_short_click:
-    then:
-      ${widget_on_click}
-  on_long_press:
-    then:
-      ${widget_on_long_press}
-  widgets:
-    - label:
-        id: ${widget_id}_icon
-        text: ${icon_char}
-        text_font: icons35
-        align: CENTER
-        y: -10
-        text_color: ${color_text_dim}
-    - label:
-        id: ${widget_id}_label
-        text: ${label_text}
-        text_font: ${font_id_small}
-        align: BOTTOM_MID
-        y: -5
-        text_color: ${color_text_dim}
+id: ${widget_id}
+width: 100%
+height: 100%
+styles: style_card
+grid_cell_column_pos: ${grid_col_pos}
+grid_cell_row_pos: ${grid_row_pos}
+grid_cell_x_align: ${grid_x_align}
+grid_cell_y_align: ${grid_y_align}
+clickable: true
+on_short_click:
+  then: 
+    - script.execute:
+        id: click_feedback
+        obj_id: !lambda "return id(${widget_id});"
+    - if:
+        condition:
+          lambda: "return true;"
+        then: ${widget_on_click}
+on_long_press:
+  then: 
+    - if:
+        condition:
+          lambda: "return true;"
+        then: ${widget_on_long_press}
+widgets:
+  - label:
+      id: ${widget_id}_icon
+      text: ${icon_char}
+      text_font: icons35
+      align: CENTER
+      y: -10
+      text_color: ${color_text_dim}
+  - label:
+      id: ${widget_id}_label
+      text: ${label_text}
+      text_font: ${font_id_small}
+      align: BOTTOM_MID
+      y: -5
+      text_color: ${color_text_dim}

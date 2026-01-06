@@ -1,0 +1,107 @@
+script:
+  - id: click_feedback
+    parameters:
+      obj_id: lv_obj_t*
+    then:
+      - lambda: |-
+          if (obj_id != nullptr) {
+            lv_obj_add_style(obj_id, id(style_card_on), 0);
+          }
+      - delay: 150ms
+      - lambda: |-
+          if (obj_id != nullptr) {
+            lv_obj_remove_style(obj_id, id(style_card_on), 0);
+          }
+
+  - id: activate_scene
+    parameters:
+      scene_id: std::string
+    then:
+      - homeassistant.service:
+          service: scene.turn_on
+          data:
+            entity_id: !lambda 'return scene_id;'
+
+  - id: ui_next_tab
+    then:
+      - lvgl.resume:
+      - light.turn_on: backlight
+      - lambda: |-
+          if (id(main_tabs) != nullptr) {
+            uint16_t count = lv_obj_get_child_cnt(lv_tabview_get_content(id(main_tabs)));
+            uint16_t current = lv_tabview_get_tab_act(id(main_tabs));
+            lv_tabview_set_act(id(main_tabs), (current + 1) % count, LV_ANIM_ON);
+          }
+
+  - id: ui_prev_tab
+    then:
+      - lvgl.resume:
+      - light.turn_on: backlight
+      - lambda: |-
+          if (id(main_tabs) != nullptr) {
+            uint16_t count = lv_obj_get_child_cnt(lv_tabview_get_content(id(main_tabs)));
+            uint16_t current = lv_tabview_get_tab_act(id(main_tabs));
+            lv_tabview_set_act(id(main_tabs), (current + count - 1) % count, LV_ANIM_ON);
+          }
+
+  - id: update_weather_ui
+    then:
+      - lvgl.label.update:
+          id: weather_temp_label
+          text: !lambda 'return to_string((int)id(temp_val)) + "°C";'
+      - lvgl.label.update:
+          id: weather_hum_label
+          text: !lambda 'return to_string((int)id(hum_val)) + "%";'
+      - lambda: |-
+          if (id(ui_weather) != nullptr) {
+            if (id(weather_rain_icon) != nullptr) {
+              if (id(rain_detected)) {
+                lv_obj_clear_flag(id(weather_rain_icon), LV_OBJ_FLAG_HIDDEN);
+              } else {
+                lv_obj_add_flag(id(weather_rain_icon), LV_OBJ_FLAG_HIDDEN);
+              }
+            }
+          }
+      - lvgl.label.update:
+          id: weather_icon_label
+          text: !lambda |-
+            std::string state = id(weather_state_val);
+            if (state == "sunny") return "\U000F0599"; 
+            if (state == "clear-night") return "\U000F0594";
+            if (state == "cloudy") return "\U000F0590";
+            if (state == "partlycloudy") return "\U000F0595";
+            if (state == "rainy") return "\U000F0597";
+            if (state == "snowy") return "\U000F0598";
+            if (state == "lightning") return "\U000F0593";
+            if (state == "fog") return "\U000F0591";
+            return "\U000F015F";
+
+  - id: update_media_player_ui
+    then:
+      - lambda: |-
+          if (id(media_player_play_icon) != nullptr) {
+            if (id(media_player_state_val) == "playing") {
+              lv_label_set_text(id(media_player_play_icon), "\U000F03E0"); // mdi:pause
+            } else {
+              lv_label_set_text(id(media_player_play_icon), "\U000F040A"); // mdi:play
+            }
+          }
+
+interval:
+  - interval: 1s
+    then:
+      - lambda: |-
+          if (id(clock_label) != nullptr) {
+            lv_label_set_text(id(clock_label), id(home_time).now().strftime("%H:%M").c_str());
+          }
+          if (id(clock_date_label) != nullptr) {
+            lv_label_set_text(id(clock_date_label), id(home_time).now().strftime("%a, %b %d").c_str());
+          }
+          
+          // Update media player seekbar if playing
+          if (id(ui_media_player) != nullptr && id(media_player_state_val) == "playing") {
+             if (id(media_player_dur_val) > 0) {
+                float pct = (id(media_player_pos_val) / id(media_player_dur_val)) * 100.0f;
+                lv_bar_set_value(id(media_player_seekbar), (int32_t)pct, LV_ANIM_ON);
+             }
+          }

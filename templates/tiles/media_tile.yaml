@@ -1,0 +1,56 @@
+# Media Player Tile - View 2
+# Decoupled from logic, uses globals via refresh scripts.
+
+obj:
+    id: ${id}
+    grid_cell_column_pos: ${col}
+    grid_cell_row_pos: ${row}
+    width: 100%
+    height: 100%
+    styles: style_card
+    layout:
+      type: flex
+      flex_flow: column
+      flex_align_main: space_around
+      flex_align_cross: center
+    pad_all: 5
+    widgets:
+      - label:
+          id: media_title_label
+          text: "No Media"
+          text_font: ${font_id_small}
+          width: 90%
+          text_align: center
+          long_mode: scroll_circular
+          text_color: ${color_text}
+      - bar:
+          id: media_seekbar
+          width: 80%
+          height: 6
+          min_value: 0
+          max_value: 100
+          value: 0
+          bg_color: ${color_bg_dim}
+          indicator:
+            bg_color: ${color_accent}
+      - buttonmatrix:
+          id: media_controls
+          width: 90%
+          height: 40
+          rows:
+            - buttons:
+                - text: "\U000F040A"
+                  id: play_pause
+                - text: "\U000F04AD"
+                  id: next
+          on_click:
+            then:
+              - homeassistant.service:
+                  service: media_player.media_play_pause
+                  data:
+                    entity_id: ${media_player_entity}
+              - lambda: |-
+                  if (id == "next") {
+                    // We don't have a direct next service in the matrix yet, 
+                    // but we can handle it in HA or via a script.
+                  }

@@ -1,0 +1,87 @@
+# ID Stubs - View 3
+# Declares LVGL object IDs in a hidden page to satisfy ESPHome's compile-time validation.
+#
+# PURPOSE:
+# ESPHome validates all id() references at compile time, even if they're inside null checks.
+# These stubs ensure that scripts in widget_logic.yaml can reference IDs without causing
+# compilation errors when those widgets are removed from the active layout.
+#
+# WHEN TO USE:
+# - If you remove widgets from your layout but keep the refresh scripts
+# - If compilation fails with "undeclared identifier" errors
+#
+# NOTE:
+# Most IDs are already declared in the standard layouts, so these stubs are commented out
+# by default. Uncomment only the IDs that cause compilation errors in your specific layout.
+
+lvgl:
+  pages:
+    - id: id_stub_page
+      hidden: true
+      widgets:
+        # Dummy object to keep the list non-empty
+        - obj: { id: id_stub_dummy }
+        
+        # Graph containers (used by update_graph script)
+        # Uncomment these ONLY if you remove the overview tab but keep graph_logic.yaml
+        #- obj: { id: home_temp_graph_chart_container }
+        #- label: { id: home_temp_graph_value_label }
+        #- obj: { id: home_power_graph_chart_container }
+        #- label: { id: home_power_graph_value_label }
+        
+        # Clock widget (used by system_logic.yaml interval)
+        # Uncomment these ONLY if you remove the clock widget
+        #- obj: { id: ui_clock }
+        #- label: { id: clock_label }
+        #- label: { id: clock_date_label }
+        
+        # Weather widget (used by weather_refresh script)
+        # Uncomment these ONLY if you remove the weather widget
+        #- obj: { id: ui_weather }
+        #- label: { id: weather_temp_label }
+        #- label: { id: weather_hum_label }
+        #- label: { id: weather_state_label }
+        #- label: { id: weather_icon_label }
+        #- label: { id: weather_rain_icon }
+
+        # Media Player (used by media_refresh script)
+        # Uncomment these ONLY if you remove the media player widget
+        #- obj: { id: ui_media_player }
+        #- label: { id: media_player_title }
+        #- bar: { id: media_player_seekbar }
+        #- label: { id: media_player_play_icon }
+
+        # Lights (used by light_1_refresh through light_4_refresh scripts)
+        # Uncomment these ONLY if you remove lights from your layout
+        #- obj: { id: light_1 }
+        #- label: { id: light_1_icon }
+        #- label: { id: light_1_label }
+        #- obj: { id: light_2 }
+        #- label: { id: light_2_icon }
+        #- label: { id: light_2_label }
+        #- obj: { id: light_3 }
+        #- label: { id: light_3_icon }
+        #- label: { id: light_3_label }
+        #- obj: { id: light_4 }
+        #- label: { id: light_4_icon }
+        #- label: { id: light_4_label }
+
+        # Light Control Overlay (used by light refresh scripts)
+        # Uncomment these ONLY if you remove light_control.yaml from your layout
+        #- obj: { id: light_control_overlay }
+        #- slider: { id: slider_brightness }
+        #- button: { id: btn_fav_1 }
+        #- button: { id: btn_fav_2 }
+        #- button: { id: btn_fav_3 }
+        #- button: { id: btn_fav_4 }
+
+        # Sensor Group labels (used by sg1_refresh and sg2_refresh scripts)
+        # Uncomment these ONLY if you remove sensor groups from your layout
+        #- obj: { id: sg1 }
+        #- label: { id: sg1_s1_label }
+        #- label: { id: sg1_s2_label }
+        #- label: { id: sg1_s3_label }
+        #- obj: { id: sg2 }
+        #- label: { id: sg2_s1_label }
+        #- label: { id: sg2_s2_label }
+        #- label: { id: sg2_s3_label }

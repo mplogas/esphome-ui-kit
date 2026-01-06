@@ -1,0 +1,54 @@
+script:
+  - id: update_graph
+    parameters:
+      chart_obj: lv_obj_t*
+      label_obj: lv_obj_t*
+      values: std::vector<float>*
+      unit: std::string
+    then:
+      - lambda: |-
+          if (!id(backlight).remote_values.is_on() || values == nullptr || chart_obj == nullptr) return;
+          
+          float min_v = 1000000, max_v = -1000000;
+          if (values->empty()) {
+            min_v = 0; max_v = 100;
+          } else {
+            for (float v : *values) {
+              if (v < min_v) min_v = v;
+              if (v > max_v) max_v = v;
+            }
+            float range = max_v - min_v;
+            if (range < 1) range = 1;
+            min_v -= range * 0.1;
+            max_v += range * 0.1;
+          }
+          
+          // Find the actual chart object (it's the first child of the container)
+          lv_obj_t * chart = lv_obj_get_child(chart_obj, 0);
+          if (chart != nullptr) {
+            update_lvgl_chart(chart, values, min_v, max_v);
+          }
+          
+          // Update label
+          if (label_obj != nullptr) {
+            if (values->empty()) {
+              lv_label_set_text(label_obj, ("-- " + unit).c_str());
+            } else {
+              char buf[32];
+              sprintf(buf, "%.1f %s", values->back(), unit.c_str());
+              lv_label_set_text(label_obj, buf);
+            }
+          }
+
+  - id: init_graph
+    parameters:
+      container_obj: lv_obj_t*
+      color: uint32_t
+    then:
+      - lambda: |-
+          if (container_obj != nullptr) {
+            lv_obj_update_layout(container_obj);
+            int w = lv_obj_get_width(container_obj)-10;
+            int h = lv_obj_get_height(container_obj)-10;
+            init_lvgl_chart(container_obj, w, h, 0, 0, color);
+          }

@@ -1,51 +1,81 @@
-# ESPHome LVGL Abstraction
+# ESPHome UI Kit - A LVGL Abstraction
 
-This project provides a modular configuration framework for building LVGL-based user interfaces. It abstracts hardware complexity and provides a reusable component system for rapid UI development. The demo hardware is a Seeedstudio SenseCAP Indicator (D1x), but it should work with any display.
+A modular framework for building LVGL-based user interfaces in ESPHome. It abstracts hardware complexity and provides a reusable component system. Designed for the Seeedstudio SenseCAP Indicator (D1x) but adaptable to any display.
+
+## Disclaimer
+
+The README is auto-updated by an LLM. Please verify all information in code or with `main-dashboard.yaml` example file before use.
 
 ## Directory Structure
 
-- `hardware/`: Device-specific configurations and screen dimensions.
-- `layout/`: UI structural components (Tabview, Grid containers).
-- `tabs/`: Individual screen definitions.
-- `templates/`: Reusable logic, sensors, and UI overlays.
-- `theme/`: Global variables for colors, fonts, and layout defaults.
-- `widgets/`: Reusable UI elements (Clock, Weather, Buttons).
+- `hardware/`: Device-specific configurations.
+- `src/`: Custom C++ headers for advanced LVGL features (e.g., Charts).
+- `templates/`: Reusable logic and UI components.
+    - `core/`: UI structural components, globals, and the Data Bridge.
+    - `devices/`: Virtual device definitions.
+    - `layouts/`: Page layout templates.
+    - `scripts/`: Shared scripts and packages.
+    - `overlays/`: Contextual UI layers.
+    - `tabs/`: Screen definitions.
+    - `tiles/`: Interactive UI cards.
+    - `widgets/`: Standalone UI elements.
+- `theme/`: UI styling and variables.
+
+## Configuration Files
+
+- `main-dashboard.yaml`: Main entry point and dashboard configuration.
+- `mapping-defaults.yaml`: View 1 (Mapping) fallbacks and state defaults.
+- `secrets.yaml`: WiFi and API credentials.
+- `theme/defaults.yaml`: Global UI variables (colors, dimensions, spacing).
+- `theme/style.yaml`: LVGL style definitions.
+- `theme/fonts.yaml`: Font mappings.
+- `theme/light_mapping.yaml`: Light-specific color presets.
 
 ## Core Concepts
 
+### The 3-View Architecture
+The framework enforces a strict separation of concerns:
+- **View 1: User Configuration**: Handled in `main-dashboard.yaml` (or `testing.yaml`) and `mapping-defaults.yaml`. Maps HA entities to UI slots.
+- **View 2: Design & Templates**: Located in `templates/tiles/`, `widgets/`, and `theme/`. These are visual components that read from the Data Pool.
+- **View 3: Core Logic (Data Bridge)**: Located in `templates/core/data_bridge.yaml` and `widget_logic.yaml`. This layer connects HA to the Data Pool (Globals) and triggers UI refreshes.
+
 ### Hardware Abstraction
-The `hardware/sensecap-indicator.yaml` file contains the complete setup for the ESP32-S3, PSRAM, MIPI RGB display, and FT5x06 touchscreen. Place your hardware template here and reference it from you ESPHome files.
+Hardware-specific setup (ESP32-S3, PSRAM, display, touchscreen) is isolated in `hardware/`. Reference these templates in your main configuration.
 
 ### Logic & Packages
-The configuration uses ESPHome `packages` to separate concerns:
-- `hardware`: Device drivers and display setup.
-- `common_logic`: Centralized sensors, scripts, and globals (e.g., weather logic, light control state).
+Uses ESPHome `packages` to separate concerns:
+- `hardware`: Drivers and display initialization.
+- `core/globals`: The "Data Pool" of global variables.
+- `core/data_bridge`: Home Assistant entity connections to the Data Pool.
+- `core/widget_logic`: Scripts that sync the Data Pool to LVGL objects.
+- `scripts/common`: Shared UI bridge scripts and logic.
 
 ### Grid-based Layout
-Each tab uses a `grid_container.yaml` which implements LVGL's grid layout. Column and row specifications are passed via substitutions, allowing for responsive or fixed-size layouts.
+Tabs use `grid_container.yaml` to implement LVGL's grid layout. Dimensions and positions are passed via substitutions.
 
 ### Reusable Widgets
-Widgets are defined as YAML snippets that accept variables for:
-- `widget_id`: Unique identifier for the component.
-- `grid_col_pos` / `grid_row_pos`: Position within the parent grid.
-- `grid_x_align` / `grid_y_align`: Alignment within the grid cell.
-- `widget_clickable`: Boolean to enable touch events.
-- `widget_on_click`: C++ lambda snippet for touch actions.
+Widgets and Tiles are YAML snippets accepting:
+- `id`: Unique component identifier.
+- `grid_col_pos` / `grid_row_pos` (or `col` / `row`): Grid position.
+- `grid_x_align` / `grid_y_align`: Cell alignment (defaults to `STRETCH`).
+- `widget_clickable`: Enable/disable touch events.
+- `widget_on_click`: C++ lambda for touch actions.
 
 ### Theme System
-The `theme/defaults.yaml` file centralizes all UI parameters, including:
-- Screen dimensions (`screen_width`, `screen_height`).
-- Color palette (hex strings).
+`theme/defaults.yaml` centralizes UI parameters:
+- Screen dimensions.
+- Color palette (with auto-generated variants).
 - Grid spacing and padding.
-- Default font IDs.
-- Idle timeout duration (in seconds).
+- Font IDs.
+- Idle timeout.
 
 ## Features
 
-- **Idle Management**: Configurable timeout that pauses LVGL and disables the backlight to reduce power consumption.
-- **Clickable Cards**: Any widget container can be made clickable, with visual feedback defined in the theme styles.
-- **Reusable Widgets** : Widgets are defined once and reused across multiple dashboards or devices.
-- **Weather Integration**: Built-in support for weather and rain sensors via `common_logic.yaml`.
+- **Decoupled Sync (Data Bridge)**: UI components don't talk directly to Home Assistant. They observe global variables, ensuring the UI remains responsive even if HA is offline.
+- **Dynamic Styling**: Light tiles automatically tint their icons and backgrounds based on the RGB state of the Home Assistant entity.
+- **Idle Management**: Configurable timeout to pause LVGL and disable backlight.
+- **Clickable Cards**: Any widget container can be made clickable with theme-defined visual feedback.
+- **Advanced Data Visualization**: Custom LVGL Chart widget for displaying sensor history with auto-scaling and value overlays.
 
 ## Usage
 
@@ -56,3 +86,47 @@ The `theme/defaults.yaml` file centralizes all UI parameters, including:
 ```bash
 esphome run my-device.yaml
 ```
+
+## Adding New Graphs
+
+The framework supports multiple independent graph widgets. To add a new one:
+
+1.  **Define a Data Buffer**: In [templates/core/globals.yaml](templates/core/globals.yaml), add a new `std::vector<float>` to store the sensor history.
+    ```yaml
+    - id: my_sensor_values
+      type: std::vector<float>
+    ```
+2.  **Add the Widget**: In your tab definition (e.g., [templates/tabs/overview.yaml](templates/tabs/overview.yaml)), include the graph widget with a unique `widget_id`.
+    ```yaml
+    - <<: !include
+        file: ../widgets/graph.yaml
+        vars:
+          widget_id: my_new_graph
+          graph_title: "My Sensor"
+          graph_unit: "unit"
+          graph_color: "0xHEXCODE"
+          grid_col_pos: 0
+          grid_row_pos: 1
+    ```
+3.  **Initialize on Boot**: In [main-dashboard.yaml](main-dashboard.yaml), add the initialization script to the `on_boot` trigger.
+    ```yaml
+    - script.execute:
+        id: init_graph
+        container_obj: !lambda "return id(my_new_graph_chart_container);"
+        color: 0xHEXCODE
+    ```
+4.  **Connect the Sensor**: In [templates/core/data_bridge.yaml](templates/core/data_bridge.yaml), update your sensor to push data to the buffer and trigger the UI update.
+    ```yaml
+    on_value:
+      - lambda: |-
+          id(my_sensor_values).push_back(x);
+          if (id(my_sensor_values).size() > ${chart_max_points}) {
+            id(my_sensor_values).erase(id(my_sensor_values).begin());
+          }
+      - script.execute:
+          id: update_graph
+          chart_obj: !lambda "return id(my_new_graph_chart_container);"
+          label_obj: !lambda "return id(my_new_graph_value_label);"
+          values: !lambda "return &id(my_sensor_values);"
+          unit: "unit"
+    ```

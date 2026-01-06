@@ -1,0 +1,234 @@
+# Widget Logic - View 3
+# Contains refresh scripts for the Data Pool widgets.
+#
+# ARCHITECTURAL TRADE-OFF: Necessary Coupling
+# These refresh scripts reference specific LVGL object IDs (e.g., light_1_icon, light_1_label).
+# This violates the "layout-agnostic" principle documented in AGENTS.md.
+#
+# WHY THIS EXISTS:
+# ESPHome has no way to dynamically query objects or implement an event bus pattern.
+# The null checks (if id(light_1_icon) == nullptr) prevent crashes, but the IDs must
+# still be declared at compile-time (either in the layout or as stubs).
+#
+# CONSEQUENCE:
+# If you remove a light tile from your layout, you must either:
+# 1. Keep these refresh scripts (null checks will prevent crashes), OR
+# 2. Comment out the corresponding refresh script, OR
+# 3. Add stubs for the IDs in id_stubs.yaml
+#
+# This is an acceptable compromise given ESPHome's limitations. The alternative would be
+# to have no centralized refresh logic, duplicating code across every widget.
+
+script:
+  - id: ui_home
+    then:
+      - lvgl.resume: {}
+      - light.turn_on: backlight
+      - script.execute:
+          id: update_graph
+          chart_obj: !lambda "return id(home_power_graph_chart_container);"
+          label_obj: !lambda "return id(home_power_graph_value_label);"
+          values: !lambda "return &id(chart_values);"
+          unit: "W"
+      - lambda: |-
+          if (id(main_tabs) != nullptr) {
+            lv_tabview_set_act(id(main_tabs), 0, LV_ANIM_ON);
+          }
+
+  - id: ui_wake_up
+    then:
+      - light.turn_on: backlight
+      - lvgl.resume: {}
+
+  - id: light_1_refresh
+    then:
+      - lambda: |-
+          if (id(light_1_icon) == nullptr) return;
+          auto icon_obj = id(light_1_icon);
+          auto label_obj = id(light_1_label);
+          lv_label_set_text(label_obj, "${light_1_name}");
+          lv_label_set_text(icon_obj, "${light_1_icon}");
+          if (id(light_1_state)) {
+            uint32_t c = id(light_1_color_val);
+            lv_color_t color = lv_color_hex(c);
+            lv_color_t bg_color = lv_color_make(((c>>16)&0xFF)/5, ((c>>8)&0xFF)/5, (c&0xFF)/5);
+            lv_obj_set_style_text_color(icon_obj, color, 0);
+            lv_obj_set_style_text_color(label_obj, color, 0);
+            if (id(light_1) != nullptr) lv_obj_set_style_bg_color(id(light_1), bg_color, 0);
+          } else {
+            lv_obj_set_style_text_color(icon_obj, lv_color_hex(${color_text_dim}), 0);
+            lv_obj_set_style_text_color(label_obj, lv_color_hex(${color_text_dim}), 0);
+            if (id(light_1) != nullptr) lv_obj_set_style_bg_color(id(light_1), lv_color_hex(${color_card_bg}), 0);
+          }
+          // Update overlay slider if this light is currently being controlled
+          if (id(light_control_overlay) != nullptr && 
+              !lv_obj_has_flag(id(light_control_overlay), LV_OBJ_FLAG_HIDDEN) &&
+              id(current_light_entity) == "${light_1_entity}") {
+            lv_slider_set_value(id(slider_brightness), (int32_t)id(light_1_brightness_val), LV_ANIM_OFF);
+          }
+
+  - id: light_2_refresh
+    then:
+      - lambda: |-
+          if (id(light_2_icon) == nullptr) return;
+          auto icon_obj = id(light_2_icon);
+          auto label_obj = id(light_2_label);
+          lv_label_set_text(label_obj, "${light_2_name}");
+          lv_label_set_text(icon_obj, "${light_2_icon}");
+          if (id(light_2_state)) {
+            uint32_t c = id(light_2_color_val);
+            lv_color_t color = lv_color_hex(c);
+            lv_color_t bg_color = lv_color_make(((c>>16)&0xFF)/5, ((c>>8)&0xFF)/5, (c&0xFF)/5);
+            lv_obj_set_style_text_color(icon_obj, color, 0);
+            lv_obj_set_style_text_color(label_obj, color, 0);
+            if (id(light_2) != nullptr) lv_obj_set_style_bg_color(id(light_2), bg_color, 0);
+          } else {
+            lv_obj_set_style_text_color(icon_obj, lv_color_hex(${color_text_dim}), 0);
+            lv_obj_set_style_text_color(label_obj, lv_color_hex(${color_text_dim}), 0);
+            if (id(light_2) != nullptr) lv_obj_set_style_bg_color(id(light_2), lv_color_hex(${color_card_bg}), 0);
+          }
+          // Update overlay slider if this light is currently being controlled
+          if (id(light_control_overlay) != nullptr && 
+              !lv_obj_has_flag(id(light_control_overlay), LV_OBJ_FLAG_HIDDEN) &&
+              id(current_light_entity) == "${light_2_entity}") {
+            lv_slider_set_value(id(slider_brightness), (int32_t)id(light_2_brightness_val), LV_ANIM_OFF);
+          }
+
+  - id: light_3_refresh
+    then:
+      - lambda: |-
+          if (id(light_3_icon) == nullptr) return;
+          auto icon_obj = id(light_3_icon);
+          auto label_obj = id(light_3_label);
+          lv_label_set_text(label_obj, "${light_3_name}");
+          lv_label_set_text(icon_obj, "${light_3_icon}");
+          if (id(light_3_state)) {
+            uint32_t c = id(light_3_color_val);
+            lv_color_t color = lv_color_hex(c);
+            lv_color_t bg_color = lv_color_make(((c>>16)&0xFF)/5, ((c>>8)&0xFF)/5, (c&0xFF)/5);
+            lv_obj_set_style_text_color(icon_obj, color, 0);
+            lv_obj_set_style_text_color(label_obj, color, 0);
+            if (id(light_3) != nullptr) lv_obj_set_style_bg_color(id(light_3), bg_color, 0);
+          } else {
+            lv_obj_set_style_text_color(icon_obj, lv_color_hex(${color_text_dim}), 0);
+            lv_obj_set_style_text_color(label_obj, lv_color_hex(${color_text_dim}), 0);
+            if (id(light_3) != nullptr) lv_obj_set_style_bg_color(id(light_3), lv_color_hex(${color_card_bg}), 0);
+          }
+          // Update overlay slider if this light is currently being controlled
+          if (id(light_control_overlay) != nullptr && 
+              !lv_obj_has_flag(id(light_control_overlay), LV_OBJ_FLAG_HIDDEN) &&
+              id(current_light_entity) == "${light_3_entity}") {
+            lv_slider_set_value(id(slider_brightness), (int32_t)id(light_3_brightness_val), LV_ANIM_OFF);
+          }
+
+  - id: light_4_refresh
+    then:
+      - lambda: |-
+          if (id(light_4_icon) == nullptr) return;
+          auto icon_obj = id(light_4_icon);
+          auto label_obj = id(light_4_label);
+          lv_label_set_text(label_obj, "${light_4_name}");
+          lv_label_set_text(icon_obj, "${light_4_icon}");
+          if (id(light_4_state)) {
+            uint32_t c = id(light_4_color_val);
+            lv_color_t color = lv_color_hex(c);
+            lv_color_t bg_color = lv_color_make(((c>>16)&0xFF)/5, ((c>>8)&0xFF)/5, (c&0xFF)/5);
+            lv_obj_set_style_text_color(icon_obj, color, 0);
+            lv_obj_set_style_text_color(label_obj, color, 0);
+            if (id(light_4) != nullptr) lv_obj_set_style_bg_color(id(light_4), bg_color, 0);
+          } else {
+            lv_obj_set_style_text_color(icon_obj, lv_color_hex(${color_text_dim}), 0);
+            lv_obj_set_style_text_color(label_obj, lv_color_hex(${color_text_dim}), 0);
+            if (id(light_4) != nullptr) lv_obj_set_style_bg_color(id(light_4), lv_color_hex(${color_card_bg}), 0);
+          }
+          // Update overlay slider if this light is currently being controlled
+          if (id(light_control_overlay) != nullptr && 
+              !lv_obj_has_flag(id(light_control_overlay), LV_OBJ_FLAG_HIDDEN) &&
+              id(current_light_entity) == "${light_4_entity}") {
+            lv_slider_set_value(id(slider_brightness), (int32_t)id(light_4_brightness_val), LV_ANIM_OFF);
+          }
+
+  - id: weather_refresh
+    then:
+      - lambda: |-
+          if (id(ui_weather) == nullptr) return;
+          if (id(weather_temp_label) != nullptr) lv_label_set_text(id(weather_temp_label), (to_string((int)id(temp_val)) + "°C").c_str());
+          if (id(weather_hum_label) != nullptr) lv_label_set_text(id(weather_hum_label), (to_string((int)id(hum_val)) + "%").c_str());
+          if (id(weather_state_label) != nullptr) lv_label_set_text(id(weather_state_label), id(weather_state_val).c_str());
+          
+          if (id(weather_rain_icon) != nullptr) {
+            if (id(rain_detected)) {
+              lv_obj_clear_flag(id(weather_rain_icon), LV_OBJ_FLAG_HIDDEN);
+            } else {
+              lv_obj_add_flag(id(weather_rain_icon), LV_OBJ_FLAG_HIDDEN);
+            }
+          }
+
+          if (id(weather_icon_label) != nullptr) {
+            std::string state = id(weather_state_val);
+            const char* icon = "\U000F015F";
+            if (state == "sunny") icon = "\U000F0599";
+            else if (state == "clear-night") icon = "\U000F0594";
+            else if (state == "rainy") icon = "\U000F0597";
+            else if (state == "partlycloudy") icon = "\U000F0595";
+            else if (state == "cloudy") icon = "\U000F0590";
+            lv_label_set_text(id(weather_icon_label), icon);
+          }
+      - script.execute:
+          id: update_graph
+          chart_obj: !lambda "return id(home_temp_graph_chart_container);"
+          label_obj: !lambda "return id(home_temp_graph_value_label);"
+          values: !lambda "return &id(temp_chart_values);"
+          unit: "°C"
+
+  - id: media_refresh
+    then:
+      - lambda: |-
+          if (id(ui_media_player) == nullptr) return;
+          if (id(media_player_title) != nullptr) lv_label_set_text(id(media_player_title), id(media_player_title_val).c_str());
+          if (id(media_player_seekbar) != nullptr && id(media_player_dur_val) > 0) {
+            int progress = (int)((id(media_player_pos_val) / id(media_player_dur_val)) * 100);
+            lv_bar_set_value(id(media_player_seekbar), progress, LV_ANIM_OFF);
+          }
+
+  - id: power_refresh
+    then:
+      - script.execute:
+          id: update_graph
+          chart_obj: !lambda "return id(home_power_graph_chart_container);"
+          label_obj: !lambda "return id(home_power_graph_value_label);"
+          values: !lambda "return &id(chart_values);"
+          unit: "W"
+
+  - id: sg1_refresh
+    then:
+      - lambda: |-
+          if (id(sg1) == nullptr) return;
+          lv_label_set_text(id(sg1_s1_label), (to_string((int)id(sg1_s1_val)) + "°").c_str());
+          
+  - id: sg2_refresh
+    then:
+      - lambda: |-
+          if (id(sg2) == nullptr) return;
+          lv_label_set_text(id(sg2_s1_label), (to_string((int)id(sg2_s1_val)) + "°").c_str());
+
+  - id: slot_click
+    parameters:
+      slot_id: std::string
+    then:
+      - homeassistant.service:
+          service: light.toggle
+          data:
+            entity_id: !lambda |-
+              if (slot_id == "light_1") return "${light_1_entity}";
+              if (slot_id == "light_2") return "${light_2_entity}";
+              if (slot_id == "light_3") return "${light_3_entity}";
+              if (slot_id == "light_4") return "${light_4_entity}";
+              return "";
+
+  - id: slot_long_press
+    parameters:
+      slot_id: std::string
+    then:
+      - lambda: |-
+          // Open detail overlay

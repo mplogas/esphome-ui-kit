@@ -1,13 +1,5 @@
-# Standard 3-Tab Dashboard Layout
-# Includes: Home (Overview), Lights (Grid), Scenes (Grid)
-#
-# Required Substitutions:
-# - home_tab_name
-# - lights_tab_name
-# - scenes_tab_name
-#
-# - light_[1-4]_name, light_[1-4]_icon, light_[1-4]_entity
-# - scene_[1-4]_name, scene_[1-4]_icon, scene_[1-4]_entity
+# Standard 4-Tab Dashboard Layout
+# Includes: Home (Overview), Lights (Grid), Scenes (Grid), Media (Custom)
 
 tabview:
   <<: !include ../core/tabview_config.yaml
@@ -51,3 +43,8 @@ tabview:
           s4_name: "${scene_4_name}"
           s4_icon: "${scene_4_icon}"
           s4_entity: "${scene_4_entity}"
+    - !include
+        file: ../tabs/media_sensors.yaml
+        vars:
+          tab_id: media
+          name: "${media_tab_name}"

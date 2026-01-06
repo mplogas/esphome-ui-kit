@@ -7,9 +7,11 @@
 width: ${grid_width}
 height: ${grid_height}
 align: ${grid_align}
-bg_color: ${color_grid_bg}
+bg_opa: 0
+border_opa: 0
 border_width: 0
-radius: 10
+radius: 0
+pad_all: ${grid_padding}
 layout:
   type: grid
   grid_columns: ${grid_columns_spec}

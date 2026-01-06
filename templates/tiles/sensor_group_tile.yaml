@@ -1,0 +1,79 @@
+# Sensor Group Tile - View 2
+# Decoupled from logic, uses globals via refresh scripts.
+
+obj:
+    id: ${group_id}
+    grid_cell_column_pos: ${grid_col_pos}
+    grid_cell_row_pos: ${grid_row_pos}
+    grid_cell_x_align: ${grid_x_align}
+    grid_cell_y_align: ${grid_y_align}
+    width: 100%
+    height: 100%
+    styles: style_card
+    layout:
+      type: flex
+      flex_flow: column
+      flex_align_main: space_around
+      flex_align_cross: stretch
+    pad_all: 8
+    widgets:
+      # Sensor 1
+      - obj:
+          height: 30
+          bg_opa: 0
+          border_width: 0
+          layout:
+            type: flex
+            flex_flow: row
+            flex_align_main: space_between
+            flex_align_cross: center
+          widgets:
+            - label:
+                text: "${s1_name}"
+                text_font: ${font_id_small}
+                text_color: ${color_text_dim}
+            - label:
+                id: ${group_id}_s1_label
+                text: "--"
+                text_font: ${font_id_small}
+                text_color: ${s1_color}
+      # Sensor 2
+      - obj:
+          height: 30
+          bg_opa: 0
+          border_width: 0
+          layout:
+            type: flex
+            flex_flow: row
+            flex_align_main: space_between
+            flex_align_cross: center
+          widgets:
+            - label:
+                text: "${s2_name}"
+                text_font: ${font_id_small}
+                text_color: ${color_text_dim}
+            - label:
+                id: ${group_id}_s2_label
+                text: "--"
+                text_font: ${font_id_small}
+                text_color: ${s2_color}
+      # Sensor 3
+      - obj:
+          height: 30
+          bg_opa: 0
+          border_width: 0
+          layout:
+            type: flex
+            flex_flow: row
+            flex_align_main: space_between
+            flex_align_cross: center
+          widgets:
+            - label:
+                text: "${s3_name}"
+                text_font: ${font_id_small}
+                text_color: ${color_text_dim}
+            - label:
+                id: ${group_id}_s3_label
+                text: "--"
+                text_font: ${font_id_small}
+                text_color: ${s3_color}

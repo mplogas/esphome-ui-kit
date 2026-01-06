@@ -1,0 +1,108 @@
+globals:
+  - id: user_is_interacting
+    type: bool
+    initial_value: 'false'
+  - id: current_light_entity
+    type: std::string
+    initial_value: '""'
+  
+  # Data Buffers for Graphs
+  - id: chart_values
+    type: std::vector<float>
+  - id: temp_chart_values
+    type: std::vector<float>
+
+  # --- Data Pool Globals ---
+  
+  # Weather & Environment
+  - id: temp_val
+    type: float
+    initial_value: '0'
+  - id: hum_val
+    type: float
+    initial_value: '0'
+  - id: weather_state_val
+    type: std::string
+    initial_value: '"unknown"'
+  - id: rain_detected
+    type: bool
+    initial_value: 'false'
+  - id: power_val
+    type: float
+    initial_value: '0'
+
+  # Lights (1-4)
+  - id: light_1_state
+    type: bool
+    initial_value: 'false'
+  - id: light_1_brightness_val
+    type: float
+    initial_value: '0'
+  - id: light_1_color_val
+    type: uint32_t
+    initial_value: '0xEF8513'
+
+  - id: light_2_state
+    type: bool
+    initial_value: 'false'
+  - id: light_2_brightness_val
+    type: float
+    initial_value: '0'
+  - id: light_2_color_val
+    type: uint32_t
+    initial_value: '0xEF8513'
+
+  - id: light_3_state
+    type: bool
+    initial_value: 'false'
+  - id: light_3_brightness_val
+    type: float
+    initial_value: '0'
+  - id: light_3_color_val
+    type: uint32_t
+    initial_value: '0xEF8513'
+
+  - id: light_4_state
+    type: bool
+    initial_value: 'false'
+  - id: light_4_brightness_val
+    type: float
+    initial_value: '0'
+  - id: light_4_color_val
+    type: uint32_t
+    initial_value: '0xEF8513'
+
+  # Media Player
+  - id: media_player_state_val
+    type: std::string
+    initial_value: '"idle"'
+  - id: media_player_title_val
+    type: std::string
+    initial_value: '"No Media"'
+  - id: media_player_pos_val
+    type: float
+    initial_value: '0'
+  - id: media_player_dur_val
+    type: float
+    initial_value: '0'
+
+  # Sensor Groups (Current Values)
+  - id: sg1_s1_val
+    type: float
+    initial_value: '0'
+  - id: sg1_s2_val
+    type: float
+    initial_value: '0'
+  - id: sg1_s3_val
+    type: float
+    initial_value: '0'
+  
+  - id: sg2_s1_val
+    type: float
+    initial_value: '0'
+  - id: sg2_s2_val
+    type: float
+    initial_value: '0'
+  - id: sg2_s3_val
+    type: float
+    initial_value: '0'

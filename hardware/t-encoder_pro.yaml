@@ -1,0 +1,107 @@
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  platformio_options:
+    board_build.flash_mode: dio
+    board_build.esp-idf.memory_type: qio_opi
+
+esp32:
+  board: esp32-s3-devkitc-1
+  variant: esp32s3
+  framework:
+    type: esp-idf
+  flash_size: 16MB
+
+# Enable PSRAM
+psram:
+  mode: octal
+  speed: 80MHz
+
+# Add generic ota, api, logging, etc ...
+
+# Configure the Quad SPI bus
+spi:
+  id: display_qspi
+  type: quad
+  clk_pin: GPIO12
+  data_pins: [GPIO11, GPIO13, GPIO7, GPIO14]
+
+# Display configuration
+display:
+  - platform: qspi_dbi
+    dimensions: 
+      width: 390
+      height: 390
+    model: CUSTOM
+    cs_pin: GPIO10
+    reset_pin: GPIO4
+    enable_pin: GPIO3
+    rotation: 0
+    invert_colors: false
+    draw_from_origin: true
+    auto_clear_enabled: false
+    update_interval: never
+    init_sequence:
+      - [0x01]  # Software Reset
+      - delay 200ms
+      - [0x11]  # Sleep Out
+      - delay 120ms
+      - [0x13]  # Normal Display Mode On
+      - [0x20]  # Display Inversion Off
+      - [0x3A, 0x05] # Interface Pixel Format 16bit/pixel
+      - [0x29]  # Display On
+      - [0x53, 0x28]  # Brightness Control On and Display Dimming On
+      - [0x51, 0x00]  # Brightness Adjustment
+      # High contrast mode (Sunlight Readability Enhancement)
+      - [0x58, 0x00]  # High Contrast Mode Off
+      # - [0x58, 0x05]  # High Contrast Mode Low
+      # - [0x58, 0x06]  # High Contrast Mode Med
+      # - [0x58, 0x07]  # High Contrast Mode High
+      - delay 10ms
+
+# lvgl:
+#   style_definitions:
+#     - id: black_background
+#       bg_color: 0x000000
+#       bg_opa: 100%  # Fully opaque
+
+#   pages:
+#     - id: main_page
+#       styles: black_background
+#       widgets:
+#         - label:
+#             text: "78"
+#             x: 120
+#             y: 137
+#             text_align: center
+#             text_color: 0xAAAAAA
+#             text_font: my_font
+
+
+sensor:
+  - platform: rotary_encoder
+    id: screen_rotate
+    pin_a: 1
+    pin_b: 2
+    on_clockwise:
+      - script.execute: ui_next_tab
+    on_anticlockwise:
+      - script.execute: ui_prev_tab
+
+binary_sensor:
+  - platform: gpio
+    id: screen_press
+    pin:
+      number: 0
+    on_press:
+      - script.execute: ui_home
+
+output:
+  - platform: ledc
+    pin: 17
+    id: buzzer
+
+rtttl:
+  output: buzzer
+  id: my_rtttl
+  gain: 60%

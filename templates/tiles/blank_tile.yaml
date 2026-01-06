@@ -1,0 +1,9 @@
+# Blank Tile - Used for empty slots in the grid
+obj:
+  id: ${id}
+  width: 100%
+  height: 100%
+  bg_opa: 0
+  border_width: 0
+  grid_cell_column_pos: ${col}
+  grid_cell_row_pos: ${row}

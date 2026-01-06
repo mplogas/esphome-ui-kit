@@ -18,16 +18,22 @@ grid_rows_spec: ["48%", "48%"]
 # Grid Cell Defaults
 grid_col_pos: 0
 grid_row_pos: 0
+grid_col_span: 1
+grid_row_span: 1
 grid_x_align: STRETCH
 grid_y_align: STRETCH
 widget_clickable: "false"
-widget_on_click: "return;"
-widget_on_long_press: []
+widget_on_click:
+  - lambda: 'return;'
+widget_on_long_press:
+  - lambda: 'return;'
 
 # Colors
 color_bg: "0x000000"
+color_bg_dim: "0x333333"
 color_card_bg: "0x202020"
 color_primary: "0xEF8513"
+color_accent: "0xEF8513"
 color_secondary: "0xEFEFEF"
 color_text: "0xFFFFFF"
 color_text_dim: "0xAAAAAA"
@@ -41,11 +47,19 @@ tab_height: "50"
 
 # UI Behavior
 idle_timeout: 120 # seconds
+chart_max_points: 60
 
 # Fonts
 font_id: "libreFranklin25Light"
 font_id_small: "libreFranklin16"
+font_id_medium: "libreFranklin25Light"
+font_id_icons: "icons35"
 font_id_large: "libreFranklin32"
+
+# Sensor Colors (for sensor group tiles)
+sensor_color_1: "0x3498db"  # Blue (typically for temperature)
+sensor_color_2: "0x80D8FF"  # Light blue (typically for humidity)
+sensor_color_3: "0xFFA726"  # Orange (typically for CO2/other)
 
 # Light favorites default colors
 fav_1_default_rgb: "[255, 244, 229]" # Warm
