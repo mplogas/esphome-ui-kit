@@ -31,11 +31,22 @@ script:
           lv_label_set_text(label_obj, "${light_1_name}");
           lv_label_set_text(icon_obj, "${light_1_icon}");
           if (id(light_1_state)) {
-            lv_obj_set_style_text_color(icon_obj, lv_color_hex(${color_primary}), 0);
-            lv_obj_set_style_text_color(label_obj, lv_color_hex(${color_primary}), 0);
+            uint32_t c = id(light_1_color_val);
+            lv_color_t color = lv_color_hex(c);
+            lv_color_t bg_color = lv_color_make(((c>>16)&0xFF)/5, ((c>>8)&0xFF)/5, (c&0xFF)/5);
+            lv_obj_set_style_text_color(icon_obj, color, 0);
+            lv_obj_set_style_text_color(label_obj, color, 0);
+            if (id(light_1) != nullptr) lv_obj_set_style_bg_color(id(light_1), bg_color, 0);
           } else {
             lv_obj_set_style_text_color(icon_obj, lv_color_hex(${color_text_dim}), 0);
             lv_obj_set_style_text_color(label_obj, lv_color_hex(${color_text_dim}), 0);
+            if (id(light_1) != nullptr) lv_obj_set_style_bg_color(id(light_1), lv_color_hex(${color_card_bg}), 0);
+          }
+          // Update overlay slider if this light is currently being controlled
+          if (id(light_control_overlay) != nullptr && 
+              !lv_obj_has_flag(id(light_control_overlay), LV_OBJ_FLAG_HIDDEN) &&
+              id(current_light_entity) == "${light_1_entity}") {
+            lv_slider_set_value(id(slider_brightness), (int32_t)id(light_1_brightness_val), LV_ANIM_OFF);
           }
 
   - id: light_2_refresh
@@ -47,11 +58,22 @@ script:
           lv_label_set_text(label_obj, "${light_2_name}");
           lv_label_set_text(icon_obj, "${light_2_icon}");
           if (id(light_2_state)) {
-            lv_obj_set_style_text_color(icon_obj, lv_color_hex(${color_primary}), 0);
-            lv_obj_set_style_text_color(label_obj, lv_color_hex(${color_primary}), 0);
+            uint32_t c = id(light_2_color_val);
+            lv_color_t color = lv_color_hex(c);
+            lv_color_t bg_color = lv_color_make(((c>>16)&0xFF)/5, ((c>>8)&0xFF)/5, (c&0xFF)/5);
+            lv_obj_set_style_text_color(icon_obj, color, 0);
+            lv_obj_set_style_text_color(label_obj, color, 0);
+            if (id(light_2) != nullptr) lv_obj_set_style_bg_color(id(light_2), bg_color, 0);
           } else {
             lv_obj_set_style_text_color(icon_obj, lv_color_hex(${color_text_dim}), 0);
             lv_obj_set_style_text_color(label_obj, lv_color_hex(${color_text_dim}), 0);
+            if (id(light_2) != nullptr) lv_obj_set_style_bg_color(id(light_2), lv_color_hex(${color_card_bg}), 0);
+          }
+          // Update overlay slider if this light is currently being controlled
+          if (id(light_control_overlay) != nullptr && 
+              !lv_obj_has_flag(id(light_control_overlay), LV_OBJ_FLAG_HIDDEN) &&
+              id(current_light_entity) == "${light_2_entity}") {
+            lv_slider_set_value(id(slider_brightness), (int32_t)id(light_2_brightness_val), LV_ANIM_OFF);
           }
 
   - id: light_3_refresh
@@ -63,11 +85,22 @@ script:
           lv_label_set_text(label_obj, "${light_3_name}");
           lv_label_set_text(icon_obj, "${light_3_icon}");
           if (id(light_3_state)) {
-            lv_obj_set_style_text_color(icon_obj, lv_color_hex(${color_primary}), 0);
-            lv_obj_set_style_text_color(label_obj, lv_color_hex(${color_primary}), 0);
+            uint32_t c = id(light_3_color_val);
+            lv_color_t color = lv_color_hex(c);
+            lv_color_t bg_color = lv_color_make(((c>>16)&0xFF)/5, ((c>>8)&0xFF)/5, (c&0xFF)/5);
+            lv_obj_set_style_text_color(icon_obj, color, 0);
+            lv_obj_set_style_text_color(label_obj, color, 0);
+            if (id(light_3) != nullptr) lv_obj_set_style_bg_color(id(light_3), bg_color, 0);
           } else {
             lv_obj_set_style_text_color(icon_obj, lv_color_hex(${color_text_dim}), 0);
             lv_obj_set_style_text_color(label_obj, lv_color_hex(${color_text_dim}), 0);
+            if (id(light_3) != nullptr) lv_obj_set_style_bg_color(id(light_3), lv_color_hex(${color_card_bg}), 0);
+          }
+          // Update overlay slider if this light is currently being controlled
+          if (id(light_control_overlay) != nullptr && 
+              !lv_obj_has_flag(id(light_control_overlay), LV_OBJ_FLAG_HIDDEN) &&
+              id(current_light_entity) == "${light_3_entity}") {
+            lv_slider_set_value(id(slider_brightness), (int32_t)id(light_3_brightness_val), LV_ANIM_OFF);
           }
 
   - id: light_4_refresh
@@ -79,17 +112,28 @@ script:
           lv_label_set_text(label_obj, "${light_4_name}");
           lv_label_set_text(icon_obj, "${light_4_icon}");
           if (id(light_4_state)) {
-            lv_obj_set_style_text_color(icon_obj, lv_color_hex(${color_primary}), 0);
-            lv_obj_set_style_text_color(label_obj, lv_color_hex(${color_primary}), 0);
+            uint32_t c = id(light_4_color_val);
+            lv_color_t color = lv_color_hex(c);
+            lv_color_t bg_color = lv_color_make(((c>>16)&0xFF)/5, ((c>>8)&0xFF)/5, (c&0xFF)/5);
+            lv_obj_set_style_text_color(icon_obj, color, 0);
+            lv_obj_set_style_text_color(label_obj, color, 0);
+            if (id(light_4) != nullptr) lv_obj_set_style_bg_color(id(light_4), bg_color, 0);
           } else {
             lv_obj_set_style_text_color(icon_obj, lv_color_hex(${color_text_dim}), 0);
             lv_obj_set_style_text_color(label_obj, lv_color_hex(${color_text_dim}), 0);
+            if (id(light_4) != nullptr) lv_obj_set_style_bg_color(id(light_4), lv_color_hex(${color_card_bg}), 0);
+          }
+          // Update overlay slider if this light is currently being controlled
+          if (id(light_control_overlay) != nullptr && 
+              !lv_obj_has_flag(id(light_control_overlay), LV_OBJ_FLAG_HIDDEN) &&
+              id(current_light_entity) == "${light_4_entity}") {
+            lv_slider_set_value(id(slider_brightness), (int32_t)id(light_4_brightness_val), LV_ANIM_OFF);
           }
 
   - id: weather_refresh
     then:
       - lambda: |-
-          if (id(weather) == nullptr) return;
+          if (id(ui_weather) == nullptr) return;
           if (id(weather_temp_label) != nullptr) lv_label_set_text(id(weather_temp_label), (to_string((int)id(temp_val)) + "°C").c_str());
           if (id(weather_hum_label) != nullptr) lv_label_set_text(id(weather_hum_label), (to_string((int)id(hum_val)) + "%").c_str());
           if (id(weather_state_label) != nullptr) lv_label_set_text(id(weather_state_label), id(weather_state_val).c_str());
@@ -122,7 +166,7 @@ script:
   - id: media_refresh
     then:
       - lambda: |-
-          if (id(media_player) == nullptr) return;
+          if (id(ui_media_player) == nullptr) return;
           if (id(media_player_title) != nullptr) lv_label_set_text(id(media_player_title), id(media_player_title_val).c_str());
           if (id(media_player_seekbar) != nullptr && id(media_player_dur_val) > 0) {
             int progress = (int)((id(media_player_pos_val) / id(media_player_dur_val)) * 100);

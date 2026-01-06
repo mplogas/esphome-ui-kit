@@ -18,11 +18,15 @@ grid_rows_spec: ["48%", "48%"]
 # Grid Cell Defaults
 grid_col_pos: 0
 grid_row_pos: 0
+grid_col_span: 1
+grid_row_span: 1
 grid_x_align: STRETCH
 grid_y_align: STRETCH
 widget_clickable: "false"
-widget_on_click: "return;"
-widget_on_long_press: []
+widget_on_click:
+  - lambda: 'return;'
+widget_on_long_press:
+  - lambda: 'return;'
 
 # Colors
 color_bg: "0x000000"

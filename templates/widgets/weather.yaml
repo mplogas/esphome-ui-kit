@@ -1,14 +1,26 @@
 obj:
-  id: ${id}
+  id: ${widget_id}
   width: 100%
   height: 100%
   styles: style_card
-  grid_cell_column_pos: ${col}
-  grid_cell_row_pos: ${row}
-  clickable: true
+  grid_cell_column_pos: ${grid_col_pos}
+  grid_cell_row_pos: ${grid_row_pos}
+  grid_cell_x_align: ${grid_x_align}
+  grid_cell_y_align: ${grid_y_align}
+  clickable: ${widget_clickable}
+  on_click:
+    then:
+      - script.execute:
+          id: click_feedback
+          obj_id: !lambda "return id(${widget_id});"
+      - if:
+          condition:
+            lambda: "return true;"
+          then:
+            ${widget_on_click}
   widgets:
     - label:
-        id: ${id}_rain_icon
+        id: weather_rain_icon
         text: "\U000F0597"
         align: TOP_RIGHT
         x: -5
@@ -17,14 +29,14 @@ obj:
         text_color: 0x80D8FF
         hidden: true
     - label:
-        id: ${id}_icon_label
+        id: weather_icon_label
         text: "\U000F015F"
         align: CENTER
         y: -35
         text_font: icons35
         text_color: ${color_primary}
     - label:
-        id: ${id}_temp_label
+        id: weather_temp_label
         text: "--°C"
         align: CENTER
         y: 5
@@ -42,12 +54,12 @@ obj:
           flex_align_main: SPACE_AROUND
         widgets:
           - label:
-              id: ${id}_hum_label
+              id: weather_hum_label
               text: "--%"
               text_font: ${font_id_small}
               text_color: ${color_text_dim}
           - label:
-              id: ${id}_state_label
+              id: weather_state_label
               text: "---"
               text_font: ${font_id_small}
               text_color: ${color_text_dim}

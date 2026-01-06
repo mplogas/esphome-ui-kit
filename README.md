@@ -11,12 +11,11 @@ The README is auto-updated by an LLM. Please verify all information in code or w
 - `hardware/`: Device-specific configurations.
 - `src/`: Custom C++ headers for advanced LVGL features (e.g., Charts).
 - `templates/`: Reusable logic and UI components.
-    - `core/`: UI structural components, globals, and HA entities.
+    - `core/`: UI structural components, globals, and the Data Bridge.
     - `devices/`: Virtual device definitions.
     - `layouts/`: Page layout templates.
     - `scripts/`: Shared scripts and packages.
     - `overlays/`: Contextual UI layers.
-    - `sensors/`: Template sensors for UI feedback.
     - `tabs/`: Screen definitions.
     - `tiles/`: Interactive UI cards.
     - `widgets/`: Standalone UI elements.
@@ -25,6 +24,7 @@ The README is auto-updated by an LLM. Please verify all information in code or w
 ## Configuration Files
 
 - `main-dashboard.yaml`: Main entry point and dashboard configuration.
+- `mapping-defaults.yaml`: View 1 (Mapping) fallbacks and state defaults.
 - `secrets.yaml`: WiFi and API credentials.
 - `theme/defaults.yaml`: Global UI variables (colors, dimensions, spacing).
 - `theme/style.yaml`: LVGL style definitions.
@@ -33,14 +33,21 @@ The README is auto-updated by an LLM. Please verify all information in code or w
 
 ## Core Concepts
 
+### The 3-View Architecture
+The framework enforces a strict separation of concerns:
+- **View 1: User Configuration**: Handled in `main-dashboard.yaml` (or `testing.yaml`) and `mapping-defaults.yaml`. Maps HA entities to UI slots.
+- **View 2: Design & Templates**: Located in `templates/tiles/`, `widgets/`, and `theme/`. These are visual components that read from the Data Pool.
+- **View 3: Core Logic (Data Bridge)**: Located in `templates/core/data_bridge.yaml` and `widget_logic.yaml`. This layer connects HA to the Data Pool (Globals) and triggers UI refreshes.
+
 ### Hardware Abstraction
 Hardware-specific setup (ESP32-S3, PSRAM, display, touchscreen) is isolated in `hardware/`. Reference these templates in your main configuration.
 
 ### Logic & Packages
 Uses ESPHome `packages` to separate concerns:
 - `hardware`: Drivers and display initialization.
-- `core/globals`: Global variables.
-- `core/ha_entities`: Home Assistant entity definitions.
+- `core/globals`: The "Data Pool" of global variables.
+- `core/data_bridge`: Home Assistant entity connections to the Data Pool.
+- `core/widget_logic`: Scripts that sync the Data Pool to LVGL objects.
 - `scripts/common`: Shared UI bridge scripts and logic.
 
 ### Grid-based Layout
@@ -48,7 +55,7 @@ Tabs use `grid_container.yaml` to implement LVGL's grid layout. Dimensions and p
 
 ### Reusable Widgets
 Widgets and Tiles are YAML snippets accepting:
-- `widget_id` / `id`: Unique component identifier.
+- `id`: Unique component identifier.
 - `grid_col_pos` / `grid_row_pos` (or `col` / `row`): Grid position.
 - `grid_x_align` / `grid_y_align`: Cell alignment (defaults to `STRETCH`).
 - `widget_clickable`: Enable/disable touch events.
@@ -57,17 +64,17 @@ Widgets and Tiles are YAML snippets accepting:
 ### Theme System
 `theme/defaults.yaml` centralizes UI parameters:
 - Screen dimensions.
-- Color palette.
+- Color palette (with auto-generated variants).
 - Grid spacing and padding.
 - Font IDs.
 - Idle timeout.
 
 ## Features
 
+- **Decoupled Sync (Data Bridge)**: UI components don't talk directly to Home Assistant. They observe global variables, ensuring the UI remains responsive even if HA is offline.
+- **Dynamic Styling**: Light tiles automatically tint their icons and backgrounds based on the RGB state of the Home Assistant entity.
 - **Idle Management**: Configurable timeout to pause LVGL and disable backlight.
 - **Clickable Cards**: Any widget container can be made clickable with theme-defined visual feedback.
-- **Reusable Widgets**: Components defined once and reused across dashboards.
-- **Weather Integration**: Support for weather and rain sensors via `templates/core/ha_entities.yaml`.
 - **Advanced Data Visualization**: Custom LVGL Chart widget for displaying sensor history with auto-scaling and value overlays.
 
 ## Usage

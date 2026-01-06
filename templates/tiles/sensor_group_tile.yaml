@@ -3,8 +3,10 @@
 
 obj:
     id: ${group_id}
-    grid_cell_column_pos: ${col}
-    grid_cell_row_pos: ${row}
+    grid_cell_column_pos: ${grid_col_pos}
+    grid_cell_row_pos: ${grid_row_pos}
+    grid_cell_x_align: ${grid_x_align}
+    grid_cell_y_align: ${grid_y_align}
     width: 100%
     height: 100%
     styles: style_card

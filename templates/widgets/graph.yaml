@@ -15,7 +15,18 @@ obj:
   grid_cell_row_pos: ${grid_row_pos}
   grid_cell_x_align: ${grid_x_align}
   grid_cell_y_align: ${grid_y_align}
-  
+  clickable: ${widget_clickable}
+  on_click:
+    then:
+      - script.execute:
+          id: click_feedback
+          obj_id: !lambda "return id(${widget_id});"
+      - if:
+          condition:
+            lambda: "return true;"
+          then:
+            ${widget_on_click}
+
   widgets:
     - obj:
         id: ${widget_id}_chart_container

@@ -62,6 +62,7 @@ esphome:
   on_boot:
     priority: -100
     then:
+      - lvgl.page.show: main_page
       - lvgl.resume: {}
 
 font: !include theme/fonts.yaml
@@ -104,5 +105,5 @@ lvgl:
     - id: main_page
       bg_color: ${color_bg}
       widgets:
-        - !include templates/layouts/flexible_4_tabs.yaml
+        - !include templates/layouts/standard_4_tabs.yaml
         - !include templates/overlays/light_control.yaml

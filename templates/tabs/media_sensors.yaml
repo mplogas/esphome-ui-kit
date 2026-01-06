@@ -1,21 +1,23 @@
 name: ${name}
 widgets:
   - obj:
+      id: ${tab_id}_container
       <<: !include ../core/grid_container.yaml
       widgets:
         - <<: !include
             file: ../widgets/media_player.yaml
             vars:
-              widget_id: media_player
+              widget_id: ui_media_player
               entity_id: "${media_player_entity}"
               grid_col_pos: 0
               grid_row_pos: 0
+              grid_col_span: 2
         - <<: !include
             file: ../tiles/sensor_group_tile.yaml
             vars:
               group_id: sg1
-              col: 1
-              row: 0
+              grid_col_pos: 0
+              grid_row_pos: 1
               s1_name: "Temp"
               s1_id: sg1_s1
               s2_name: "Hum"
@@ -26,8 +28,8 @@ widgets:
             file: ../tiles/sensor_group_tile.yaml
             vars:
               group_id: sg2
-              col: 0
-              row: 1
+              grid_col_pos: 1
+              grid_row_pos: 1
               s1_name: "Temp 2"
               s2_name: "Hum 2"
               s3_name: "CO2 2"

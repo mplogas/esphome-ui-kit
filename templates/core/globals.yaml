@@ -38,9 +38,9 @@ globals:
   - id: light_1_brightness_val
     type: float
     initial_value: '0'
-  - id: light_1_rgb_val
-    type: std::string
-    initial_value: '"[255,255,255]"'
+  - id: light_1_color_val
+    type: uint32_t
+    initial_value: '0xEF8513'
 
   - id: light_2_state
     type: bool
@@ -48,9 +48,9 @@ globals:
   - id: light_2_brightness_val
     type: float
     initial_value: '0'
-  - id: light_2_rgb_val
-    type: std::string
-    initial_value: '"[255,255,255]"'
+  - id: light_2_color_val
+    type: uint32_t
+    initial_value: '0xEF8513'
 
   - id: light_3_state
     type: bool
@@ -58,9 +58,9 @@ globals:
   - id: light_3_brightness_val
     type: float
     initial_value: '0'
-  - id: light_3_rgb_val
-    type: std::string
-    initial_value: '"[255,255,255]"'
+  - id: light_3_color_val
+    type: uint32_t
+    initial_value: '0xEF8513'
 
   - id: light_4_state
     type: bool
@@ -68,9 +68,9 @@ globals:
   - id: light_4_brightness_val
     type: float
     initial_value: '0'
-  - id: light_4_rgb_val
-    type: std::string
-    initial_value: '"[255,255,255]"'
+  - id: light_4_color_val
+    type: uint32_t
+    initial_value: '0xEF8513'
 
   # Media Player
   - id: media_player_state_val

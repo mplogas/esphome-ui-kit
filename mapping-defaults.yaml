@@ -83,7 +83,7 @@
   # Tab 4 (Media & Sensors)
   tab_4_name: "Media"
   tab_4_slot_1_1_widget: "templates/tiles/media_tile.yaml"
-  tab_4_slot_1_1_id: "media_player"
+  tab_4_slot_1_1_id: "media_ui"
   tab_4_slot_1_1_name: "Media"
   tab_4_slot_1_1_entity: "media_player.example_player"
   tab_4_slot_1_1_icon: ""
@@ -150,3 +150,6 @@
 
   # Chart Settings
   chart_max_points: "24"
+  
+  # Favorite Colors
+  <<: !include theme/light_mapping.yaml

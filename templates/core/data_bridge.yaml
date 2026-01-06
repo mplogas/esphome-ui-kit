@@ -189,3 +189,60 @@ text_sensor:
     on_value:
       - lambda: 'id(weather_state_val) = x;'
       - script.execute: weather_refresh
+
+  # Light RGB Colors (1-4)
+  - platform: homeassistant
+    id: internal_light_1_rgb
+    entity_id: ${light_1_entity}
+    attribute: rgb_color
+    on_value:
+      - lambda: |-
+          int r, g, b;
+          if (sscanf(x.c_str(), "[%d,%d,%d]", &r, &g, &b) == 3 || 
+              sscanf(x.c_str(), "(%d,%d,%d)", &r, &g, &b) == 3 ||
+              sscanf(x.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
+            id(light_1_color_val) = (uint32_t(r) << 16) | (uint32_t(g) << 8) | uint32_t(b);
+          }
+      - script.execute: light_1_refresh
+
+  - platform: homeassistant
+    id: internal_light_2_rgb
+    entity_id: ${light_2_entity}
+    attribute: rgb_color
+    on_value:
+      - lambda: |-
+          int r, g, b;
+          if (sscanf(x.c_str(), "[%d,%d,%d]", &r, &g, &b) == 3 || 
+              sscanf(x.c_str(), "(%d,%d,%d)", &r, &g, &b) == 3 ||
+              sscanf(x.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
+            id(light_2_color_val) = (uint32_t(r) << 16) | (uint32_t(g) << 8) | uint32_t(b);
+          }
+      - script.execute: light_2_refresh
+
+  - platform: homeassistant
+    id: internal_light_3_rgb
+    entity_id: ${light_3_entity}
+    attribute: rgb_color
+    on_value:
+      - lambda: |-
+          int r, g, b;
+          if (sscanf(x.c_str(), "[%d,%d,%d]", &r, &g, &b) == 3 || 
+              sscanf(x.c_str(), "(%d,%d,%d)", &r, &g, &b) == 3 ||
+              sscanf(x.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
+            id(light_3_color_val) = (uint32_t(r) << 16) | (uint32_t(g) << 8) | uint32_t(b);
+          }
+      - script.execute: light_3_refresh
+
+  - platform: homeassistant
+    id: internal_light_4_rgb
+    entity_id: ${light_4_entity}
+    attribute: rgb_color
+    on_value:
+      - lambda: |-
+          int r, g, b;
+          if (sscanf(x.c_str(), "[%d,%d,%d]", &r, &g, &b) == 3 || 
+              sscanf(x.c_str(), "(%d,%d,%d)", &r, &g, &b) == 3 ||
+              sscanf(x.c_str(), "%d,%d,%d", &r, &g, &b) == 3) {
+            id(light_4_color_val) = (uint32_t(r) << 16) | (uint32_t(g) << 8) | uint32_t(b);
+          }
+      - script.execute: light_4_refresh

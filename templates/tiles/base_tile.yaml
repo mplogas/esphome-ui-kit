@@ -8,11 +8,20 @@ grid_cell_x_align: ${grid_x_align}
 grid_cell_y_align: ${grid_y_align}
 clickable: true
 on_short_click:
-  then:
-    ${widget_on_click}
+  then: 
+    - script.execute:
+        id: click_feedback
+        obj_id: !lambda "return id(${widget_id});"
+    - if:
+        condition:
+          lambda: "return true;"
+        then: ${widget_on_click}
 on_long_press:
-  then:
-    ${widget_on_long_press}
+  then: 
+    - if:
+        condition:
+          lambda: "return true;"
+        then: ${widget_on_long_press}
 widgets:
   - label:
       id: ${widget_id}_icon

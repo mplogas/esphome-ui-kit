@@ -6,32 +6,52 @@ lvgl:
     - id: id_stub_page
       hidden: true
       widgets:
-        # These are used by update_graph script
-        - obj: { id: home_temp_graph_chart_container }
-        - label: { id: home_temp_graph_value_label }
-        - obj: { id: home_power_graph_chart_container }
-        - label: { id: home_power_graph_value_label }
+        # Dummy object to keep the list non-empty
+        - obj: { id: id_stub_dummy }
         
-        # Clock
-        - label: { id: clock_label }
-        - label: { id: clock_date_label }
+        # These are used by update_graph script (Already in standard layouts)
+        #- obj: { id: home_temp_graph_chart_container }
+        #- label: { id: home_temp_graph_value_label }
+        #- obj: { id: home_power_graph_chart_container }
+        #- label: { id: home_power_graph_value_label }
         
-        # Weather
-        - label: { id: weather_temp_label }
-        - label: { id: weather_hum_label }
-        - label: { id: weather_state_label }
-        - label: { id: weather_icon_label }
-        - obj: { id: weather_rain_icon }
+        # Clock (Already in standard layouts)
+        #- obj: { id: ui_clock }
+        #- label: { id: clock_label }
+        #- label: { id: clock_date_label }
+        
+        # Weather (Already in standard layouts)
+        #- obj: { id: ui_weather }
 
-        # Media Player
-        - label: { id: media_player_title }
-        - bar: { id: media_player_seekbar }
-        - label: { id: media_player_play_icon }
+        # Media Player (Already in standard layouts)
+        #- obj: { id: ui_media_player }
 
-        # Sensor Group labels
-        - label: { id: sg1_s1_label }
-        - label: { id: sg1_s2_label }
-        - label: { id: sg1_s3_label }
-        - label: { id: sg2_s1_label }
-        - label: { id: sg2_s2_label }
-        - label: { id: sg2_s3_label }
+        # Lights (stubs for refresh logic)
+        #- obj: { id: light_1 }
+        #- label: { id: light_1_icon }
+        #- label: { id: light_1_label }
+        #- obj: { id: light_2 }
+        #- label: { id: light_2_icon }
+        #- label: { id: light_2_label }
+        #- obj: { id: light_3 }
+        #- label: { id: light_3_icon }
+        #- label: { id: light_3_label }
+        #- obj: { id: light_4 }
+        #- label: { id: light_4_icon }
+        #- label: { id: light_4_label }
+
+        # Light Control Overlay
+        #- obj: { id: light_control_overlay }
+        #- obj: { id: slider_brightness }
+        #- obj: { id: btn_fav_1 }
+        #- obj: { id: btn_fav_2 }
+        #- obj: { id: btn_fav_3 }
+        #- obj: { id: btn_fav_4 }
+
+        # Sensor Group labels (Already in standard layouts)
+        #- label: { id: sg1_s1_label }
+        #- label: { id: sg1_s2_label }
+        #- label: { id: sg1_s3_label }
+        #- label: { id: sg2_s1_label }
+        #- label: { id: sg2_s2_label }
+        #- label: { id: sg2_s3_label }
