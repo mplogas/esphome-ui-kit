@@ -1,5 +1,23 @@
 # Widget Logic - View 3
 # Contains refresh scripts for the Data Pool widgets.
+#
+# ARCHITECTURAL TRADE-OFF: Necessary Coupling
+# These refresh scripts reference specific LVGL object IDs (e.g., light_1_icon, light_1_label).
+# This violates the "layout-agnostic" principle documented in AGENTS.md.
+#
+# WHY THIS EXISTS:
+# ESPHome has no way to dynamically query objects or implement an event bus pattern.
+# The null checks (if id(light_1_icon) == nullptr) prevent crashes, but the IDs must
+# still be declared at compile-time (either in the layout or as stubs).
+#
+# CONSEQUENCE:
+# If you remove a light tile from your layout, you must either:
+# 1. Keep these refresh scripts (null checks will prevent crashes), OR
+# 2. Comment out the corresponding refresh script, OR
+# 3. Add stubs for the IDs in id_stubs.yaml
+#
+# This is an acceptable compromise given ESPHome's limitations. The alternative would be
+# to have no centralized refresh logic, duplicating code across every widget.
 
 script:
   - id: ui_home
