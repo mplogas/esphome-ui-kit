@@ -56,6 +56,11 @@ font_id_medium: "libreFranklin25Light"
 font_id_icons: "icons35"
 font_id_large: "libreFranklin32"
 
+# Sensor Colors (for sensor group tiles)
+sensor_color_1: "0x3498db"  # Blue (typically for temperature)
+sensor_color_2: "0x80D8FF"  # Light blue (typically for humidity)
+sensor_color_3: "0xFFA726"  # Orange (typically for CO2/other)
+
 # Light favorites default colors
 fav_1_default_rgb: "[255, 244, 229]" # Warm
 fav_1_default_bg: "0xFFF4E5"
