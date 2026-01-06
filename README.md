@@ -4,7 +4,7 @@ A modular framework for building LVGL-based user interfaces in ESPHome. It abstr
 
 ## Disclaimer
 
-The README is auto-updated by an LLM. Please verify all information in code or with `main-dashboard.yaml` example file before use.
+The README is auto-updated by an LLM. Please verify all information in code or with `main-dashboard.yaml` example file before use. I have also added an `AGENTS.md` and an `INSTRUCTIONS.md`, this should make building widgets easier via code-gen.    
 
 ## Directory Structure
 
