@@ -1,0 +1,46 @@
+name: ${name}
+widgets:
+  - obj:
+      id: ${tab_id}_container
+      <<: !include ../../../templates/core/grid_container.yaml
+      widgets:
+        - <<: !include
+            file: ../../../templates/widgets/clock.yaml
+            vars:
+              widget_id: ui_clock
+              font_id: ${font_id_large}
+              grid_col_pos: 0
+              grid_row_pos: 0
+              widget_clickable: "true"
+        - <<: !include
+            file: ../../../templates/widgets/weather.yaml
+            vars:
+              widget_id: ui_weather
+              font_id: ${font_id}
+              font_id_small: ${font_id_small}
+              grid_col_pos: 1
+              grid_row_pos: 0
+        - <<: !include
+            file: ../../../templates/widgets/graph.yaml
+            vars:
+              widget_id: home_power_graph
+              graph_title: "Power Usage"
+              graph_unit: "W"
+              graph_color: "0xEF8513"
+              grid_col_pos: 0
+              grid_row_pos: 1
+        - <<: !include
+            file: ../../../templates/widgets/sensor_group.yaml
+            vars:
+              widget_id: sg1
+              grid_col_pos: 1
+              grid_row_pos: 1
+              s1_name: "Temp"
+              s1_id: sg1_s1
+              s1_color: "${sensor_color_1}"
+              s2_name: "Hum"
+              s2_id: sg1_s2
+              s2_color: "${sensor_color_2}"
+              s3_name: "CO2"
+              s3_id: sg1_s3
+              s3_color: "${sensor_color_3}"
