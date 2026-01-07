@@ -29,30 +29,7 @@ esphome compile testing.yaml
 *   If you need to add a package or a global, add it to the existing `packages:` or `substitutions:` block rather than replacing the whole file.
 
 ### Rule E: Terminal Context Priority
-
-When executing terminal commands or reading terminal state:
-
-**ALWAYS check the Terminal context provider FIRST** before using `run_terminal_command`.
-
-**Why This Matters:**
-- The `run_terminal_command` tool may run in a different shell session/context than the user's active VSCode terminal
-- This can lead to path mismatches (e.g., `/home/mplogas` vs `/home/marc/esphome/config/esphome-ui-kit`)
-- The user's terminal shows the ACTUAL working directory and git state
-
-**Best Practices:**
-1. ✅ **Reference Terminal context** if user shows recent output (they can paste it)
-2. ✅ **Ask for Terminal output** before making assumptions about paths/state
-3. ✅ **Verify location** before git operations (check `pwd` and `git status` from Terminal context)
-4. ⚠️ **Use `run_terminal_command` cautiously** - it may not match user's active terminal
-5. ❌ **Don't assume** you're in the correct directory without verification
-
-**Example Workflow:**
-```
-User: "Create git commits for my changes"
-Agent: "I can see you're in /home/marc/esphome/config/esphome-ui-kit 
-        on branch refactor/3-view-architecture with 5 modified files.
-        Let me create logical commits..."
-```
+**ALWAYS check Terminal context FIRST** before using `run_terminal_command` (it may run in a different shell/directory). Ask user to paste terminal output if unclear.
 
 ---
 
@@ -106,11 +83,13 @@ script:
 - Stubs satisfy ESPHome's compiler, not fix runtime null pointers
 - Null checks handle runtime safety, stubs handle compilation
 
-### Why This Matters for the 3-View Architecture:
+### Why This Matters for Layout Packages:
 
-The **ideal** "layout-agnostic" principle from [INSTRUCTIONS.md](INSTRUCTIONS.md#view-3-core-implementation-layer) is not always achievable. View 3 scripts sometimes reference View 2 IDs directly (see `templates/core/widget_logic.yaml` header comments).
+Layout packages (**View 2 + View 3 combined**) intentionally couple refresh scripts to specific widget IDs. This is not a design flaw - it's an explicit contract:
 
-**This is an acceptable compromise**, not a design flaw.
+**"If you use the 4-tabs layout, you get these scripts and these dependencies."**
+
+The trade-off: Layouts are self-contained and explicit about what they need, but removing a widget from a layout requires either keeping the script (null checks prevent crashes) or adding stubs.
 
 ---
 
@@ -118,28 +97,31 @@ The **ideal** "layout-agnostic" principle from [INSTRUCTIONS.md](INSTRUCTIONS.md
 
 > **Philosophy**: See [INSTRUCTIONS.md - Architecture](INSTRUCTIONS.md#architecture-the-3-view-approach) for the vision. This section covers practical implementation.
 
-### View 1: User Configuration (`testing.yaml`, `templates/core/mapping-defaults.yaml`)
-*   **Role**: Assigns widgets to slots using substitutions.
-*   **Rule**: Never add logic here. Only definitions.
-*   **Pattern**: Uses `tab_[N]_slot_[X]_[Y]_widget` to point to a file in `templates/`.
-*   **Files**: `testing.yaml`, `templates/core/mapping-defaults.yaml`
+### View 1: User Configuration (`testing.yaml`, `main-dashboard.yaml`)
+*   **Role**: Select a layout package and map Home Assistant entities.
+*   **Rule**: Never add logic here. Only definitions and entity mappings.
+*   **Pattern**: Include a layout package (e.g., `!include layouts/4-tabs/package.yaml`) and define entity substitutions.
+*   **Files**: `testing.yaml`, `main-dashboard.yaml`
 
-### View 2: Design & Widgets (`templates/widgets/`, `templates/widgets/`, `theme/`)
-*   **Role**: Visual representation.
-*   **Rule**: Must be **Data-Aware** (use global variables) but **Layout-Agnostic** (don't assume where they are placed).
-*   **Implementation**: Use `vars` passed from View 1 to set internal IDs and entities.
-*   **Naming Convention**: Use `${id}` passed via vars for the root object ID of a widget.
-*   **Files**: `templates/widgets/*.yaml`, `templates/widgets/*.yaml`, `theme/*.yaml`
+### View 2: Design & Widgets (`templates/widgets/`, `layouts/`, `theme/`)
+*   **Role**: Visual representation and layout structure.
+*   **Rule**: Widgets must be **Data-Aware** (use global variables) but **Layout-Agnostic** (don't assume where they are placed).
+*   **Implementation**: Use `vars` passed from layouts to set internal IDs and entities.
+*   **Naming Convention**: Use `${widget_id}` passed via vars for the root object ID of a widget.
+*   **Files**: `templates/widgets/*.yaml`, `layouts/*/`, `theme/*.yaml`
 
-### View 3: Core Logic (`templates/core/`, `templates/scripts/`)
+### View 3: Core Logic (`templates/core/`, `layouts/*/`, `templates/scripts/`)
 *   **Role**: The "Data Bridge". Fetches data from Home Assistant and updates Global Variables.
-*   **Rule**: **NEVER** reference an LVGL object ID directly unless you use a check or a `stubs` system.
-*   **Files**: `templates/core/data_bridge.yaml`, `templates/core/globals.yaml`, `templates/core/widget_logic.yaml`
-*   **Reality Check**: Some View 3 scripts DO reference View 2 IDs directly. This is documented in the code with explanations.
+*   **Split Responsibility**: 
+    - **Universal Core** (`templates/core/globals.yaml`): State variables shared across ALL layouts
+    - **Layout-Specific** (`layouts/*/data_bridge.yaml`, `layouts/*/widget_logic.yaml`): Entity listeners and refresh scripts specific to a layout
+*   **Rule**: Layout packages explicitly declare their dependencies. Scripts reference View 2 IDs directly (with null checks for safety).
+*   **Reality**: Tight coupling between a layout and its scripts is **intentional** - choosing a layout means accepting its dependencies.
 *   **The Bridge Pattern**: 
-    1. HA Sensor -> `data_bridge.yaml` 
-    2. `data_bridge.yaml` -> Updates `globals.yaml` 
+    1. HA Sensor -> `layouts/X/data_bridge.yaml` 
+    2. `data_bridge.yaml` -> Updates `templates/core/globals.yaml` 
     3. `globals.yaml` -> Widget (View 2) reads this to update itself
+    4. `layouts/X/widget_logic.yaml` -> Refreshes UI from globals
 
 ---
 
@@ -157,7 +139,7 @@ if (id(light_1_icon) == nullptr) return;  // ❌ Compile error: undeclared ident
 ```
 
 **The Solution:**
-Stubs declare IDs in a hidden page (`templates/core/id_stubs.yaml`) so ESPHome's compiler sees them.
+Stubs declare IDs in a hidden page (`layouts/X/id_stubs.yaml`) so ESPHome's compiler sees them.
 
 **When You Need Stubs:**
 1. ✅ A script references an ID that's not in your active layout
@@ -182,12 +164,12 @@ If deleting a widget breaks the build, it means you have a **"Hard Link"** in yo
 
 **Quick Reference** - Follow these steps in order:
 
-1.  **Define Globals**: Add necessary variables to `templates/core/globals.yaml`.
-2.  **Implement Data Bridge**: Add the HA sensor/binary_sensor to `templates/core/data_bridge.yaml`. Update the global variable on state change.
-3.  **Create Refresh Script**: Add script to `templates/core/widget_logic.yaml` to update UI from globals.
+1.  **Define Globals**: Add necessary variables to `templates/core/globals.yaml` (universal) or `layouts/X/globals_extension.yaml` (layout-specific).
+2.  **Implement Data Bridge**: Add the HA sensor/binary_sensor to `layouts/X/data_bridge.yaml`. Update the global variable on state change.
+3.  **Create Refresh Script**: Add script to `layouts/X/widget_logic.yaml` to update UI from globals.
 4.  **Create/Modify Widget**: Update `templates/widgets/`. Use the global variables for values.
-5.  **Update Stubs (Optional)**: Add any mandatory IDs to `templates/core/id_stubs.yaml` if needed.
-6.  **Configure in YAML**: Map the widget in `testing.yaml` (or `templates/core/mapping-defaults.yaml` for defaults).
+5.  **Update Stubs (Optional)**: Add any mandatory IDs to `layouts/X/id_stubs.yaml` if needed.
+6.  **Configure in YAML**: Map entities in `testing.yaml` substitutions.
 7.  **Compile & Validate**: Run `esphome compile testing.yaml`.
 8.  **Test**: Upload to device and verify functionality.
 
@@ -198,9 +180,9 @@ If deleting a widget breaks the build, it means you have a **"Hard Link"** in yo
 ### Compilation Errors
 
 #### "Undeclared identifier 'light_1_icon'"
-**Cause**: A script in `widget_logic.yaml` references an ID not in your active layout.
+**Cause**: A script in `layouts/X/widget_logic.yaml` references an ID not in your active layout.
 
-**Fix**: Uncomment the corresponding stub in `templates/core/id_stubs.yaml`:
+**Fix**: Uncomment the corresponding stub in `layouts/X/id_stubs.yaml`:
 ```yaml
 # Uncomment this:
 - label: { id: light_1_icon }
@@ -308,304 +290,77 @@ If deleting a widget breaks the build, it means you have a **"Hard Link"** in yo
 ---
 
 #### Removing a Widget Breaks Compilation
-**Cause**: A script in View 3 still references the widget's IDs.
+**Cause**: A script in the layout package still references the widget's IDs.
 
 **Fix** (choose one):
 1. Keep the script (null checks prevent crashes)
-2. Comment out the script in `widget_logic.yaml`
-3. Add stubs for the IDs in `id_stubs.yaml`
+2. Comment out the script in `layouts/X/widget_logic.yaml`
+3. Add stubs for the IDs in `layouts/X/id_stubs.yaml`
 
-**See**: `templates/core/widget_logic.yaml` header comments for details.
+**Note**: Layouts explicitly declare their dependencies. This coupling is intentional.
 
 ---
 
 ## 5. Security & Input Validation
 
-### Always Validate Home Assistant Data
+**Always validate Home Assistant data** - it can send unexpected values.
 
-Home Assistant can send unexpected values. Always validate and sanitize.
+**Key Rules:**
+- **Clamp numeric values**: RGB (0-255), brightness (0-255), percentages (0-100)
+- **Null-check LVGL objects**: `if (id(my_label) == nullptr) return;`
+- **Log parsing failures**: Use `ESP_LOGW()` when validation fails
+- **Check for NaN**: Use `std::isnan(x)` for floats
 
-#### Clamp Numeric Values
-```yaml
-# ✅ Good:
-on_value:
-  - lambda: |-
-      int val = x;
-      val = val < 0 ? 0 : (val > 255 ? 255 : val);  # Clamp to 0-255
-      id(my_global) = val;
-
-# ❌ Bad:
-on_value:
-  - lambda: 'id(my_global) = x;'  # Could be negative or > 255
-```
-
-#### Log Parsing Failures
+**Example** (RGB validation):
 ```yaml
 on_value:
   - lambda: |-
       int r, g, b;
       if (sscanf(x.c_str(), "[%d,%d,%d]", &r, &g, &b) == 3) {
-        // Clamp and use values
+        r = r < 0 ? 0 : (r > 255 ? 255 : r);  // Clamp
+        g = g < 0 ? 0 : (g > 255 ? 255 : g);
+        b = b < 0 ? 0 : (b > 255 ? 255 : b);
+        id(color_val) = (r << 16) | (g << 8) | b;
       } else {
-        ESP_LOGW("data_bridge", "Failed to parse: %s", x.c_str());
+        ESP_LOGW("rgb", "Bad format: %s", x.c_str());
       }
 ```
 
-#### Null-Check Before Accessing LVGL Objects
-```yaml
-- lambda: |-
-    if (id(my_label) == nullptr) return;
-    lv_label_set_text(id(my_label), "text");
-```
+---
 
-#### Validate Before Bit Operations
-**Common Cases:**
-- RGB colors: Must be 0-255 per channel
-- Brightness: Must be 0-255
-- Percentages: Must be 0-100
-- Floats: Check for NaN with `std::isnan(x)`
+## 6. C++ Headers & Performance
 
-**Example** (from `data_bridge.yaml`):
-```yaml
-text_sensor:
-  - platform: homeassistant
-    attribute: rgb_color
-    on_value:
-      - lambda: |-
-          int r, g, b;
-          if (sscanf(x.c_str(), "[%d,%d,%d]", &r, &g, &b) == 3) {
-            // ✅ Clamp to valid range
-            r = r < 0 ? 0 : (r > 255 ? 255 : r);
-            g = g < 0 ? 0 : (g > 255 ? 255 : g);
-            b = b < 0 ? 0 : (b > 255 ? 255 : b);
-            id(light_color_val) = (uint32_t(r) << 16) | (uint32_t(g) << 8) | uint32_t(b);
-          } else {
-            ESP_LOGW("rgb", "Bad format: %s", x.c_str());
-          }
-```
+**C++ Headers** (`src/*.h`):
+- Always validate pointers before use
+- Use `static_cast<>`, not C-style casts  
+- Pre-allocate containers with `reserve()`
+- Check `user_data` for nullptr before casting
+- Use ESP logging: `ESP_LOGD/I/W/E("tag", "message")`
+
+**Performance Tips**:
+- Chart buffers: ~480 bytes (acceptable on ESP32-S3)
+- Don't use `std::deque` in globals (not supported)
+- Update frequencies: Lights (on change), Sensors (5-60s), Clock (1s)
+- Skip updates when display off: `if (!id(backlight).remote_values.is_on()) return;`
 
 ---
 
-## 6. C++ Header Best Practices
+## 7. Quick Example: Adding a Widget
 
-### Location & Purpose
-Custom C++ headers live in `src/*.h` and provide functionality beyond ESPHome's lambdas.
+**To add a humidity sensor to 4-tabs layout:**
 
-**Current Example**: `src/lvgl_chart.h` provides chart initialization and smoothing.
-
-### Guidelines
-
-1. **Always Validate Pointer Parameters**
-```cpp
-void update_widget(lv_obj_t* obj, const std::vector<float>* data) {
-    // ✅ Validate everything
-    if (obj == nullptr || data == nullptr || data->empty()) {
-        ESP_LOGW("widget", "Invalid parameters");
-        return;
-    }
-```
-
-2. **Pre-allocate Containers**
-```cpp
-std::vector<int32_t> processed;
-processed.reserve(data->size());  // ✅ Prevent repeated reallocations
-```
-
-3. **Use Static Casts, Not C-Style**
-```cpp
-// ✅ Good:
-auto* series = static_cast<lv_chart_series_t*>(chart->user_data);
-
-// ❌ Avoid:
-lv_chart_series_t* series = (lv_chart_series_t*)chart->user_data;
-```
-
-4. **Validate user_data Before Casting**
-```cpp
-if (obj->user_data == nullptr) {
-    ESP_LOGW("tag", "user_data is null");
-    return;
-}
-auto* data = static_cast<MyType*>(obj->user_data);
-```
-
-5. **Keep Functions Pure (No Side Effects)**
-- Don't modify global state
-- Return values or use output parameters
-- Makes code testable and predictable
-
-6. **Use ESP Logging**
-```cpp
-ESP_LOGD("tag", "Debug message: %d", value);  // Debug (verbose)
-ESP_LOGI("tag", "Info message");              // Info
-ESP_LOGW("tag", "Warning: %s", msg);          // Warning
-ESP_LOGE("tag", "Error!");                    // Error
-```
-
-### Memory Safety Example
-```cpp
-void update_lvgl_chart(lv_obj_t* chart, const std::vector<float>* values, float min_val, float max_val) {
-    // ✅ Validate everything first
-    if (chart == nullptr || values == nullptr || values->empty()) return;
-    
-    if (chart->user_data == nullptr) {
-        ESP_LOGW("lvgl_chart", "Chart user_data is null, cannot update");
-        return;
-    }
-    
-    // ✅ Safe cast
-    auto* ser = static_cast<lv_chart_series_t*>(chart->user_data);
-    
-    // ✅ Pre-allocate
-    std::vector<int32_t> smoothed_points;
-    smoothed_points.reserve(values->size());
-    
-    // ... rest of logic
-}
-```
+1. **Global**: Add `my_humidity_val` to `templates/core/globals.yaml`
+2. **Data Bridge**: Add HA sensor to `layouts/4-tabs/data_bridge.yaml` → updates global → calls refresh script
+3. **Refresh Script**: Add `my_humidity_refresh` to `layouts/4-tabs/widget_logic.yaml` (with nullptr check)
+4. **Widget**: Create `templates/widgets/humidity.yaml` with `${widget_id}` and `${widget_id}_label`
+5. **Use Widget**: Include in `layouts/4-tabs/tabs/overview.yaml` with vars
+6. **Config**: Add `my_humidity_entity` substitution to `testing.yaml`
+7. **Stub (if optional)**: Uncomment in `layouts/4-tabs/id_stubs.yaml`
+8. **Test**: `esphome compile testing.yaml`
 
 ---
 
-## 7. Performance Considerations
-
-### Memory Usage
-
-**Chart Buffers:**
-- Default: 60 points × 4 bytes per float × 2 charts = **480 bytes**
-- Acceptable on ESP32-S3 (320KB RAM)
-- Configure via `${chart_max_points}` substitution
-
-**Vector Operations:**
-- `vector.erase(begin())` is O(n) but fine for <100 points
-- Don't use `std::deque` - not supported in ESPHome globals
-- Use `reserve()` when final size is known
-
-### Update Frequency
-
-**Low Frequency** (state changes only):
-- Light refresh: When HA sends state change
-- Scene buttons: On press
-- Weather: Every few minutes (HA-controlled)
-
-**Medium Frequency** (sensor polling):
-- Chart updates: Configure `update_interval` in sensor definition
-- Recommended: 5-60 seconds for power/temp sensors
-
-**High Frequency** (UI updates):
-- Clock: Every 1 second (see `system_logic.yaml`)
-- Media seekbar: Every 1 second if playing
-
-**Optimization Tip**: Don't update widgets when display is off:
-```cpp
-if (!id(backlight).remote_values.is_on()) return;
-```
-
----
-
-## 8. Complete Example: Adding a New Widget
-
-Let's add a humidity sensor widget from scratch.
-
-### Step 1: Define Global Variable
-```yaml
-# templates/core/globals.yaml
-globals:
-  - id: my_humidity_val
-    type: float
-    initial_value: '0'
-```
-
-### Step 2: Create Data Bridge
-```yaml
-# templates/core/data_bridge.yaml
-sensor:
-  - platform: homeassistant
-    id: internal_my_humidity
-    entity_id: sensor.living_room_humidity
-    on_value:
-      - lambda: 'id(my_humidity_val) = x;'
-      - script.execute: my_humidity_refresh
-```
-
-### Step 3: Create Refresh Script
-```yaml
-# templates/core/widget_logic.yaml
-script:
-  - id: my_humidity_refresh
-    then:
-      - lambda: |-
-          if (id(my_humidity_label) == nullptr) return;
-          char buf[16];
-          sprintf(buf, "%.0f%%", id(my_humidity_val));
-          lv_label_set_text(id(my_humidity_label), buf);
-```
-
-### Step 4: Create Widget Template
-```yaml
-# templates/widgets/my_humidity.yaml
-obj:
-  id: ${widget_id}
-  width: 100%
-  height: 100%
-  styles: style_card
-  grid_cell_column_pos: ${grid_col_pos}
-  grid_cell_row_pos: ${grid_row_pos}
-  widgets:
-    - label:
-        text: "\U000F058E"  # mdi:water-percent
-        text_font: icons35
-        align: CENTER
-        y: -20
-        text_color: ${color_primary}
-    - label:
-        id: my_humidity_label
-        text: "--"
-        text_font: ${font_id_large}
-        align: CENTER
-        y: 20
-        text_color: ${color_text}
-```
-
-### Step 5: Add to Layout
-```yaml
-# templates/tabs/overview.yaml (or your custom tab)
-widgets:
-  - <<: !include
-      file: ../widgets/my_humidity.yaml
-      vars:
-        widget_id: ui_humidity
-        grid_col_pos: 0
-        grid_row_pos: 1
-```
-
-### Step 6: Configure Substitution
-```yaml
-# testing.yaml
-substitutions:
-  my_humidity_entity: sensor.living_room_humidity
-```
-
-### Step 7: Add Stub (if needed)
-```yaml
-# templates/core/id_stubs.yaml
-# Uncomment if you later remove the widget but keep the script:
-#- label: { id: my_humidity_label }
-```
-
-### Step 8: Compile & Test
-```bash
-. ~/esphome/.venv/bin/activate
-esphome compile testing.yaml
-```
-
-**Check logs**:
-- Look for "my_humidity_refresh called" if you added logging
-- Verify Home Assistant is sending updates
-- Check for any nullptr warnings
-
----
-
-## 9. Style & UI Guidelines
+## 8. Style & UI Guidelines
 *   Use `${grid_gap}` and `${grid_padding}` for alignment.
 *   Reuse styles from `theme/style.yaml` via `style_definitions`.
 *   Keep icons consistent using MDI hex codes (e.g., `"\U000F0335"`).
