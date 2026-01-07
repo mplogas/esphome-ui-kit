@@ -16,9 +16,6 @@ obj:
   clickable: ${widget_clickable}
   on_click:
     then:
-      - script.execute:
-          id: click_feedback
-          obj_id: !lambda "return id(${widget_id});"
       - if:
           condition:
             lambda: "return true;"

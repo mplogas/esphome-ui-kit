@@ -174,12 +174,12 @@ script:
             else if (state == "cloudy") icon = "\U000F0590";
             lv_label_set_text(id(weather_icon_label), icon);
           }
-      - script.execute:
-          id: update_graph
-          chart_obj: !lambda "return id(home_temp_graph_chart_container);"
-          label_obj: !lambda "return id(home_temp_graph_value_label);"
-          values: !lambda "return &id(temp_chart_values);"
-          unit: "°C"
+      # - script.execute:
+      #     id: update_graph
+      #     chart_obj: !lambda "return id(home_temp_graph_chart_container);"
+      #     label_obj: !lambda "return id(home_temp_graph_value_label);"
+      #     values: !lambda "return &id(temp_chart_values);"
+      #     unit: "°C"
 
   - id: media_refresh
     then:
@@ -209,8 +209,8 @@ script:
   - id: sg2_refresh
     then:
       - lambda: |-
-          if (id(sg2) == nullptr) return;
-          lv_label_set_text(id(sg2_s1_label), (to_string((int)id(sg2_s1_val)) + "°").c_str());
+          //if (id(sg2) == nullptr) return;
+          //lv_label_set_text(id(sg2_s1_label), (to_string((int)id(sg2_s1_val)) + "°").c_str());
 
   - id: slot_click
     parameters:

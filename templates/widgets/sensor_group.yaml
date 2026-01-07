@@ -30,7 +30,7 @@
                 text_font: ${font_id_small}
                 text_color: ${color_text_dim}
             - label:
-                id: ${widget_id}_s1_val
+                id: ${widget_id}_s1_label
                 text: "--"
                 text_font: ${font_id_small}
                 text_color: ${s1_color}
@@ -50,7 +50,7 @@
                 text_font: ${font_id_small}
                 text_color: ${color_text_dim}
             - label:
-                id: ${widget_id}_s2_val
+                id: ${widget_id}_s2_label
                 text: "--"
                 text_font: ${font_id_small}
                 text_color: ${s2_color}
@@ -70,7 +70,7 @@
                 text_font: ${font_id_small}
                 text_color: ${color_text_dim}
             - label:
-                id: ${widget_id}_s3_val
+                id: ${widget_id}_s3_label
                 text: "--"
                 text_font: ${font_id_small}
                 text_color: ${s3_color}

@@ -124,12 +124,12 @@ The **ideal** "layout-agnostic" principle from [INSTRUCTIONS.md](INSTRUCTIONS.md
 *   **Pattern**: Uses `tab_[N]_slot_[X]_[Y]_widget` to point to a file in `templates/`.
 *   **Files**: `testing.yaml`, `templates/core/mapping-defaults.yaml`
 
-### View 2: Design & Widgets (`templates/tiles/`, `templates/widgets/`, `theme/`)
+### View 2: Design & Widgets (`templates/widgets/`, `templates/widgets/`, `theme/`)
 *   **Role**: Visual representation.
 *   **Rule**: Must be **Data-Aware** (use global variables) but **Layout-Agnostic** (don't assume where they are placed).
 *   **Implementation**: Use `vars` passed from View 1 to set internal IDs and entities.
 *   **Naming Convention**: Use `${id}` passed via vars for the root object ID of a widget.
-*   **Files**: `templates/tiles/*.yaml`, `templates/widgets/*.yaml`, `theme/*.yaml`
+*   **Files**: `templates/widgets/*.yaml`, `templates/widgets/*.yaml`, `theme/*.yaml`
 
 ### View 3: Core Logic (`templates/core/`, `templates/scripts/`)
 *   **Role**: The "Data Bridge". Fetches data from Home Assistant and updates Global Variables.
@@ -185,7 +185,7 @@ If deleting a widget breaks the build, it means you have a **"Hard Link"** in yo
 1.  **Define Globals**: Add necessary variables to `templates/core/globals.yaml`.
 2.  **Implement Data Bridge**: Add the HA sensor/binary_sensor to `templates/core/data_bridge.yaml`. Update the global variable on state change.
 3.  **Create Refresh Script**: Add script to `templates/core/widget_logic.yaml` to update UI from globals.
-4.  **Create/Modify Widget**: Update `templates/tiles/` or `widgets/`. Use the global variables for values.
+4.  **Create/Modify Widget**: Update `templates/widgets/`. Use the global variables for values.
 5.  **Update Stubs (Optional)**: Add any mandatory IDs to `templates/core/id_stubs.yaml` if needed.
 6.  **Configure in YAML**: Map the widget in `testing.yaml` (or `templates/core/mapping-defaults.yaml` for defaults).
 7.  **Compile & Validate**: Run `esphome compile testing.yaml`.

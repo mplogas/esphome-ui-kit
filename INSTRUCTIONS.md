@@ -9,11 +9,11 @@ A lightweight, 3-layer abstraction over ESPHome's LVGL feature. The goal is to q
 *   **Target**: End-users or quick deployments.
 *   **Files**: `testing.yaml`, `main-dashboard.yaml`, `templates/core/mapping-defaults.yaml`.
 *   **Responsibility**: Define which widgets go into which slots and map real Home Assistant entities to internal data slots.
-*   **Mechanism**: Uses substitutions to assign widget files to grid slots (e.g., `tab_1_slot_1_1_widget: "templates/tiles/light_tile.yaml"`).
+*   **Mechanism**: Uses substitutions to assign widget files to grid slots (e.g., `tab_1_slot_1_1_widget: "templates/widgets/light_tile.yaml"`).
 
 ### View 2: CI (Design & Widgets) Configuration
 *   **Target**: Designers and UI developers.
-*   **Files**: `theme/`, `templates/tiles/`, `templates/layouts/`.
+*   **Files**: `theme/`, `templates/widgets/`, `templates/layouts/`.
 *   **Responsibility**: Define the "look and feel" (fonts, colors, styles) and the structure of individual widgets.
 *   **Constraint**: Widgets must be "Data-Aware" but "Layout-Agnostic." They should update themselves based on global variables and should not rely on hardcoded container IDs from other layers.
 *   **Preservation**: Existing widget templates, overlays (e.g., `light_control.yaml`), and visual cues must be reused and preserved.

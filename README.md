@@ -17,7 +17,6 @@ The README is auto-updated by an LLM. Please verify all information in code or w
     - `scripts/`: Shared scripts and packages.
     - `overlays/`: Contextual UI layers.
     - `tabs/`: Screen definitions.
-    - `tiles/`: Interactive UI cards.
     - `widgets/`: Standalone UI elements.
 - `theme/`: UI styling and variables.
 
@@ -35,7 +34,7 @@ The README is auto-updated by an LLM. Please verify all information in code or w
 ### The 3-View Architecture
 The framework enforces a strict separation of concerns:
 - **View 1: User Configuration**: Handled in `main-dashboard.yaml` (or `testing.yaml`) and `templates/core/mapping-defaults.yaml`. Maps HA entities to UI slots.
-- **View 2: Design & Templates**: Located in `templates/tiles/`, `widgets/`, and `theme/`. These are visual components that read from the Data Pool.
+- **View 2: Design & Templates**: Located in `templates/widgets/`, and `theme/`. These are visual components that read from the Data Pool.
 - **View 3: Core Logic (Data Bridge)**: Located in `templates/core/data_bridge.yaml` and `widget_logic.yaml`. This layer connects HA to the Data Pool (Globals) and triggers UI refreshes.
 
 ### Hardware Abstraction

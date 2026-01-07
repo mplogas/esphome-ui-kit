@@ -12,10 +12,6 @@ widgets:
               grid_col_pos: 0
               grid_row_pos: 0
               widget_clickable: "true"
-              widget_on_click:
-                - lambda: |-
-                    ESP_LOGD("clock_widget", "Clock widget clicked - toggling backlight");
-                    id(backlight).toggle();
         - <<: !include
             file: ../widgets/weather.yaml
             vars:
@@ -34,11 +30,17 @@ widgets:
               grid_col_pos: 0
               grid_row_pos: 1
         - <<: !include
-            file: ../widgets/graph.yaml
+            file: ../widgets/sensor_group.yaml
             vars:
-              widget_id: home_temp_graph
-              graph_title: "Temperature"
-              graph_unit: "°C"
-              graph_color: "0x3498db"
+              widget_id: sg1
               grid_col_pos: 1
               grid_row_pos: 1
+              s1_name: "Temp"
+              s1_id: sg1_s1
+              s1_color: "${sensor_color_1}"
+              s2_name: "Hum"
+              s2_id: sg1_s2
+              s2_color: "${sensor_color_2}"
+              s3_name: "CO2"
+              s3_id: sg1_s3
+              s3_color: "${sensor_color_3}"

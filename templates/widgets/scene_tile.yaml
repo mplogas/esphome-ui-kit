@@ -1,6 +1,6 @@
 obj:
   <<: !include
-    file: base_tile.yaml
+    file: base/base_tile.yaml
     vars:
       widget_id: ${id}
       label_text: ${name}
