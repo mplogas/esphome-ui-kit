@@ -2,10 +2,10 @@ name: ${name}
 widgets:
   - obj:
       id: ${tab_id}_container
-      <<: !include ../core/grid_container.yaml
+      <<: !include ../../../templates/core/grid_container.yaml
       widgets:
         - <<: !include
-            file: ../widgets/clock.yaml
+            file: ../../../templates/widgets/clock.yaml
             vars:
               widget_id: ui_clock
               font_id: ${font_id_large}
@@ -13,7 +13,7 @@ widgets:
               grid_row_pos: 0
               widget_clickable: "true"
         - <<: !include
-            file: ../widgets/weather.yaml
+            file: ../../../templates/widgets/weather.yaml
             vars:
               widget_id: ui_weather
               font_id: ${font_id}
@@ -21,7 +21,7 @@ widgets:
               grid_col_pos: 1
               grid_row_pos: 0
         - <<: !include
-            file: ../widgets/graph.yaml
+            file: ../../../templates/widgets/graph.yaml
             vars:
               widget_id: home_power_graph
               graph_title: "Power Usage"
@@ -30,7 +30,7 @@ widgets:
               grid_col_pos: 0
               grid_row_pos: 1
         - <<: !include
-            file: ../widgets/sensor_group.yaml
+            file: ../../../templates/widgets/sensor_group.yaml
             vars:
               widget_id: sg1
               grid_col_pos: 1

@@ -98,8 +98,8 @@ interval:
             lv_label_set_text(id(clock_date_label), id(home_time).now().strftime("%a, %b %d").c_str());
           }
           
-          // Update media player seekbar if playing
-          if (id(ui_media_player) != nullptr && id(media_player_state_val) == "playing") {
+          // Update media player seekbar if playing (optional - only if media player widget exists)
+          if (id(ui_media_player) != nullptr && id(media_player_seekbar) != nullptr && id(media_player_state_val) == "playing") {
              if (id(media_player_dur_val) > 0) {
                 float pct = (id(media_player_pos_val) / id(media_player_dur_val)) * 100.0f;
                 lv_bar_set_value(id(media_player_seekbar), (int32_t)pct, LV_ANIM_ON);

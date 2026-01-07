@@ -2,10 +2,10 @@ name: ${name}
 widgets:
   - obj:
       id: ${tab_id}_container
-      <<: !include ../core/grid_container.yaml
+      <<: !include ../../../templates/core/grid_container.yaml
       widgets:
         - <<: !include
-            file: ../widgets/media_player.yaml
+            file: ../../../templates/widgets/media_player.yaml
             vars:
               widget_id: ui_media_player
               entity_id: "${media_player_entity}"

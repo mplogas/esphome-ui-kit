@@ -1,18 +1,9 @@
 packages:
   hardware: !include hardware/sensecap-indicator.yaml
-  globals: !include templates/core/globals.yaml
-  data_bridge: !include templates/core/data_bridge.yaml
-  stubs: !include templates/core/id_stubs.yaml
-  widget_logic: !include templates/core/widget_logic.yaml
-  graph_logic: !include templates/scripts/graph_logic.yaml
-  system_logic: !include templates/scripts/system_logic.yaml
-  lights_scripts: !include templates/scripts/lights_4.yaml
+  layout: !include layouts/4-tabs/package.yaml
 
 substitutions:
-  # 1. Load mapping defaults (View 1 Fallbacks)
-  <<: !include templates/core/mapping-defaults.yaml
-  
-  # 2. Load theme defaults
+  # 1. Load theme defaults
   <<: !include theme/defaults.yaml
 
   name: sci-template
@@ -69,8 +60,6 @@ esphome:
           color: 0xEF8513
       - lvgl.resume: {}
 
-font: !include templates/core/fonts.yaml
-
 logger:
   hardware_uart: UART0
   level: DEBUG
@@ -94,20 +83,4 @@ time:
     id: home_time
     timezone: "Europe/Berlin"
 
-# UI Definition
-lvgl:
-  #log_level: DEBUG
-  style_definitions: !include theme/style.yaml
-  
-  on_idle:
-    timeout: !lambda "return ${idle_timeout} * 1000;"
-    then:
-      - light.turn_off: backlight
-      - lvgl.pause:
-
-  pages:
-    - id: main_page
-      bg_color: ${color_bg}
-      widgets:
-        - !include templates/layouts/standard_4_tabs.yaml
-        - !include templates/overlays/light_control.yaml
+# Note: LVGL configuration is now included in layouts/4-tabs/package.yaml

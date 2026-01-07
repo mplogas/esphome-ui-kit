@@ -2,15 +2,15 @@
 # Includes: Home (Overview), Lights (Grid), Scenes (Grid), Media (Custom)
 
 tabview:
-  <<: !include ../core/tabview_config.yaml
+  <<: !include ../../templates/core/tabview_config.yaml
   tabs:
     - !include
-        file: ../tabs/overview.yaml
+        file: tabs/overview.yaml
         vars:
           tab_id: home
           name: "${home_tab_name}"
     - !include
-        file: ../tabs/grid_4_lights.yaml
+        file: tabs/grid_4_lights.yaml
         vars:
           tab_id: lights
           name: "${lights_tab_name}"
@@ -27,7 +27,7 @@ tabview:
           l4_icon: "${light_4_icon}"
           l4_entity: "${light_4_entity}"
     - !include
-        file: ../tabs/grid_4_scenes.yaml
+        file: tabs/grid_4_scenes.yaml
         vars:
           tab_id: scenes
           name: "${scenes_tab_name}"
@@ -44,7 +44,7 @@ tabview:
           s4_icon: "${scene_4_icon}"
           s4_entity: "${scene_4_entity}"
     - !include
-        file: ../tabs/media_sensors.yaml
+        file: tabs/media_sensors.yaml
         vars:
           tab_id: media
           name: "${media_tab_name}"

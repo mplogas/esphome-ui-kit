@@ -1,0 +1,55 @@
+# 4-Tabs Layout Package
+# Self-contained layout with tabs: Home, Lights, Scenes, Media
+# 
+# This package includes:
+# - Tab navigation structure
+# - Widget refresh scripts for this layout
+# - Data bridge connections to Home Assistant
+# - Layout-specific globals (charts, UI state)
+#
+# Usage in testing.yaml:
+#   packages:
+#     layout: !include layouts/4-tabs/package.yaml
+
+# ========================================
+# Fonts (top-level, shared)
+# ========================================
+font: !include ../../templates/core/fonts.yaml
+
+# ========================================
+# Components (packaged)
+# ========================================
+packages:
+  core_globals: !include ../../templates/core/globals.yaml
+  layout_globals: !include globals_extension.yaml
+  data_bridge: !include data_bridge.yaml
+  widget_logic: !include widget_logic.yaml
+  id_stubs: !include id_stubs.yaml
+  graph_logic: !include ../../templates/scripts/graph_logic.yaml
+  system_logic: !include ../../templates/scripts/system_logic.yaml
+  lights_scripts: !include ../../templates/scripts/lights_4.yaml
+
+# ========================================
+# Load Layout Defaults (View 1 fallback)
+# ========================================
+substitutions:
+  <<: !include defaults.yaml
+
+# ========================================
+# LVGL UI Definition
+# ========================================
+lvgl:
+  style_definitions: !include ../../theme/style.yaml
+  
+  on_idle:
+    timeout: !lambda "return ${idle_timeout} * 1000;"
+    then:
+      - light.turn_off: backlight
+      - lvgl.pause:
+
+  pages:
+    - id: main_page
+      bg_color: ${color_bg}
+      widgets:
+        - !include layout.yaml
+        - !include ../../templates/overlays/light_control.yaml

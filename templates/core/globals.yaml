@@ -1,17 +1,8 @@
-globals:
-  - id: user_is_interacting
-    type: bool
-    initial_value: 'false'
-  - id: current_light_entity
-    type: std::string
-    initial_value: '""'
-  
-  # Data Buffers for Graphs
-  - id: chart_values
-    type: std::vector<float>
-  - id: temp_chart_values
-    type: std::vector<float>
+# Universal Globals - Shared across all layouts
+# Layout-specific globals (e.g., chart buffers, UI state) 
+# should be defined in layouts/X/globals_extension.yaml
 
+globals:
   # --- Data Pool Globals ---
   
   # Weather & Environment
