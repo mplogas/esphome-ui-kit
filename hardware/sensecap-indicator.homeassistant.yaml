@@ -1,0 +1,13 @@
+number:
+  - platform: template
+    name: "Display Timeout"
+    id: sci_display_timeout
+    icon: "mdi:timer-sand"
+    unit_of_measurement: "s"
+    min_value: 10
+    max_value: 900
+    step: 1
+    optimistic: true
+    on_value:
+      - lambda |-
+          id(idle_timeout) = x;
