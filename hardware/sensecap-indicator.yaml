@@ -96,3 +96,22 @@ binary_sensor:
     id: user_button
 
 bluetooth_proxy:
+
+# Display Control Exposure
+# Exposes the idle timeout to Home Assistant
+number:
+  - platform: template
+    name: "Display Idle Timeout"
+    id: sci_display_timeout
+    icon: "mdi:timer-sand"
+    unit_of_measurement: "s"
+    min_value: 15
+    max_value: 900
+    step: 1
+    initial_value: ${idle_timeout}
+    optimistic: true
+    restore_value: true
+    mode: box
+    on_value:
+      - lambda: |-
+          id(idle_timeout) = x;

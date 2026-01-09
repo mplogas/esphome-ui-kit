@@ -3,6 +3,11 @@
 # should be defined in layouts/X/globals_extension.yaml
 
 globals:
+  # --- System Globals ---
+  - id: idle_timeout
+    type: uint32_t
+    initial_value: '((uint32_t)${idle_timeout})'
+
   # --- Data Pool Globals ---
   
   # Weather & Environment

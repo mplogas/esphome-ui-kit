@@ -42,7 +42,8 @@ lvgl:
   style_definitions: !include ../../theme/style.yaml
   
   on_idle:
-    timeout: !lambda "return ${idle_timeout} * 1000;"
+    #timeout: !lambda "return ${idle_timeout} * 1000;"
+    timeout: !lambda "return id(idle_timeout) * 1000;"
     then:
       - light.turn_off: backlight
       - lvgl.pause:
