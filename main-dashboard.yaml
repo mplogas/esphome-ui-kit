@@ -46,6 +46,40 @@ substitutions:
   media_player_entity: media_player.example_player
   motion_sensor_entity: binary_sensor.example_motion
 
+  # Sensor Group 1 (Media Tab - Slot 1.2)
+  # Example: Mixed sensors (Temp, Door, Text)
+  sg1_s1_name: "Living"
+  sg1_s1_entity: "sensor.living_room_temp"
+  sg1_s1_unit: "°C"
+  
+  sg1_s2_name: "Door"
+  sg1_s2_entity: "binary_sensor.front_door"
+  sg1_s2_unit: "" # No unit for binary/text
+  sg1_s2_map_on: "Open"
+  sg1_s2_map_off: "Closed"
+  sg1_s2_color: "0xFF0000" # Override default white
+  
+  sg1_s3_name: "Status"
+  sg1_s3_entity: "sensor.home_status" # Text sensor
+  sg1_s3_unit: "" # No unit
+
+  # Sensor Group 2 (Media Tab - Slot 2.1)
+  # Example: Climate data
+  sg2_s1_name: "Outside"
+  sg2_s1_entity: "sensor.outside_temp"
+  sg2_s1_unit: "°C"
+  sg2_s1_color: "0x3498db" # Blue
+  
+  sg2_s2_name: "Humidity"
+  sg2_s2_entity: "sensor.outside_humidity"
+  sg2_s2_unit: "%"
+  sg2_s2_color: "0x80D8FF" # Light Blue
+  
+  sg2_s3_name: "CO2"
+  sg2_s3_entity: "sensor.co2_level"
+  sg2_s3_unit: "ppm"
+  sg2_s3_color: "0xFFA726" # Orange
+
   # 3. map light favorite colors per light (defaults to templates/core/mapping-defaults.yaml)
 
 

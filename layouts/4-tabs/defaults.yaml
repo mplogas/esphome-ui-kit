@@ -121,28 +121,45 @@
   sg1_s1_name: "Temp"
   sg1_s1_unit: "°C"
   sg1_s1_color: "0xFFFFFF"
+  sg1_s1_map_on: "on"
+  sg1_s1_map_off: "off"
+
   sg1_s2_entity: "sensor.hum_1"
   sg1_s2_name: "Hum"
   sg1_s2_unit: "%"
   sg1_s2_color: "0xFFFFFF"
+  sg1_s2_map_on: "on"
+  sg1_s2_map_off: "off"
+
   sg1_s3_entity: "sensor.co2_1"
   sg1_s3_name: "CO2"
   sg1_s3_unit: "ppm"
   sg1_s3_color: "0xFFFFFF"
+  sg1_s3_map_on: "on"
+  sg1_s3_map_off: "off"
 
   # Sensor Group 2
   sg2_s1_entity: "sensor.temp_2"
   sg2_s1_name: "Temp"
   sg2_s1_unit: "°C"
   sg2_s1_color: "0xFFFFFF"
+  sg2_s1_map_on: "on"
+  sg2_s1_map_off: "off"
+
   sg2_s2_entity: "sensor.hum_2"
   sg2_s2_name: "Hum"
   sg2_s2_unit: "%"
   sg2_s2_color: "0xFFFFFF"
+  sg2_s2_map_on: "on"
+  sg2_s2_map_off: "off"
+
   sg2_s3_entity: "sensor.co2_2"
   sg2_s3_name: "CO2"
   sg2_s3_unit: "ppm"
   sg2_s3_color: "0xFFFFFF"
+  sg2_s3_map_on: "on"
+  sg2_s3_map_off: "off"
+
   
   s1_color: "0xFFFFFF"
   s2_color: "0xFFFFFF"

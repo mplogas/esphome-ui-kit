@@ -204,13 +204,17 @@ script:
     then:
       - lambda: |-
           if (id(sg1) == nullptr) return;
-          lv_label_set_text(id(sg1_s1_label), (to_string((int)id(sg1_s1_val)) + "°").c_str());
+          lv_label_set_text(id(sg1_s1_label), id(sg1_s1_val).c_str());
+          lv_label_set_text(id(sg1_s2_label), id(sg1_s2_val).c_str());
+          lv_label_set_text(id(sg1_s3_label), id(sg1_s3_val).c_str());
           
   - id: sg2_refresh
     then:
       - lambda: |-
-          //if (id(sg2) == nullptr) return;
-          //lv_label_set_text(id(sg2_s1_label), (to_string((int)id(sg2_s1_val)) + "°").c_str());
+          if (id(sg2) == nullptr) return;
+          lv_label_set_text(id(sg2_s1_label), id(sg2_s1_val).c_str());
+          lv_label_set_text(id(sg2_s2_label), id(sg2_s2_val).c_str());
+          lv_label_set_text(id(sg2_s3_label), id(sg2_s3_val).c_str());
 
   - id: slot_click
     parameters:

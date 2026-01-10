@@ -95,46 +95,6 @@ sensor:
       - lambda: 'id(media_player_dur_val) = x;'
       - script.execute: media_refresh
 
-  # Sensor Group 1
-  - platform: homeassistant
-    id: internal_sg1_s1
-    entity_id: ${sg1_s1_entity}
-    on_value:
-      - lambda: 'id(sg1_s1_val) = x;'
-      - script.execute: sg1_refresh
-  - platform: homeassistant
-    id: internal_sg1_s2
-    entity_id: ${sg1_s2_entity}
-    on_value:
-      - lambda: 'id(sg1_s2_val) = x;'
-      - script.execute: sg1_refresh
-  - platform: homeassistant
-    id: internal_sg1_s3
-    entity_id: ${sg1_s3_entity}
-    on_value:
-      - lambda: 'id(sg1_s3_val) = x;'
-      - script.execute: sg1_refresh
-
-  # Sensor Group 2
-  - platform: homeassistant
-    id: internal_sg2_s1
-    entity_id: ${sg2_s1_entity}
-    on_value:
-      - lambda: 'id(sg2_s1_val) = x;'
-      - script.execute: sg2_refresh
-  - platform: homeassistant
-    id: internal_sg2_s2
-    entity_id: ${sg2_s2_entity}
-    on_value:
-      - lambda: 'id(sg2_s2_val) = x;'
-      - script.execute: sg2_refresh
-  - platform: homeassistant
-    id: internal_sg2_s3
-    entity_id: ${sg2_s3_entity}
-    on_value:
-      - lambda: 'id(sg2_s3_val) = x;'
-      - script.execute: sg2_refresh
-
   # Light Brightness (1-4)
   - platform: homeassistant
     id: internal_light_1_brightness
@@ -270,3 +230,80 @@ text_sensor:
             ESP_LOGW("data_bridge", "Failed to parse RGB for light_4: %s", x.c_str());
           }
       - script.execute: light_4_refresh
+
+  # Sensor Group 1
+  - platform: homeassistant
+    id: internal_sg1_s1
+    entity_id: ${sg1_s1_entity}
+    on_value:
+      - lambda: |-
+          if (x == "on") id(sg1_s1_val) = "${sg1_s1_map_on}";
+          else if (x == "off") id(sg1_s1_val) = "${sg1_s1_map_off}";
+          else if (strtof(x.c_str(), nullptr) == (int)strtof(x.c_str(), nullptr)) {
+            // Integer: remove decimal
+             id(sg1_s1_val) = to_string((int)strtof(x.c_str(), nullptr)) + "${sg1_s1_unit}";
+          }
+          else id(sg1_s1_val) = x + "${sg1_s1_unit}";
+      - script.execute: sg1_refresh
+  - platform: homeassistant
+    id: internal_sg1_s2
+    entity_id: ${sg1_s2_entity}
+    on_value:
+      - lambda: |-
+          if (x == "on") id(sg1_s2_val) = "${sg1_s2_map_on}";
+          else if (x == "off") id(sg1_s2_val) = "${sg1_s2_map_off}";
+          else if (strtof(x.c_str(), nullptr) == (int)strtof(x.c_str(), nullptr)) {
+             id(sg1_s2_val) = to_string((int)strtof(x.c_str(), nullptr)) + "${sg1_s2_unit}";
+          }
+          else id(sg1_s2_val) = x + "${sg1_s2_unit}";
+      - script.execute: sg1_refresh
+  - platform: homeassistant
+    id: internal_sg1_s3
+    entity_id: ${sg1_s3_entity}
+    on_value:
+      - lambda: |-
+          if (x == "on") id(sg1_s3_val) = "${sg1_s3_map_on}";
+          else if (x == "off") id(sg1_s3_val) = "${sg1_s3_map_off}";
+          else if (strtof(x.c_str(), nullptr) == (int)strtof(x.c_str(), nullptr)) {
+             id(sg1_s3_val) = to_string((int)strtof(x.c_str(), nullptr)) + "${sg1_s3_unit}";
+          }
+          else id(sg1_s3_val) = x + "${sg1_s3_unit}";
+      - script.execute: sg1_refresh
+
+  # Sensor Group 2
+  - platform: homeassistant
+    id: internal_sg2_s1
+    entity_id: ${sg2_s1_entity}
+    on_value:
+      - lambda: |-
+          if (x == "on") id(sg2_s1_val) = "${sg2_s1_map_on}";
+          else if (x == "off") id(sg2_s1_val) = "${sg2_s1_map_off}";
+          else if (strtof(x.c_str(), nullptr) == (int)strtof(x.c_str(), nullptr)) {
+             id(sg2_s1_val) = to_string((int)strtof(x.c_str(), nullptr)) + "${sg2_s1_unit}";
+          }
+          else id(sg2_s1_val) = x + "${sg2_s1_unit}";
+      - script.execute: sg2_refresh
+  - platform: homeassistant
+    id: internal_sg2_s2
+    entity_id: ${sg2_s2_entity}
+    on_value:
+      - lambda: |-
+          if (x == "on") id(sg2_s2_val) = "${sg2_s2_map_on}";
+          else if (x == "off") id(sg2_s2_val) = "${sg2_s2_map_off}";
+          else if (strtof(x.c_str(), nullptr) == (int)strtof(x.c_str(), nullptr)) {
+             id(sg2_s2_val) = to_string((int)strtof(x.c_str(), nullptr)) + "${sg2_s2_unit}";
+          }
+          else id(sg2_s2_val) = x + "${sg2_s2_unit}";
+      - script.execute: sg2_refresh
+  - platform: homeassistant
+    id: internal_sg2_s3
+    entity_id: ${sg2_s3_entity}
+    on_value:
+      - lambda: |-
+          if (x == "on") id(sg2_s3_val) = "${sg2_s3_map_on}";
+          else if (x == "off") id(sg2_s3_val) = "${sg2_s3_map_off}";
+          else if (strtof(x.c_str(), nullptr) == (int)strtof(x.c_str(), nullptr)) {
+             id(sg2_s3_val) = to_string((int)strtof(x.c_str(), nullptr)) + "${sg2_s3_unit}";
+          }
+          else id(sg2_s3_val) = x + "${sg2_s3_unit}";
+      - script.execute: sg2_refresh

@@ -84,21 +84,21 @@ globals:
 
   # Sensor Groups (Current Values)
   - id: sg1_s1_val
-    type: float
-    initial_value: '0'
+    type: std::string
+    initial_value: '"--"'
   - id: sg1_s2_val
-    type: float
-    initial_value: '0'
+    type: std::string
+    initial_value: '"--"'
   - id: sg1_s3_val
-    type: float
-    initial_value: '0'
+    type: std::string
+    initial_value: '"--"'
   
   - id: sg2_s1_val
-    type: float
-    initial_value: '0'
+    type: std::string
+    initial_value: '"--"'
   - id: sg2_s2_val
-    type: float
-    initial_value: '0'
+    type: std::string
+    initial_value: '"--"'
   - id: sg2_s3_val
-    type: float
-    initial_value: '0'
+    type: std::string
+    initial_value: '"--"'
