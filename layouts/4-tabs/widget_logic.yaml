@@ -40,6 +40,39 @@ script:
       - light.turn_on: backlight
       - lvgl.resume: {}
 
+  - id: sync_entities
+    then:
+      - lambda: |-
+          // Pull states from HA components into Globals
+          id(light_1_state) = id(internal_light_1_state).state;
+          id(light_2_state) = id(internal_light_2_state).state;
+          id(light_3_state) = id(internal_light_3_state).state;
+          id(light_4_state) = id(internal_light_4_state).state;
+          
+          // Pull brightness from text_sensor state (reusing single string variable)
+          std::string s;
+          
+          s = id(internal_light_1_brightness).state;
+          if (s != "None" && !s.empty()) id(light_1_brightness_val) = strtof(s.c_str(), nullptr);
+          else id(light_1_brightness_val) = 0;
+
+          s = id(internal_light_2_brightness).state;
+          if (s != "None" && !s.empty()) id(light_2_brightness_val) = strtof(s.c_str(), nullptr);
+          else id(light_2_brightness_val) = 0;
+
+          s = id(internal_light_3_brightness).state;
+          if (s != "None" && !s.empty()) id(light_3_brightness_val) = strtof(s.c_str(), nullptr);
+          else id(light_3_brightness_val) = 0;
+
+          s = id(internal_light_4_brightness).state;
+          if (s != "None" && !s.empty()) id(light_4_brightness_val) = strtof(s.c_str(), nullptr);
+          else id(light_4_brightness_val) = 0;
+      
+      - script.execute: light_1_refresh
+      - script.execute: light_2_refresh
+      - script.execute: light_3_refresh
+      - script.execute: light_4_refresh
+
   - id: light_1_refresh
     then:
       - lambda: |-

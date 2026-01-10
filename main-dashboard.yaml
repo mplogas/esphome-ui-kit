@@ -101,7 +101,10 @@ logger:
 api:
   encryption:
     key: !secret api_key
-  
+  on_client_connected:
+    - delay: 1s
+    - script.execute: sync_entities # this is needed th get the initial state of the lights  
+
 ota:
   - platform: esphome
     password: !secret ota_password

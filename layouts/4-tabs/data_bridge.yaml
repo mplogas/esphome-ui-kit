@@ -21,24 +21,28 @@ binary_sensor:
     entity_id: ${light_1_entity}
     id: internal_light_1_state
     on_state:
+      - lambda: 'ESP_LOGI("data_bridge", "Light 1 state changed to: %s", x ? "ON" : "OFF");'
       - lambda: 'id(light_1_state) = x;'
       - script.execute: light_1_refresh
   - platform: homeassistant
     entity_id: ${light_2_entity}
     id: internal_light_2_state
     on_state:
+      - lambda: 'ESP_LOGI("data_bridge", "Light 2 state changed to: %s", x ? "ON" : "OFF");'
       - lambda: 'id(light_2_state) = x;'
       - script.execute: light_2_refresh
   - platform: homeassistant
     entity_id: ${light_3_entity}
     id: internal_light_3_state
     on_state:
+      - lambda: 'ESP_LOGI("data_bridge", "Light 3 state changed to: %s", x ? "ON" : "OFF");'
       - lambda: 'id(light_3_state) = x;'
       - script.execute: light_3_refresh
   - platform: homeassistant
     entity_id: ${light_4_entity}
     id: internal_light_4_state
     on_state:
+      - lambda: 'ESP_LOGI("data_bridge", "Light 4 state changed to: %s", x ? "ON" : "OFF");'
       - lambda: 'id(light_4_state) = x;'
       - script.execute: light_4_refresh
 
@@ -95,36 +99,6 @@ sensor:
       - lambda: 'id(media_player_dur_val) = x;'
       - script.execute: media_refresh
 
-  # Light Brightness (1-4)
-  - platform: homeassistant
-    id: internal_light_1_brightness
-    entity_id: ${light_1_entity}
-    attribute: brightness
-    on_value:
-      - lambda: 'id(light_1_brightness_val) = x;'
-      - script.execute: light_1_refresh
-  - platform: homeassistant
-    id: internal_light_2_brightness
-    entity_id: ${light_2_entity}
-    attribute: brightness
-    on_value:
-      - lambda: 'id(light_2_brightness_val) = x;'
-      - script.execute: light_2_refresh
-  - platform: homeassistant
-    id: internal_light_3_brightness
-    entity_id: ${light_3_entity}
-    attribute: brightness
-    on_value:
-      - lambda: 'id(light_3_brightness_val) = x;'
-      - script.execute: light_3_refresh
-  - platform: homeassistant
-    id: internal_light_4_brightness
-    entity_id: ${light_4_entity}
-    attribute: brightness
-    on_value:
-      - lambda: 'id(light_4_brightness_val) = x;'
-      - script.execute: light_4_refresh
-
 text_sensor:
   # Media Player Info
   - platform: homeassistant
@@ -141,6 +115,56 @@ text_sensor:
     on_value:
       - lambda: 'id(media_player_state_val) = x;'
       - script.execute: media_refresh
+
+  # Light Brightness (1-4)
+  - platform: homeassistant
+    id: internal_light_1_brightness
+    entity_id: ${light_1_entity}
+    attribute: brightness
+    on_value:
+      - lambda: |-
+          if (x == "None" || x == "") {
+            id(light_1_brightness_val) = 0;
+          } else {
+            id(light_1_brightness_val) = strtof(x.c_str(), nullptr);
+          }
+      - script.execute: light_1_refresh
+  - platform: homeassistant
+    id: internal_light_2_brightness
+    entity_id: ${light_2_entity}
+    attribute: brightness
+    on_value:
+      - lambda: |-
+          if (x == "None" || x == "") {
+            id(light_2_brightness_val) = 0;
+          } else {
+            id(light_2_brightness_val) = strtof(x.c_str(), nullptr);
+          }
+      - script.execute: light_2_refresh
+  - platform: homeassistant
+    id: internal_light_3_brightness
+    entity_id: ${light_3_entity}
+    attribute: brightness
+    on_value:
+      - lambda: |-
+          if (x == "None" || x == "") {
+            id(light_3_brightness_val) = 0;
+          } else {
+            id(light_3_brightness_val) = strtof(x.c_str(), nullptr);
+          }
+      - script.execute: light_3_refresh
+  - platform: homeassistant
+    id: internal_light_4_brightness
+    entity_id: ${light_4_entity}
+    attribute: brightness
+    on_value:
+      - lambda: |-
+          if (x == "None" || x == "") {
+            id(light_4_brightness_val) = 0;
+          } else {
+            id(light_4_brightness_val) = strtof(x.c_str(), nullptr);
+          }
+      - script.execute: light_4_refresh
 
   # Weather State
   - platform: homeassistant
@@ -307,3 +331,4 @@ text_sensor:
           }
           else id(sg2_s3_val) = x + "${sg2_s3_unit}";
       - script.execute: sg2_refresh
+
