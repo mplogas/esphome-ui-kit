@@ -16,7 +16,8 @@
     widgets:
       # Sensor 1
       - obj:
-          height: 30
+          height: 50
+          width: 100%
           bg_opa: 0
           border_width: 0
           layout:
@@ -26,17 +27,20 @@
             flex_align_cross: center
           widgets:
             - label:
+                border_width: 0
                 text: "${s1_name}"
                 text_font: ${font_id_small}
                 text_color: ${color_text_dim}
             - label:
+                border_width: 0
                 id: ${widget_id}_s1_label
                 text: "--"
                 text_font: ${font_id_small}
                 text_color: ${s1_color}
       # Sensor 2
       - obj:
-          height: 30
+          height: 50
+          width: 100%
           bg_opa: 0
           border_width: 0
           layout:
@@ -56,7 +60,8 @@
                 text_color: ${s2_color}
       # Sensor 3
       - obj:
-          height: 30
+          height: 50
+          width: 100%
           bg_opa: 0
           border_width: 0
           layout:
