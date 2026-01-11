@@ -17,6 +17,9 @@ globals:
   - id: hum_val
     type: float
     initial_value: '0'
+  - id: pressure_val
+    type: float
+    initial_value: '0'
   - id: weather_state_val
     type: std::string
     initial_value: '"unknown"'

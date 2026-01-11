@@ -12,8 +12,8 @@ globals:
     initial_value: '""'
   
   # Chart Data Buffers (only this layout uses graphs)
-  - id: chart_values
+  - id: graph_1_values
     type: std::vector<float>
   
-  - id: temp_chart_values
+  - id: graph_2_values
     type: std::vector<float>

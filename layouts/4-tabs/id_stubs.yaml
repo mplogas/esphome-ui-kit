@@ -22,12 +22,15 @@ lvgl:
         # Dummy object to keep the list non-empty
         - obj: { id: id_stub_dummy }
         
+        # UI Structure
+        #- obj: { id: main_tabs }
+
         # Graph containers (used by update_graph script)
-        # Uncomment these ONLY if you remove the overview tab but keep graph_logic.yaml
-        #- obj: { id: home_temp_graph_chart_container }
-        #- label: { id: home_temp_graph_value_label }
-        #- obj: { id: home_power_graph_chart_container }
-        #- label: { id: home_power_graph_value_label }
+        # Uncomment these ONLY if you remove the sensor tab but keep widget_logic.yaml
+        #- obj: { id: graph_1_chart_container }
+        #- label: { id: graph_1_value_label }
+        #- obj: { id: graph_2_chart_container }
+        #- label: { id: graph_2_value_label }
         
         # Clock widget (used by system_logic.yaml interval)
         # Uncomment these ONLY if you remove the clock widget
@@ -43,6 +46,7 @@ lvgl:
         #- label: { id: weather_state_label }
         #- label: { id: weather_icon_label }
         #- label: { id: weather_rain_icon }
+        - label: { id: weather_pressure_label }
 
         # Media Player (used by media_refresh script)
         # Uncomment these ONLY if you remove the media player widget
@@ -81,7 +85,9 @@ lvgl:
         #- label: { id: sg1_s1_label }
         #- label: { id: sg1_s2_label }
         #- label: { id: sg1_s3_label }
-        - obj: { id: sg2 }
-        - label: { id: sg2_s1_label }
-        - label: { id: sg2_s2_label }
-        - label: { id: sg2_s3_label }
+        #- obj: { id: sg2 }
+        #- label: { id: sg2_s1_label }
+        #- label: { id: sg2_s2_label }
+        #- label: { id: sg2_s3_label }
+        # - label: { id: sg2_s2_label }
+        # - label: { id: sg2_s3_label }

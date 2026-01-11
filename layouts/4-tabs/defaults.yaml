@@ -2,101 +2,94 @@
 # This file ensures the project always compiles even if substitutions are missing.
 
   # --- UI Layout Slots (4 Tabs x 4 Slots) ---
-  # Tab 1 (Home)
+  # Tab 1 (Overview)
   tab_1_name: "Home"
-  tab_1_slot_1_1_widget: "templates/widgets/light_tile.yaml"
-  tab_1_slot_1_1_id: "light_1"
-  tab_1_slot_1_1_name: "Light 1"
-  tab_1_slot_1_1_entity: "light.example_light_1"
-  tab_1_slot_1_1_icon: "\U000F0335"
-  
-  tab_1_slot_1_2_widget: "templates/widgets/light_tile.yaml"
-  tab_1_slot_1_2_id: "light_2"
-  tab_1_slot_1_2_name: "Light 2"
-  tab_1_slot_1_2_entity: "light.example_light_2"
-  tab_1_slot_1_2_icon: "\U000F0335"
-  
-  tab_1_slot_2_1_widget: "templates/widgets/light_tile.yaml"
-  tab_1_slot_2_1_id: "light_3"
-  tab_1_slot_2_1_name: "Light 3"
-  tab_1_slot_2_1_entity: "light.example_light_3"
-  tab_1_slot_2_1_icon: "\U000F0335"
-  
-  tab_1_slot_2_2_widget: "templates/widgets/light_tile.yaml"
-  tab_1_slot_2_2_id: "light_4"
-  tab_1_slot_2_2_name: "Light 4"
-  tab_1_slot_2_2_entity: "light.example_light_4"
-  tab_1_slot_2_2_icon: "\U000F0335"
-  
-  # Tab 2 (Scenes)
-  tab_2_name: "Scenes"
-  tab_2_slot_1_1_widget: "templates/widgets/scene_tile.yaml"
-  tab_2_slot_1_1_id: "scene_1"
-  tab_2_slot_1_1_name: "Scene 1"
-  tab_2_slot_1_1_entity: "scene.example_scene_1"
-  tab_2_slot_1_1_icon: "\U000F0502"
-  
-  tab_2_slot_1_2_widget: "templates/widgets/scene_tile.yaml"
-  tab_2_slot_1_2_id: "scene_2"
-  tab_2_slot_1_2_name: "Scene 2"
-  tab_2_slot_1_2_entity: "scene.example_scene_2"
-  tab_2_slot_1_2_icon: "\U000F05F2"
-  
-  tab_2_slot_2_1_widget: "templates/widgets/scene_tile.yaml"
-  tab_2_slot_2_1_id: "scene_3"
-  tab_2_slot_2_1_name: "Scene 3"
-  tab_2_slot_2_1_entity: "scene.example_scene_3"
-  tab_2_slot_2_1_icon: "\U000F0099"
-  
-  tab_2_slot_2_2_widget: "templates/widgets/scene_tile.yaml"
-  tab_2_slot_2_2_id: "scene_4"
-  tab_2_slot_2_2_name: "Scene 4"
-  tab_2_slot_2_2_entity: "scene.example_scene_4"
-  tab_2_slot_2_2_icon: "\U000F0904"
+  tab_1_slot_1_1_widget: "templates/widgets/weather.yaml"
+  tab_1_slot_1_1_id: "weather"
+  tab_1_slot_1_1_name: "Weather"
+  tab_1_slot_1_1_entity: "weather.forecast_home"
+  tab_1_slot_1_1_icon: ""
 
-  # Tab 3 (Overview)
-  tab_3_name: "Overview"
-  tab_3_slot_1_1_widget: "templates/widgets/weather.yaml"
-  tab_3_slot_1_1_id: "weather"
-  tab_3_slot_1_1_name: "Weather"
-  tab_3_slot_1_1_entity: "weather.forecast_home"
-  tab_3_slot_1_1_icon: ""
+  tab_1_slot_1_2_widget: "templates/widgets/base/blank_tile.yaml"
+  tab_1_slot_1_2_id: "slot_1_1_2"
+  tab_1_slot_1_2_name: ""
+  tab_1_slot_1_2_entity: "none"
+  tab_1_slot_1_2_icon: ""
 
-  tab_3_slot_1_2_widget: "templates/widgets/base/blank_tile.yaml"
-  tab_3_slot_1_2_id: "slot_3_1_2"
-  tab_3_slot_1_2_name: ""
-  tab_3_slot_1_2_entity: "none"
-  tab_3_slot_1_2_icon: ""
+  tab_1_slot_2_1_widget: "templates/widgets/media_player.yaml"
+  tab_1_slot_2_1_id: "media_ui"
+  tab_1_slot_2_1_name: "Media"
+  tab_1_slot_2_1_entity: "media_player.example_player"
+  tab_1_slot_2_1_icon: ""
+  # Tab 2 (Home)
+  tab_2_name: "Lights"
+  tab_2_slot_1_1_widget: "templates/widgets/light_tile.yaml"
+  tab_2_slot_1_1_id: "light_1"
+  tab_2_slot_1_1_name: "Light 1"
+  tab_2_slot_1_1_entity: "light.example_light_1"
+  tab_2_slot_1_1_icon: "\U000F0335"
+  
+  tab_2_slot_1_2_widget: "templates/widgets/light_tile.yaml"
+  tab_2_slot_1_2_id: "light_2"
+  tab_2_slot_1_2_name: "Light 2"
+  tab_2_slot_1_2_entity: "light.example_light_2"
+  tab_2_slot_1_2_icon: "\U000F0335"
+  
+  tab_2_slot_2_1_widget: "templates/widgets/light_tile.yaml"
+  tab_2_slot_2_1_id: "light_3"
+  tab_2_slot_2_1_name: "Light 3"
+  tab_2_slot_2_1_entity: "light.example_light_3"
+  tab_2_slot_2_1_icon: "\U000F0335"
+  
+  tab_2_slot_2_2_widget: "templates/widgets/light_tile.yaml"
+  tab_2_slot_2_2_id: "light_4"
+  tab_2_slot_2_2_name: "Light 4"
+  tab_2_slot_2_2_entity: "light.example_light_4"
+  tab_2_slot_2_2_icon: "\U000F0335"
+  
+  # Tab 3 (Scenes)
+  tab_3_name: "Scenes"
+  tab_3_slot_1_1_widget: "templates/widgets/scene_tile.yaml"
+  tab_3_slot_1_1_id: "scene_1"
+  tab_3_slot_1_1_name: "Scene 1"
+  tab_3_slot_1_1_entity: "scene.example_scene_1"
+  tab_3_slot_1_1_icon: "\U000F0502"
+  
+  tab_3_slot_1_2_widget: "templates/widgets/scene_tile.yaml"
+  tab_3_slot_1_2_id: "scene_2"
+  tab_3_slot_1_2_name: "Scene 2"
+  tab_3_slot_1_2_entity: "scene.example_scene_2"
+  tab_3_slot_1_2_icon: "\U000F05F2"
+  
+  tab_3_slot_2_1_widget: "templates/widgets/scene_tile.yaml"
+  tab_3_slot_2_1_id: "scene_3"
+  tab_3_slot_2_1_name: "Scene 3"
+  tab_3_slot_2_1_entity: "scene.example_scene_3"
+  tab_3_slot_2_1_icon: "\U000F0099"
+  
+  tab_3_slot_2_2_widget: "templates/widgets/scene_tile.yaml"
+  tab_3_slot_2_2_id: "scene_4"
+  tab_3_slot_2_2_name: "Scene 4"
+  tab_3_slot_2_2_entity: "scene.example_scene_4"
+  tab_3_slot_2_2_icon: "\U000F0904"
 
-  tab_3_slot_2_1_widget: "templates/widgets/base/blank_tile.yaml"
-  tab_3_slot_2_1_id: "slot_3_2_1"
-  tab_3_slot_2_1_name: ""
-  tab_3_slot_2_1_entity: "none"
-  tab_3_slot_2_1_icon: ""
-
-  tab_3_slot_2_2_widget: "templates/widgets/base/blank_tile.yaml"
-  tab_3_slot_2_2_id: "slot_3_2_2"
-  tab_3_slot_2_2_name: ""
-  tab_3_slot_2_2_entity: "none"
-  tab_3_slot_2_2_icon: ""
-
-  # Tab 4 (Media & Sensors)
-  tab_4_name: "Media"
-  tab_4_slot_1_1_widget: "templates/widgets/media_player.yaml"
-  tab_4_slot_1_1_id: "media_ui"
-  tab_4_slot_1_1_name: "Media"
-  tab_4_slot_1_1_entity: "media_player.example_player"
+  # Tab 4 (Sensors)
+  tab_4_name: "Sensors"
+  tab_4_slot_1_1_widget: "templates/widgets/sensor_group.yaml"
+  tab_4_slot_1_1_id: "sg1"
+  tab_4_slot_1_1_name: "Sensors"
+  tab_4_slot_1_1_entity: "none"
   tab_4_slot_1_1_icon: ""
 
   tab_4_slot_1_2_widget: "templates/widgets/sensor_group.yaml"
-  tab_4_slot_1_2_id: "sg1"
-  tab_4_slot_1_2_name: "Sensors"
+  tab_4_slot_1_2_id: "sg2"
+  tab_4_slot_1_2_name: "Sensors 2"
   tab_4_slot_1_2_entity: "none"
   tab_4_slot_1_2_icon: ""
 
-  tab_4_slot_2_1_widget: "templates/widgets/sensor_group.yaml"
-  tab_4_slot_2_1_id: "sg2"
-  tab_4_slot_2_1_name: "Sensors 2"
+  tab_4_slot_2_1_widget: "templates/widgets/base/blank_tile.yaml"
+  tab_4_slot_2_1_id: "slot_4_2_1"
+  tab_4_slot_2_1_name: ""
   tab_4_slot_2_1_entity: "none"
   tab_4_slot_2_1_icon: ""
 
@@ -110,7 +103,8 @@
   # Weather
   weather_entity: "weather.forecast_home"
   rain_sensor_entity: "binary_sensor.rain_sensor"
-  power_sensor_entity: "sensor.power_consumption"
+  graph_1_entity: "sensor.power_consumption"
+  graph_2_entity: "sensor.humidity_level"
   motion_sensor_entity: "binary_sensor.motion_sensor"
 
   # Media Player

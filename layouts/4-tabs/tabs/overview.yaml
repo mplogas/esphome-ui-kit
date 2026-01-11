@@ -21,26 +21,11 @@ widgets:
               grid_col_pos: 1
               grid_row_pos: 0
         - <<: !include
-            file: ../../../templates/widgets/graph.yaml
+            file: ../../../templates/widgets/media_player.yaml
             vars:
-              widget_id: home_power_graph
-              graph_title: "Power Usage"
-              graph_unit: "W"
-              graph_color: "0xEF8513"
+              widget_id: ui_media_player
+              entity_id: "${media_player_entity}"
               grid_col_pos: 0
               grid_row_pos: 1
-        - <<: !include
-            file: ../../../templates/widgets/sensor_group.yaml
-            vars:
-              widget_id: sg1
-              grid_col_pos: 1
-              grid_row_pos: 1
-              s1_name: "${sg1_s1_name}"
-              s1_id: sg1_s1
-              s1_color: "${sg1_s1_color}"
-              s2_name: "${sg1_s2_name}"
-              s2_id: sg1_s2
-              s2_color: "${sg1_s2_color}"
-              s3_name: "${sg1_s3_name}"
-              s3_id: sg1_s3
-              s3_color: "${sg1_s3_color}"
+              grid_col_span: 2              
+

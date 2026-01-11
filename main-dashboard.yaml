@@ -13,7 +13,6 @@ substitutions:
   home_tab_name: "Home"
   weather_entity: weather.forecast_home
   rain_sensor_entity: binary_sensor.rain_sensor
-  power_sensor_entity: sensor.example_power
 
   lights_tab_name: "Lights"
   light_1_name: "Light 1"
@@ -42,45 +41,51 @@ substitutions:
   scene_4_name: "Scene 4"
   scene_4_icon: "\U000F0904" # mdi:power-sleep
   scene_4_entity: scene.example_scene_4
-  media_tab_name: "Media"
+
+  sensor_tab_name: "Sensors"
+  graph_1_entity: sensor.example_power
+  graph_1_title: "Power"
+  graph_1_unit: "W"
+  graph_1_color: ${color_primary}
+  graph_2_entity: sensor.example_temp
+  graph_2_title: "Temperature"
+  graph_2_unit: "°C"
+  graph_2_color: ${color_secondary}
+
   media_player_entity: media_player.example_player
   motion_sensor_entity: binary_sensor.example_motion
 
-  # Sensor Group 1 (Media Tab - Slot 1.2)
-  # Example: Mixed sensors (Temp, Door, Text)
-  sg1_s1_name: "Living"
-  sg1_s1_entity: "sensor.living_room_temp"
+  # Sensor Group 1
+  sg1_s1_name: "Temp"
+  sg1_s1_entity: "sensor.example_temp"
   sg1_s1_unit: "°C"
-  
-  sg1_s2_name: "Door"
-  sg1_s2_entity: "binary_sensor.front_door"
-  sg1_s2_unit: "" # No unit for binary/text
-  sg1_s2_map_on: "Open"
-  sg1_s2_map_off: "Closed"
-  sg1_s2_color: "0xFF0000" # Override default white
-  
-  sg1_s3_name: "Status"
-  sg1_s3_entity: "sensor.home_status" # Text sensor
-  sg1_s3_unit: "" # No unit
+  sg1_s1_color: "${color_primary}"
+  sg1_s2_name: "Humidity"
+  sg1_s2_entity: "sensor.example_humidity"
+  sg1_s2_unit: "%"  
+  sg1_s2_color: "${color_primary}"
+  sg1_s3_name: "Presence"
+  sg1_s3_entity: "binary_sensor.example_motion"
+  sg1_s3_unit: ""
+  sg1_s3_color: "${color_primary}"
+  sg1_s3_map_on: "detected"
+  sg1_s3_map_off: "clear"
 
-  # Sensor Group 2 (Media Tab - Slot 2.1)
-  # Example: Climate data
-  sg2_s1_name: "Outside"
-  sg2_s1_entity: "sensor.outside_temp"
-  sg2_s1_unit: "°C"
-  sg2_s1_color: "0x3498db" # Blue
-  
-  sg2_s2_name: "Humidity"
-  sg2_s2_entity: "sensor.outside_humidity"
-  sg2_s2_unit: "%"
-  sg2_s2_color: "0x80D8FF" # Light Blue
-  
-  sg2_s3_name: "CO2"
-  sg2_s3_entity: "sensor.co2_level"
-  sg2_s3_unit: "ppm"
-  sg2_s3_color: "0xFFA726" # Orange
+  # Sensor Group 2
+  sg2_s1_name: "PM2.5"
+  sg2_s1_entity: "sensor.example_pm25"
+  sg2_s1_unit: "μg/m³"
+  sg2_s1_color: "${color_primary}"
+  sg2_s2_name: "CO2"
+  sg2_s2_entity: "sensor.example_co2"
+  sg2_s2_unit: "ppm"
+  sg2_s2_color: "${color_primary}"
+  sg2_s3_name: "VOC"
+  sg2_s3_entity: "sensor.example_voc"
+  sg2_s3_unit: "ppb"
+  sg2_s3_color: "${color_primary}"
 
-  # 3. map light favorite colors per light (defaults to templates/core/mapping-defaults.yaml)
+# 3. map light favorite colors per light (defaults to templates/core/mapping-defaults.yaml)
 
 
 esphome:
@@ -90,8 +95,12 @@ esphome:
       - lvgl.page.show: main_page
       - script.execute:
           id: init_graph
-          container_obj: !lambda "return id(home_power_graph_chart_container);"
+          container_obj: !lambda "return id(graph_1_chart_container);"
           color: 0xEF8513
+      - script.execute:
+          id: init_graph
+          container_obj: !lambda "return id(graph_2_chart_container);"
+          color: 0x3498db
       - lvgl.resume: {}
 
 logger:

@@ -44,7 +44,7 @@ tabview:
           s4_icon: "${scene_4_icon}"
           s4_entity: "${scene_4_entity}"
     - !include
-        file: tabs/media_sensors.yaml
+        file: tabs/sensors.yaml
         vars:
-          tab_id: media
-          name: "${media_tab_name}"
+          tab_id: sensors
+          name: "${sensor_tab_name}"

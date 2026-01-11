@@ -26,10 +26,10 @@ script:
       - light.turn_on: backlight
       - script.execute:
           id: update_graph
-          chart_obj: !lambda "return id(home_power_graph_chart_container);"
-          label_obj: !lambda "return id(home_power_graph_value_label);"
-          values: !lambda "return &id(chart_values);"
-          unit: "W"
+          chart_obj: !lambda "return id(graph_1_chart_container);"
+          label_obj: !lambda "return id(graph_1_value_label);"
+          values: !lambda "return &id(graph_1_values);"
+          unit: "${graph_1_unit}"
       - lambda: |-
           if (id(main_tabs) != nullptr) {
             lv_tabview_set_act(id(main_tabs), 0, LV_ANIM_ON);
@@ -187,6 +187,7 @@ script:
           if (id(ui_weather) == nullptr) return;
           if (id(weather_temp_label) != nullptr) lv_label_set_text(id(weather_temp_label), (to_string((int)id(temp_val)) + "°C").c_str());
           if (id(weather_hum_label) != nullptr) lv_label_set_text(id(weather_hum_label), (to_string((int)id(hum_val)) + "%").c_str());
+          if (id(weather_pressure_label) != nullptr) lv_label_set_text(id(weather_pressure_label), (to_string((int)id(pressure_val)) + " hPa").c_str());
           if (id(weather_state_label) != nullptr) lv_label_set_text(id(weather_state_label), id(weather_state_val).c_str());
           
           if (id(weather_rain_icon) != nullptr) {
@@ -250,10 +251,19 @@ script:
     then:
       - script.execute:
           id: update_graph
-          chart_obj: !lambda "return id(home_power_graph_chart_container);"
-          label_obj: !lambda "return id(home_power_graph_value_label);"
-          values: !lambda "return &id(chart_values);"
-          unit: "W"
+          chart_obj: !lambda "return id(graph_1_chart_container);"
+          label_obj: !lambda "return id(graph_1_value_label);"
+          values: !lambda "return &id(graph_1_values);"
+          unit: "${graph_1_unit}"
+
+  - id: graph_2_refresh
+    then:
+      - script.execute:
+          id: update_graph
+          chart_obj: !lambda "return id(graph_2_chart_container);"
+          label_obj: !lambda "return id(graph_2_value_label);"
+          values: !lambda "return &id(graph_2_values);"
+          unit: "${graph_2_unit}"
 
   - id: sg1_refresh
     then:

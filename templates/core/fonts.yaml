@@ -292,7 +292,7 @@
   id: libreFranklin16
   size: 16
   bpp: 8
-  glyphs: '&!"%()+=,-_.:°/?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ abcdefghijklmnopqrstuvwxyzäöüµ³²'
+  glyphs: '&!"%()+=,-_.:°/?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ abcdefghijklmnopqrstuvwxyzäöüμ³²'
 
 - file:
     type: gfonts

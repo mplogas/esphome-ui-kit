@@ -55,10 +55,6 @@ sensor:
     on_value:
       - lambda: |-
           id(temp_val) = x;
-          id(temp_chart_values).push_back(x);
-          if (id(temp_chart_values).size() > ${chart_max_points}) {
-            id(temp_chart_values).erase(id(temp_chart_values).begin());
-          }
       - script.execute: weather_refresh
 
   - platform: homeassistant
@@ -69,18 +65,38 @@ sensor:
       - lambda: 'id(hum_val) = x;'
       - script.execute: weather_refresh
 
-  # Power Sensor
   - platform: homeassistant
-    id: internal_power_sensor
-    entity_id: ${power_sensor_entity}
+    id: internal_pressure_sensor
+    entity_id: ${weather_entity}
+    attribute: "pressure"
+    on_value:
+      - lambda: 'id(pressure_val) = x;'
+      - script.execute: weather_refresh
+
+  # Graph Sensors
+  - platform: homeassistant
+    id: internal_graph_1_sensor
+    entity_id: ${graph_1_entity}
     on_value:
       - lambda: |-
           id(power_val) = x;
-          id(chart_values).push_back(x);
-          if (id(chart_values).size() > ${chart_max_points}) {
-            id(chart_values).erase(id(chart_values).begin());
+          id(graph_1_values).push_back(x);
+          if (id(graph_1_values).size() > ${chart_max_points}) {
+            id(graph_1_values).erase(id(graph_1_values).begin());
           }
       - script.execute: power_refresh
+
+  - platform: homeassistant
+    id: internal_graph_2_sensor
+    entity_id: ${graph_2_entity}
+    on_value:
+      - lambda: |-
+          id(graph_2_values).push_back(x);
+          if (id(graph_2_values).size() > ${chart_max_points}) {
+            id(graph_2_values).erase(id(graph_2_values).begin());
+          }
+      - script.execute: graph_2_refresh
+
 
   # Media Player Position/Duration
   - platform: homeassistant
