@@ -218,7 +218,29 @@ script:
     then:
       - lambda: |-
           if (id(ui_media_player) == nullptr) return;
-          if (id(media_player_title) != nullptr) lv_label_set_text(id(media_player_title), id(media_player_title_val).c_str());
+          if (id(media_player_title) != nullptr) 
+          {
+            const std::string artist = id(media_player_artist_val);
+            const std::string title = id(media_player_title_val);
+            if (artist.empty() && title.empty()) {
+              lv_label_set_text(id(media_player_title), "No Media");
+            } else if (artist.empty()) {
+              lv_label_set_text(id(media_player_title), title.c_str());
+            } else if (title.empty()) {
+              lv_label_set_text(id(media_player_title), artist.c_str());
+            } else {
+              lv_label_set_text_fmt(id(media_player_title), "%s - %s", artist.c_str(), title.c_str());
+            }
+          }
+
+          if (id(media_player_play_icon) != nullptr) {
+            if (id(media_player_state_val) == "playing") {
+              lv_label_set_text(id(media_player_play_icon), "\U000F03E4"); // mdi:pause
+            } else {
+              lv_label_set_text(id(media_player_play_icon), "\U000F040A"); // mdi:play
+            }
+          }
+
           if (id(media_player_seekbar) != nullptr && id(media_player_dur_val) > 0) {
             int progress = (int)((id(media_player_pos_val) / id(media_player_dur_val)) * 100);
             lv_bar_set_value(id(media_player_seekbar), progress, LV_ANIM_OFF);

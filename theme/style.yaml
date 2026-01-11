@@ -13,3 +13,11 @@
   shadow_color: ${color_accent}
   shadow_opa: 50%
   pad_all: 5
+
+- id: media_player_button
+  width: 50
+  height: 50
+  bg_opa: 0
+  border_width: 0
+  shadow_width: 1
+  shadow_color: ${color_card_bg}

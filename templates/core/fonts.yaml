@@ -265,8 +265,18 @@
     "\U000F0594", # mdi:weather-night
     "\U000F0591", # mdi:weather-fog
     "\U000F0595", # mdi:weather-partly-cloudy
+
+    # Media Player Icons
+    "\U000F040A", # mdi:play
+    "\U000F040E", # mdi:playpause
+    "\U000F03E4", # mdi:pause
+    "\U000F04DB", # mdi:stop
+    "\U000F04AD", # mdi:skip-next
+    "\U000F04AE", # mdi:skip-previous
+
   ]
 
+# small rain icon for weather widget
 - file: "https://github.com/Templarian/MaterialDesign-Webfont/raw/master/fonts/materialdesignicons-webfont.ttf"
   id: icons20
   size: 20
@@ -282,7 +292,7 @@
   id: libreFranklin16
   size: 16
   bpp: 8
-  glyphs: '!"%()+=,-_.:°/?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ abcdefghijklmnopqrstuvwxyzäöüµ³²'
+  glyphs: '&!"%()+=,-_.:°/?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ abcdefghijklmnopqrstuvwxyzäöüµ³²'
 
 - file:
     type: gfonts
@@ -291,7 +301,7 @@
   id: libreFranklin25Light
   size: 25
   bpp: 8
-  glyphs: '!"%()+=,-_.:°/?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ abcdefghijklmnopqrstuvwxyzäöüµ³²'
+  glyphs: '&!"%()+=,-_.:°/?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ abcdefghijklmnopqrstuvwxyzäöüµ³²'
 
 - file:
     type: gfonts
@@ -300,4 +310,4 @@
   id: libreFranklin32
   size: 32
   bpp: 8
-  glyphs: '!"%()+=,-_.:°/?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ abcdefghijklmnopqrstuvwxyzäöüµ³²'
+  glyphs: '&!"%()+=,-_.:°/?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ abcdefghijklmnopqrstuvwxyzäöüµ³²'

@@ -12,18 +12,4 @@ widgets:
               grid_col_pos: 0
               grid_row_pos: 0
               grid_col_span: 2
-        - <<: !include
-            file: ../../../templates/widgets/sensor_group.yaml
-            vars:
-              widget_id: sg2
-              grid_col_pos: 0
-              grid_row_pos: 1
-              grid_col_span: 2
-              s1_name: "${sg2_s1_name}"
-              s1_color: "${sg2_s1_color}"
-              s2_name: "${sg2_s2_name}"
-              s2_color: "${sg2_s2_color}"
-              s3_name: "${sg2_s3_name}"
-              s3_color: "${sg2_s3_color}"
-
 

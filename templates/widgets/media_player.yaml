@@ -23,66 +23,81 @@ obj:
   layout:
     type: flex
     flex_flow: column
-    flex_align_main: space_around
+    flex_align_main: space_evenly
     flex_align_cross: center
-  pad_all: 5
+    pad_column: 10
+    pad_row: 5
   widgets:
     - label:
         id: media_player_title
         text: "No Media"
         text_font: ${font_id_small}
-        width: 90%
+        border_width: 0
+        width: 100%
         text_align: center
         long_mode: scroll_circular
         text_color: ${color_text}
-    - bar:
-        id: media_player_seekbar
-        width: 80%
-        height: 6
-        min_value: 0
-        max_value: 100
-        value: 0
-        bg_color: ${color_bg_dim}
-        indicator:
-          bg_color: ${color_accent}
     - obj:
         id: media_player_controls
         width: 100%
-        height: 50
+        height: 100
         bg_opa: 0
         border_width: 0
+        pad_top: 5
+        pad_bottom: 5
         layout:
           type: flex
           flex_flow: ROW
           flex_align_main: CENTER
           flex_align_cross: CENTER
-          pad_column: 20
+          pad_column: 10
+          pad_row: 0
         widgets:
           - button:
-              width: 50
-              height: 50
-              bg_opa: 0
-              border_width: 0
+              styles: media_player_button
+              id: media_player_prev_button
               on_click:
                 then:
+                  - script.execute:
+                      id: click_feedback
+                      obj_id: !lambda "return id(media_player_prev_button);"
                   - homeassistant.service:
-                      service: media_player.media_play_pause
+                      service: media_player.media_previous_track
+                      data:
+                        entity_id: ${entity_id}
+              widgets:
+                - label:
+                    text: "\U000F04AE"
+                    text_font: icons35
+                    align: CENTER
+                    text_color: ${color_text}
+          - button:
+              id: media_player_play_button
+              styles: media_player_button
+              on_click:
+                then:
+                  - script.execute:
+                      id: click_feedback
+                      obj_id: !lambda "return id(media_player_play_button);"
+                  - homeassistant.action:
+                      action: media_player.media_play_pause
                       data:
                         entity_id: ${entity_id}
               widgets:
                 - label:
                     id: media_player_play_icon
-                    text: "\U000F040A"
+                    text: "\U000F040E"
                     text_font: icons35
                     align: CENTER
                     text_color: ${color_text}
           - button:
-              width: 50
-              height: 50
-              bg_opa: 0
-              border_width: 0
+              id: media_player_next_button
+              styles: media_player_button
               on_click:
                 then:
+                  - script.execute:
+                      id: click_feedback
+                      obj_id: !lambda "return id(media_player_next_button);"
                   - homeassistant.service:
                       service: media_player.media_next_track
                       data:
@@ -93,3 +108,31 @@ obj:
                     text_font: icons35
                     align: CENTER
                     text_color: ${color_text}
+    - obj:
+        width: 100%
+        height: 15
+        bg_opa: 0
+        border_width: 0
+        pad_top: 5
+        pad_bottom: 5
+        # layout:
+        #   type: flex
+        #   flex_flow: ROW
+        #   flex_align_main: CENTER
+        #   flex_align_cross: CENTER
+        #   pad_column: 10
+        #   pad_row: 0
+        widgets:    
+          - bar:
+              id: media_player_seekbar
+              width: 80%
+              height: 6
+              align: bottom_mid
+              min_value: 0
+              max_value: 100
+              value: 0
+              bg_color: ${color_bg}
+              border_width: 1
+              indicator:
+                bg_color: ${color_accent}
+                border_width: 1

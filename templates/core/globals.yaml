@@ -75,6 +75,9 @@ globals:
   - id: media_player_title_val
     type: std::string
     initial_value: '"No Media"'
+  - id: media_player_artist_val
+    type: std::string
+    initial_value: '"No Artist"'
   - id: media_player_pos_val
     type: float
     initial_value: '0'

@@ -76,16 +76,6 @@ script:
             if (state == "fog") return "\U000F0591";
             return "\U000F015F";
 
-  - id: update_media_player_ui
-    then:
-      - lambda: |-
-          if (id(media_player_play_icon) != nullptr) {
-            if (id(media_player_state_val) == "playing") {
-              lv_label_set_text(id(media_player_play_icon), "\U000F03E0"); // mdi:pause
-            } else {
-              lv_label_set_text(id(media_player_play_icon), "\U000F040A"); // mdi:play
-            }
-          }
 
 interval:
   - interval: 1s

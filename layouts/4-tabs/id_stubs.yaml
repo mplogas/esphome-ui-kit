@@ -81,7 +81,7 @@ lvgl:
         #- label: { id: sg1_s1_label }
         #- label: { id: sg1_s2_label }
         #- label: { id: sg1_s3_label }
-        #- obj: { id: sg2 }
-        #- label: { id: sg2_s1_label }
-        #- label: { id: sg2_s2_label }
-        #- label: { id: sg2_s3_label }
+        - obj: { id: sg2 }
+        - label: { id: sg2_s1_label }
+        - label: { id: sg2_s2_label }
+        - label: { id: sg2_s3_label }

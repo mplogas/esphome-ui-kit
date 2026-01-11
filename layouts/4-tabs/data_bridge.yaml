@@ -110,6 +110,13 @@ text_sensor:
       - script.execute: media_refresh
 
   - platform: homeassistant
+    id: internal_media_artist
+    entity_id: ${media_player_entity}
+    attribute: "media_artist"
+    on_value:
+      - lambda: 'id(media_player_artist_val) = x;'
+
+  - platform: homeassistant
     id: internal_media_state
     entity_id: ${media_player_entity}
     on_value:
