@@ -1,10 +1,10 @@
-# ESPHome UI Kit - A LVGL Abstraction
+# ESPHome UI Kit
 
-A modular framework for building LVGL-based user interfaces in ESPHome. It abstracts hardware complexity and provides a reusable component system. Designed for the Seeedstudio SenseCAP Indicator (D1x) but adaptable to any display.
+## Overview
 
-## Disclaimer
+This repository provides a modular framework for building LVGL user interfaces in ESPHome. It abstracts hardware complexity and provides a reusable component system. While designed for the Seeedstudio SenseCAP Indicator (D1x), the architecture is adaptable to any ESPHome-supported display.
 
-The README is auto-updated by an LLM. Please verify all information in code or with `main-dashboard.yaml` example file before use. I have also added an `AGENTS.md` and an `INSTRUCTIONS.md`, this should make building widgets easier via code-gen.    
+Technical documentation is provided in [INSTRUCTIONS.md](INSTRUCTIONS.md) and [AGENTS.md](AGENTS.md) to support development and widget creation.
 
 ## Directory Structure
 
@@ -33,9 +33,9 @@ The README is auto-updated by an LLM. Please verify all information in code or w
 
 ### The 3-View Architecture
 The framework enforces a strict separation of concerns:
-- **View 1: User Configuration**: Handled in `main-dashboard.yaml` (or `testing.yaml`) and `templates/core/mapping-defaults.yaml`. Maps HA entities to UI slots.
-- **View 2: Design & Templates**: Located in `templates/widgets/`, and `theme/`. These are visual components that read from the Data Pool.
-- **View 3: Core Logic (Data Bridge)**: Located in `templates/core/data_bridge.yaml` and `widget_logic.yaml`. This layer connects HA to the Data Pool (Globals) and triggers UI refreshes.
+- **View 1: User Configuration**: Handled in `main-dashboard.yaml` (or `testing.yaml`). Maps HA entities to substitutions.
+- **View 2: Design & Templates**: Located in `templates/widgets/`, `layouts/`, and `theme/`. These are visual components that read from the Data Pool.
+- **View 3: Core Logic (Data Bridge)**: Located in `layouts/*/data_bridge.yaml` and `widget_logic.yaml`. This layer connects HA to the Data Pool (Globals) and triggers UI refreshes.
 
 ### Hardware Abstraction
 Hardware-specific setup (ESP32-S3, PSRAM, display, touchscreen) is isolated in `hardware/`. Reference these templates in your main configuration.
@@ -89,22 +89,20 @@ esphome run my-device.yaml
 
 The framework supports multiple independent graph widgets. To add a new one:
 
-1.  **Define a Data Buffer**: In [templates/core/globals.yaml](templates/core/globals.yaml), add a new `std::vector<float>` to store the sensor history.
+1.  **Define a Data Buffer**: In [layouts/X/globals_extension.yaml](layouts/4-tabs/globals_extension.yaml), add a new `std::vector<float>` to store the sensor history.
     ```yaml
     - id: my_sensor_values
       type: std::vector<float>
     ```
-2.  **Add the Widget**: In your tab definition (e.g., [templates/tabs/overview.yaml](templates/tabs/overview.yaml)), include the graph widget with a unique `widget_id`.
+2.  **Add the Widget**: In your tab definition (e.g., [layouts/X/tabs/sensors.yaml](layouts/4-tabs/tabs/sensors.yaml)), include the graph widget with a unique `widget_id`.
     ```yaml
     - <<: !include
-        file: ../widgets/graph.yaml
+        file: ../../../templates/widgets/graph.yaml
         vars:
           widget_id: my_new_graph
           graph_title: "My Sensor"
           graph_unit: "unit"
-          graph_color: "0xHEXCODE"
-          grid_col_pos: 0
-          grid_row_pos: 1
+          # ...
     ```
 3.  **Initialize on Boot**: In [main-dashboard.yaml](main-dashboard.yaml), add the initialization script to the `on_boot` trigger.
     ```yaml
@@ -113,7 +111,7 @@ The framework supports multiple independent graph widgets. To add a new one:
         container_obj: !lambda "return id(my_new_graph_chart_container);"
         color: 0xHEXCODE
     ```
-4.  **Connect the Sensor**: In [templates/core/data_bridge.yaml](templates/core/data_bridge.yaml), update your sensor to push data to the buffer and trigger the UI update.
+4.  **Connect the Sensor**: In [layouts/X/data_bridge.yaml](layouts/4-tabs/data_bridge.yaml), update your sensor to push data to the buffer and trigger the UI update.
     ```yaml
     on_value:
       - lambda: |-
@@ -122,9 +120,6 @@ The framework supports multiple independent graph widgets. To add a new one:
             id(my_sensor_values).erase(id(my_sensor_values).begin());
           }
       - script.execute:
-          id: update_graph
-          chart_obj: !lambda "return id(my_new_graph_chart_container);"
-          label_obj: !lambda "return id(my_new_graph_value_label);"
-          values: !lambda "return &id(my_sensor_values);"
-          unit: "unit"
+          id: my_refresh_script # Defined in widget_logic.yaml
+          # Or call update_graph directly
     ```

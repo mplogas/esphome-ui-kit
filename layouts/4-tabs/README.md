@@ -1,102 +1,99 @@
 # 4-Tabs Layout Package
 
-Self-contained layout package for ESPHome LVGL dashboards with 4 tabs: Home, Lights, Scenes, and Media.
+Modular layout package for ESPHome LVGL dashboards. Includes four tabs: Home, Lights, Scenes, and Sensors.
 
 ## Architecture
 
-This layout follows the **3-View Architecture** pattern:
-- **View 1 (User Config)**: User just includes this package and maps entities
-- **View 2 (Design)**: Reusable widgets from `templates/widgets/`
-- **View 3 (Core Logic)**: Data bridge, refresh scripts, and state management
+This layout implements the **3-View Architecture** pattern:
+- **View 1 (User Configuration)**: Includes this package and maps Home Assistant entities.
+- **View 2 (Design)**: Utilizes reusable widgets from `templates/widgets/`.
+- **View 3 (Core Logic)**: Manages the data bridge (entity listeners), widget logic (refresh scripts), and state management.
 
 ## Package Contents
 
 ```
 layouts/4-tabs/
-├── package.yaml              # Main entry point - include this in your config
-├── globals_extension.yaml    # Layout-specific globals (charts, UI state)
+├── package.yaml              # Entry point for configuration inclusion
+├── globals_extension.yaml    # Layout-specific global variables
 ├── data_bridge.yaml          # Home Assistant entity listeners
 ├── widget_logic.yaml         # UI refresh scripts
-├── defaults.yaml             # Default entity mappings (fallbacks)
-├── id_stubs.yaml             # Stub declarations for optional widgets
-├── layout.yaml               # Tabview structure definition
-└── tabs/                     # Individual tab definitions
-    ├── overview.yaml         # Home tab (clock, weather, graph, sensors)
+├── defaults.yaml             # Default entity substitutions
+├── id_stubs.yaml             # ID stub declarations for optional components
+├── layout.yaml               # Tabview structural definition
+└── tabs/                     # Tab-specific definitions
+    ├── overview.yaml         # Home tab (clock, weather, media player)
     ├── grid_4_lights.yaml    # Lights tab (4-tile grid)
     ├── grid_4_scenes.yaml    # Scenes tab (4-tile grid)
-    └── media_sensors.yaml    # Media tab (media player + sensors)
+    └── sensors.yaml          # Sensors tab (dual graphs and sensor groups)
 ```
 
 ## Usage
 
-### In your device YAML (e.g., `testing.yaml`):
+### Configuration Example (`testing.yaml`):
 
 ```yaml
 packages:
   hardware: !include hardware/sensecap-indicator.yaml
-  layout: !include layouts/4-tabs/package.yaml  # ✨ One line!
+  layout: !include layouts/4-tabs/package.yaml
 
 substitutions:
-  # Load theme
+  # Load theme defaults
   <<: !include theme/defaults.yaml
   
   # Device identification
   name: my-device
   friendly_name: My Device
   
-  # Map your Home Assistant entities
+  # Map Home Assistant entities
   weather_entity: weather.home
-  power_sensor_entity: sensor.home_power
+  graph_1_entity: sensor.home_power
+  graph_2_entity: sensor.home_temp
   
   light_1_entity: light.living_room
   light_1_name: "Living Room"
   light_1_icon: "\U000F0335"
-  
-  # ... etc
 ```
 
 ## Features
 
-### Included Functionality:
-- ✅ 4 customizable lights with color/brightness control
-- ✅ 4 scene activation buttons
-- ✅ Weather display with rain indicator
-- ✅ Power consumption graph
-- ✅ Clock widget
-- ✅ Media player controls
-- ✅ Sensor groups (temperature, humidity, CO2)
-- ✅ Light control overlay (long-press on light tiles)
-- ✅ Idle timeout and backlight control
+### Functional Components:
+- Four customizable light tiles with color and brightness control.
+- Four scene activation buttons.
+- Weather display with indicators.
+- Dual sensor graphs (e.g., power and temperature).
+- Clock and media player widgets.
+- Dual sensor groups (supporting up to six sensors).
+- Light control overlay (accessible via long-press).
+- System features: idle timeout and backlight management.
 
 ### Layout-Specific Globals:
-- `chart_values` - Power graph data buffer
-- `temp_chart_values` - Temperature graph data buffer (optional)
-- `user_is_interacting` - UI interaction state
-- `current_light_entity` - Currently selected light for overlay
+- `graph_1_values`: Primary graph data buffer.
+- `graph_2_values`: Secondary graph data buffer.
+- `user_is_interacting`: UI interaction state monitoring.
+- `current_light_entity`: Selected light entity for the control overlay.
 
 ## Customization
 
-### Optional Features:
-Edit the corresponding files to enable/disable:
-- **Temperature Graph**: Uncomment in `tabs/overview.yaml` and `widget_logic.yaml`
-- **Sensor Group 2**: Uncomment in `tabs/media_sensors.yaml` and `data_bridge.yaml`
-- **Additional Widgets**: Add to tab files using `!include` from `templates/widgets/`
+### Optional Components:
+Modify the following components as required:
+- **Sensor Tab**: The fourth tab includes `graph_1`, `graph_2`, `sg1`, and `sg2`.
+- **Widget Inclusion**: Additional widgets can be added from `templates/widgets/`.
 
-### Stubs:
-If you remove optional widgets but keep their scripts, uncomment the corresponding stubs in `id_stubs.yaml` to prevent compilation errors.
+### ID Stubs:
+When removing optional widgets while retaining their logic, enable the corresponding stubs in `id_stubs.yaml` to ensure compilation success.
 
 ## Dependencies
 
-### Universal (from `templates/core/`):
-- `globals.yaml` - Universal state variables (lights, scenes, weather, etc.)
-- `fonts.yaml` - Icon and text fonts
-- `grid_container.yaml` - Grid layout helper
-- `tabview_config.yaml` - Tab navigation configuration
+### Universal Components (`templates/core/`):
+- `globals.yaml`: Universal state variables.
+- `fonts.yaml`: Icon and typographic definitions.
+- `grid_container.yaml`: Grid layout implementation.
+- `tabview_config.yaml`: Tab navigation settings.
 
-### Scripts (from `templates/scripts/`):
-- `graph_logic.yaml` - Chart initialization and updates
-- `system_logic.yaml` - Clock, navigation, wake-up logic
-- `lights_4.yaml` - Light overlay and color picker logic
+### Scripts (`templates/scripts/`):
+- `graph_logic.yaml`: Chart initialization and data management.
+- `system_logic.yaml`: Clock, navigation, and power logic.
+- `lights_4.yaml`: Light overlay and color management.
 
 ### Widgets (from `templates/widgets/`):
 All widgets are reusable across layouts:
